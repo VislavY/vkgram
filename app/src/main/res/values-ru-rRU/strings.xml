@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">VKgram</string>
+
+    <string name="log_in_header_content_desc">Шапка</string>
+    <string name="log_in_hello_headline">Привет!</string>
+    <string name="log_in_login_text_field_hint">Email или телефон</string>
+    <string name="log_in_password_text_field_hint">Пароль</string>
+    <string name="log_in_button_text">Войти</string>
+    <string name="log_in_with_vk_button_text">Войти через ВКонтакте</string>
+    <string name="log_in_thanks_body">Благодарим Вас за установку \nVKgram</string>
+
+</resources>
