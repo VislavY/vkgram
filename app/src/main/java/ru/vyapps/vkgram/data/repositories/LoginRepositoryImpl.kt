@@ -8,7 +8,7 @@ class LoginRepositoryImpl @Inject constructor(
     private val loginService: LoginService
 ) : LoginRepository {
 
-    override fun loginWithVk() {
-        loginService.loginWithVk()
+    override fun login() {
+        loginService.login()
     }
 }
