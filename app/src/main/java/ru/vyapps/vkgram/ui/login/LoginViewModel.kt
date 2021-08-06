@@ -1,10 +1,14 @@
-package ru.vyapps.vkgram.login
+package ru.vyapps.vkgram.ui.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import ru.vyapps.vkgram.domain.iterators.LoginWithVkUseCase
+import javax.inject.Inject
 
-class LogInViewModel : ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val loginWithVkUseCase: LoginWithVkUseCase
+) : ViewModel() {
 
     private var mutableLogInButtonEnabled = MutableLiveData(false)
     val logInButtonEnabled: LiveData<Boolean> = mutableLogInButtonEnabled
@@ -18,5 +22,9 @@ class LogInViewModel : ViewModel() {
     fun checkData() {
         mutableLogInButtonEnabled.value =
             !login.isNullOrBlank() && !password.isNullOrBlank()
+    }
+
+    fun loginWithVk() {
+        loginWithVkUseCase.loginWithVk()
     }
 }

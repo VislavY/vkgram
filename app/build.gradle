@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
     id 'androidx.navigation.safeargs'
 }
 
@@ -44,11 +45,13 @@ android {
 dependencies {
     implementation Depend.ANDROIDX_CORE
     implementation Depend.ANDROIDX_APPCOMPAT
-    implementation Depend.ANDROID_CONSTRAINTLAYOUT
+    implementation Depend.ANDROIDX_CONSTRAINTLAYOUT
     implementation Depend.ANDROIDX_NAVIGATION_FRAGMENT
     implementation Depend.ANDROIDX_NAVIGATION_UI
 
     implementation Depend.GOOGLE_MATERIAL
+    implementation Depend.GOOGLE_DAGGER
+    kapt Depend.GOOGLE_DAGGER_COMPILER
 
     implementation Depend.VK_SDK
 
