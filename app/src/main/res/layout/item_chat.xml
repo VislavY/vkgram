@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="@drawable/avatar_background"
+        android:backgroundTint="@color/cyan_600"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/avatar">
+
+        <TextView
+            android:id="@+id/first_and_last_name"
+            style="@style/TextAppearance.VKgram.Subtitle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Иван Иванов" />
+
+        <TextView
+            android:id="@+id/last_message"
+            style="@style/TextAppearance.VKgram.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/first_and_last_name"
+            android:text="Последне сообщение" />
+
+        <TextView
+            android:id="@+id/data"
+            style="@style/TextAppearance.VKgram.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="00:00" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

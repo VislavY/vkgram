@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-    <style
-        name="TextAppearance.VKgram.Caption"
-        parent="TextAppearance.MaterialComponents.Caption">
-
-        <item name="android:textSize">12sp</item>
-        <item name="fontFamily">@font/roboto_black</item>
-        
-    </style>
 
     <style
         name="TextAppearance.VKgram.Body1"
@@ -21,12 +12,32 @@
     </style>
 
     <style
+        name="TextAppearance.VKgram.Body2"
+        parent="TextAppearance.MaterialComponents.Body2">
+
+        <item name="android:textColor">@color/blue_grey_300</item>
+        <item name="android:textSize">14dp</item>
+        <item name="fontFamily">@font/roboto</item>
+
+    </style>
+
+    <style
         name="TextAppearance.VKgram.Button"
         parent="TextAppearance.MaterialComponents.Button">
 
         <item name="android:textSize">14sp</item>
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="textAllCaps">false</item>
+
+    </style>
+
+    <style
+        name="TextAppearance.VKgram.Caption"
+        parent="TextAppearance.MaterialComponents.Caption">
+
+        <item name="android:textColor">@color/blue_grey_300</item>
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/roboto</item>
 
     </style>
 
@@ -46,6 +57,16 @@
 
         <item name="android:textSize">16sp</item>
         <item name="fontFamily">@font/roboto</item>
+
+    </style>
+
+    <style
+        name="TextAppearance.VKgram.Subtitle2"
+        parent="TextAppearance.MaterialComponents.Subtitle2">
+
+        <item name="android:textColor">@color/blue_grey_700</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
 
     </style>
 
