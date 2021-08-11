@@ -12,4 +12,8 @@ class LoginRepositoryImpl @Inject constructor(
     override fun login() {
         loginService.login()
     }
+
+    override fun isLoggedIn(): Boolean {
+        return loginService.isLoggedIn()
+    }
 }

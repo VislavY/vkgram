@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import ru.vyapps.vkgram.R
 import ru.vyapps.vkgram.ViewModelFactory
 import ru.vyapps.vkgram.databinding.FragmentLoginBinding
@@ -37,6 +38,16 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         _binding = FragmentLoginBinding.bind(view)
         setupLoginButton()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (viewModel.userIsLoggedIn()) {
+            val navController = findNavController();
+            val action = LoginFragmentDirections.actionLoginFragmentToChatsFragment();
+            navController.navigate(action)
+        }
     }
 
     override fun onDestroy() {

@@ -11,4 +11,8 @@ class LoginViewModel @Inject constructor(
     fun login() {
         loginRepository.login()
     }
+
+    fun userIsLoggedIn(): Boolean {
+        return loginRepository.isLoggedIn()
+    }
 }

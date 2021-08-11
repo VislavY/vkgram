@@ -13,4 +13,8 @@ class LoginService @Inject constructor(
     fun login() {
         VK.login(activity)
     }
+
+    fun isLoggedIn(): Boolean {
+        return VK.isLoggedIn()
+    }
 }

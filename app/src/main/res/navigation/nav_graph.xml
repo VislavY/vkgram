@@ -3,10 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/log_in_fragment">
+    app:startDestination="@id/login_fragment">
 
     <fragment
-        android:id="@+id/log_in_fragment"
-        android:name="ru.vyapps.vkgram.ui.login.LoginFragment"/>
+        android:id="@+id/login_fragment"
+        android:name="ru.vyapps.vkgram.ui.login.LoginFragment">
+
+        <action
+            android:id="@+id/action_login_fragment_to_chats_fragment"
+            app:destination="@id/chats_fragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/chats_fragment"
+        android:name="ru.vyapps.vkgram.ui.chats.ChatsFragment"/>
 
 </navigation>
