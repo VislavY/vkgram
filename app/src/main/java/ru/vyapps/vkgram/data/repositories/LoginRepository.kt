@@ -1,4 +1,4 @@
-package ru.vyapps.vkgram.domain.repositories
+package ru.vyapps.vkgram.data.repositories
 
 interface LoginRepository {
 

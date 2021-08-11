@@ -1,14 +1,14 @@
 package ru.vyapps.vkgram.ui.login
 
 import androidx.lifecycle.ViewModel
-import ru.vyapps.vkgram.domain.iterators.LoginUseCase
+import ru.vyapps.vkgram.data.repositories.LoginRepository
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase
+    private val loginRepository: LoginRepository
 ) : ViewModel() {
 
     fun login() {
-        loginUseCase.login()
+        loginRepository.login()
     }
 }

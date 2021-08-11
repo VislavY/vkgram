@@ -1,1 +1,1 @@
-/home/vislavy/AndroidProjects/vkgram/buildSrc/build/classes/kotlin/main/Config.class:/home/vislavy/AndroidProjects/vkgram/buildSrc/build/classes/kotlin/main/Depend.class:/home/vislavy/AndroidProjects/vkgram/buildSrc/build/classes/kotlin/main/Version.class
+/home/vislavy/AndroidStudio/vkgram/buildSrc/build/classes/kotlin/main/Config.class:/home/vislavy/AndroidStudio/vkgram/buildSrc/build/classes/kotlin/main/Depend.class:/home/vislavy/AndroidStudio/vkgram/buildSrc/build/classes/kotlin/main/Version.class

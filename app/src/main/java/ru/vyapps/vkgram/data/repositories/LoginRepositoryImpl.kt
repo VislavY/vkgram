@@ -1,9 +1,10 @@
 package ru.vyapps.vkgram.data.repositories
 
+import dagger.Reusable
 import ru.vyapps.vkgram.data.api.LoginService
-import ru.vyapps.vkgram.domain.repositories.LoginRepository
 import javax.inject.Inject
 
+@Reusable
 class LoginRepositoryImpl @Inject constructor(
     private val loginService: LoginService
 ) : LoginRepository {

@@ -3,14 +3,16 @@ package ru.vyapps.vkgram.di
 import dagger.Component
 import dagger.Module
 import ru.vyapps.vkgram.ui.login.di.LoginComponent
-import ru.vyapps.vkgram.utils.ApplicationScope
+import ru.vyapps.vkgram.di.scopes.AppScope
+import javax.inject.Singleton
 
-@Component(modules = [ApplicationSubcomponent::class])
-@ApplicationScope
-interface ApplicationComponent {
+@Singleton
+@Component(modules = [AppSubcomponent::class])
+@AppScope
+interface AppComponent {
 
     val loginComponent: LoginComponent.Builder
 }
 
 @Module(subcomponents = [LoginComponent::class])
-object ApplicationSubcomponent
+object AppSubcomponent

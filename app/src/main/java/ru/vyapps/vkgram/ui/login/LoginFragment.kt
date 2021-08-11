@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import ru.vyapps.vkgram.R
 import ru.vyapps.vkgram.ViewModelFactory
 import ru.vyapps.vkgram.databinding.FragmentLoginBinding
-import ru.vyapps.vkgram.utils.applicationComponent
+import ru.vyapps.vkgram.utils.appComponent
 import javax.inject.Inject
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
@@ -24,7 +24,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private val binding get() = _binding!!
 
     override fun onAttach(context: Context) {
-        context.applicationComponent.loginComponent
+        context.appComponent.loginComponent
             .activity(requireActivity())
             .build()
             .inject(this)

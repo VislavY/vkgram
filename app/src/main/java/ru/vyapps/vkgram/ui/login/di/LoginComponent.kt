@@ -2,9 +2,11 @@ package ru.vyapps.vkgram.ui.login.di
 
 import android.app.Activity
 import dagger.BindsInstance
+import dagger.Reusable
 import dagger.Subcomponent
 import ru.vyapps.vkgram.ui.login.LoginFragment
-import ru.vyapps.vkgram.utils.FeatureScope
+import ru.vyapps.vkgram.di.scopes.FeatureScope
+import javax.inject.Singleton
 
 @Subcomponent(modules = [LoginBindModule::class])
 @FeatureScope

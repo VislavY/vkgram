@@ -1,4 +1,4 @@
-package ru.vyapps.vkgram.utils
+package ru.vyapps.vkgram.di.scopes
 
 import javax.inject.Scope
 

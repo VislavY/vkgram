@@ -1,11 +1,11 @@
 package ru.vyapps.vkgram.utils
 
 import android.content.Context
-import ru.vyapps.vkgram.VKgramApplication
-import ru.vyapps.vkgram.di.ApplicationComponent
+import ru.vyapps.vkgram.VKgramApp
+import ru.vyapps.vkgram.di.AppComponent
 
-val Context.applicationComponent: ApplicationComponent
+val Context.appComponent: AppComponent
     get() = when (this) {
-        is VKgramApplication -> applicationComponent
-        else -> applicationContext.applicationComponent
+        is VKgramApp -> appComponent
+        else -> applicationContext.appComponent
     }
