@@ -8,7 +8,7 @@ object Version {
     const val GOOGLE_MATERIAL = "1.4.0"
     const val GOOGLE_DAGGER = "2.38.1"
 
-    const val VK_SDK = "2.1.1"
+    const val VK_SDK = "2.2.0"
 
     const val JUNIT = "4.13.2"
     const val ANDROIDX_TEST_JUNIT = "1.1.3"
