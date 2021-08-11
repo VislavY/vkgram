@@ -43,19 +43,21 @@ android {
 }
 
 dependencies {
-    implementation Depend.ANDROIDX_CORE
-    implementation Depend.ANDROIDX_APPCOMPAT
-    implementation Depend.ANDROIDX_CONSTRAINTLAYOUT
-    implementation Depend.ANDROIDX_NAVIGATION_FRAGMENT
-    implementation Depend.ANDROIDX_NAVIGATION_UI
+    implementation Depends.ANDROIDX_CORE
+    implementation Depends.ANDROIDX_APPCOMPAT
+    implementation Depends.ANDROIDX_CONSTRAINTLAYOUT
+    implementation Depends.ANDROIDX_NAVIGATION_FRAGMENT
+    implementation Depends.ANDROIDX_NAVIGATION_UI
 
-    implementation Depend.GOOGLE_MATERIAL
-    implementation Depend.GOOGLE_DAGGER
-    kapt Depend.GOOGLE_DAGGER_COMPILER
+    implementation Depends.GOOGLE_MATERIAL
+    implementation Depends.GOOGLE_DAGGER
+    kapt Depends.GOOGLE_DAGGER_COMPILER
 
-    implementation Depend.VK_SDK
+    implementation Depends.SQUAREUP_RETROFIT
 
-    testImplementation Depend.JUNIT
-    androidTestImplementation Depend.ANDROIDX_TEST_JUNIT
-    androidTestImplementation Depend.ANDROIDX_TEST_ESPRESSO
+    implementation Depends.VK_SDK
+
+    testImplementation Depends.JUNIT
+    androidTestImplementation Depends.ANDROIDX_TEST_JUNIT
+    androidTestImplementation Depends.ANDROIDX_TEST_ESPRESSO
 }
