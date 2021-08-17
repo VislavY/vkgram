@@ -3,16 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3564102564102564" />
-        <entry key="app/src/main/res/drawable/avatar_background.xml" value="0.3594871794871795" />
-        <entry key="app/src/main/res/drawable/header.xml" value="0.3619791666666667" />
-        <entry key="app/src/main/res/font-v26/roboto.xml" value="0.3638888888888889" />
-        <entry key="app/src/main/res/font/roboto.xml" value="0.3638888888888889" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.34375" />
-        <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.35260416666666666" />
-        <entry key="app/src/main/res/layout/fragment_chats.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_log_in.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/item_chat.xml" value="1.0" />
+        <entry key="../../../../layout/compose-model-1629021760530.xml" value="1.2021660649819494" />
+        <entry key="../../../../layout/compose-model-1629030678679.xml" value="0.5" />
+        <entry key="../../../../layout/compose-model-1629052456843.xml" value="0.25" />
+        <entry key="../../../../layout/compose-model-1629052482334.xml" value="0.25" />
+        <entry key="../../../../layout/compose-model-1629052631085.xml" value="0.30574324324324326" />
+        <entry key="../../../../layout/compose-model-1629103299750.xml" value="0.30658783783783783" />
+        <entry key="../../../../layout/compose-model-1629103380498.xml" value="0.33" />
+        <entry key="../../../../layout/compose-model-1629110190023.xml" value="0.25" />
+        <entry key="../../../../layout/compose-model-1629113980564.xml" value="0.2759259259259259" />
+        <entry key="../../../../layout/compose-model-1629114037319.xml" value="0.30658783783783783" />
+        <entry key="../../../../layout/compose-model-1629125608646.xml" value="0.33425925925925926" />
+        <entry key="../../../../layout/compose-model-1629203810588.xml" value="0.18" />
+        <entry key="../../../../layout/compose-model-1629204984671.xml" value="1.0" />
+        <entry key="app/src/main/res/drawable-v24/login_header.xml" value="0.35" />
+        <entry key="app/src/main/res/drawable/default_avatar.xml" value="0.36102564102564105" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.36666666666666664" />
+        <entry key="app/src/main/res/font/roboto.xml" value="0.3748717948717949" />
       </map>
     </option>
   </component>

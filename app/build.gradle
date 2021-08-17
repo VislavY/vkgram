@@ -1,25 +1,26 @@
+import ru.vyapps.vkgram.buildsrc.Libs
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'androidx.navigation.safeargs'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
-    compileSdk Config.COMPILE_SDK_VERSION
+    compileSdk 31
 
     defaultConfig {
         applicationId "ru.vyapps.vkgram"
-        minSdk Config.MIN_SDK_VERSION
-        targetSdk Config.TARGET_SDK_VERSION
+        minSdk 21
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    viewBinding {
-        enabled = true
+        vectorDrawables {
+            useSupportLibrary true
+        }
     }
 
     buildTypes {
@@ -28,36 +29,52 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     kotlinOptions {
         jvmTarget = '1.8'
+        useIR = true
     }
-
-    compileSdkVersion 31
-    buildToolsVersion '31.0.0'
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
+        kotlinCompilerVersion '1.5.10'
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
 }
 
 dependencies {
-    implementation Depends.ANDROIDX_CORE
-    implementation Depends.ANDROIDX_APPCOMPAT
-    implementation Depends.ANDROIDX_CONSTRAINTLAYOUT
-    implementation Depends.ANDROIDX_NAVIGATION_FRAGMENT
-    implementation Depends.ANDROIDX_NAVIGATION_UI
+    implementation Libs.AndroidX.coreKtx
+    implementation Libs.AndroidX.appcompat
+    implementation Libs.AndroidX.Activity.activityKtx
+    implementation Libs.AndroidX.Activity.activityCompose
 
-    implementation Depends.GOOGLE_MATERIAL
-    implementation Depends.GOOGLE_DAGGER
-    kapt Depends.GOOGLE_DAGGER_COMPILER
+    implementation Libs.AndroidX.Compose.animation
+    implementation Libs.AndroidX.Compose.foundation
+    implementation Libs.AndroidX.Compose.foundationLayout
+    implementation Libs.AndroidX.Compose.material
+    implementation Libs.AndroidX.Compose.materialIconsExtended
+    implementation Libs.AndroidX.Compose.runtime
+    implementation Libs.AndroidX.Compose.ui
+    implementation Libs.AndroidX.Compose.uiTooling
 
-    implementation Depends.SQUAREUP_RETROFIT
+    implementation Libs.AndroidX.LifeCycle.lifeCycleViewModelKtx
+    implementation Libs.AndroidX.LifeCycle.lifeCycleViewModelCompose
 
-    implementation Depends.VK_SDK
+    implementation Libs.AndroidX.Hilt.hiltAndroid
+    implementation Libs.AndroidX.Hilt.hiltNavigationCompose
+    kapt Libs.AndroidX.Hilt.hiltCompiler
 
-    testImplementation Depends.JUNIT
-    androidTestImplementation Depends.ANDROIDX_TEST_JUNIT
-    androidTestImplementation Depends.ANDROIDX_TEST_ESPRESSO
+    implementation Libs.AndroidX.Navigation.navigationCompose
+
+    implementation Libs.AndroidX.Vk.androidSdkCore
+    implementation Libs.AndroidX.Vk.androidSdkApi
 }

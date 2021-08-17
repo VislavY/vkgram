@@ -4,9 +4,11 @@
 
     <string name="login_button_text">Log in</string>
     <string name="login_failed">Failed login</string>
-    <string name="login_header_content_desc">Header</string>
+    <string name="login_header_content_description">Header</string>
     <string name="login_hello_headline">Hello!</string>
     <string name="login_successful">Successful login</string>
     <string name="login_thanks_body">Thank you for installing \nVKgram</string>
+
+    <string name="default_avatar_content_description">Default avatar</string>
 
 </resources>

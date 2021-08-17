@@ -1,17 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+import ru.vyapps.vkgram.buildsrc.Libs
+
 buildscript {
     repositories {
         google()
         mavenCentral()
     }
-
     dependencies {
-        def nav_version = "2.3.5"
-
-
         classpath "com.android.tools.build:gradle:7.0.0"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21'
+        classpath "com.google.dagger:hilt-android-gradle-plugin:${Libs.AndroidX.Hilt.version}"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle.kts files
