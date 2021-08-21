@@ -5,10 +5,10 @@ import ru.vyapps.vkgram.data.remote.LoginService
 import javax.inject.Inject
 
 class LoginRepositoryImpl @Inject constructor(
-    private val loginService: LoginService
+    private val service: LoginService
 ) : LoginRepository {
 
     override fun login(activity: Activity) {
-        loginService.login(activity)
+        service.login(activity)
     }
 }

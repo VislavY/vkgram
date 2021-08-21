@@ -4,6 +4,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlinx-serialization'
     id 'dagger.hilt.android.plugin'
 }
 
@@ -60,14 +61,17 @@ dependencies {
     implementation Libs.AndroidX.Compose.animation
     implementation Libs.AndroidX.Compose.foundation
     implementation Libs.AndroidX.Compose.foundationLayout
+    implementation Libs.AndroidX.Compose.runtimeLiveData
     implementation Libs.AndroidX.Compose.material
     implementation Libs.AndroidX.Compose.materialIconsExtended
     implementation Libs.AndroidX.Compose.runtime
     implementation Libs.AndroidX.Compose.ui
     implementation Libs.AndroidX.Compose.uiTooling
 
-    implementation Libs.AndroidX.LifeCycle.lifeCycleViewModelKtx
-    implementation Libs.AndroidX.LifeCycle.lifeCycleViewModelCompose
+    implementation Libs.AndroidX.Lifecycle.lifecycleLiveDataKtx
+    implementation Libs.AndroidX.Lifecycle.lifecycleViewModelKtx
+    implementation Libs.AndroidX.Lifecycle.lifecycleViewModelCompose
+
 
     implementation Libs.AndroidX.Hilt.hiltAndroid
     implementation Libs.AndroidX.Hilt.hiltNavigationCompose
@@ -75,6 +79,10 @@ dependencies {
 
     implementation Libs.AndroidX.Navigation.navigationCompose
 
-    implementation Libs.AndroidX.Vk.androidSdkCore
-    implementation Libs.AndroidX.Vk.androidSdkApi
+    implementation Libs.AndroidX.VK.androidSdkCore
+    implementation Libs.AndroidX.VK.androidSdkApi
+
+    implementation Libs.Coil.coilCompose
+
+    implementation Libs.KotlinX.kotlinXSerializationJson
 }

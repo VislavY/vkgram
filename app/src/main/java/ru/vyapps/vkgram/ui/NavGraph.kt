@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ru.vyapps.vkgram.ui.conversations.ConversationsScreen
+import ru.vyapps.vkgram.ui.conversations.ConversationsViewModel
 import ru.vyapps.vkgram.ui.login.LoginScreen
 import ru.vyapps.vkgram.ui.login.LoginViewModel
 
@@ -22,12 +23,13 @@ fun NavGraph(startDestination: String) {
         startDestination = startDestination
     ) {
         composable(Destinations.LOGIN_SCREEN) {
-            val viewModel = hiltViewModel<LoginViewModel>()
+            val viewModel: LoginViewModel = hiltViewModel()
             LoginScreen(viewModel)
         }
 
         composable(Destinations.CONVERSATIONS_SCREEN) {
-            ConversationsScreen()
+            val viewModel: ConversationsViewModel = hiltViewModel()
+            ConversationsScreen(viewModel)
         }
     }
 }

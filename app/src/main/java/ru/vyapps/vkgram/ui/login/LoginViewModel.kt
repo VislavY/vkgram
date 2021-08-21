@@ -8,10 +8,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginRepository: LoginRepository
+    private val repository: LoginRepository
 ) : ViewModel() {
 
     fun login(activity: Activity) {
-        loginRepository.login(activity)
+        repository.login(activity)
     }
 }

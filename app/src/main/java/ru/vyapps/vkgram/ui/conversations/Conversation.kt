@@ -10,17 +10,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberImagePainter
 import ru.vyapps.vkgram.R
 import ru.vyapps.vkgram.ui.theme.Typography
 
 @Composable
 fun Conversation(
+    avatar: String = "",
     title: String,
     lastMsg: String,
     date: String
 ) {
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -28,7 +32,11 @@ fun Conversation(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = painterResource(R.drawable.default_avatar),
+            painter = if (avatar.isEmpty()) {
+                painterResource(R.drawable.default_avatar)
+            } else {
+                rememberImagePainter(avatar)
+            },
             contentDescription = stringResource(R.string.default_avatar_content_description),
             modifier = Modifier
                 .clip(CircleShape)
@@ -59,6 +67,9 @@ fun Conversation(
 
             Text(
                 lastMsg,
+                modifier = Modifier.padding(end = 32.dp),
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
                 style = Typography.body2
             )
         }
@@ -69,8 +80,8 @@ fun Conversation(
 @Composable
 fun PreviewConversation() {
     Conversation(
-        "Владислав Янц",
-        "Я использую VKgram!",
-        "пн"
+        title = "Владислав Янц",
+        lastMsg = "Я использую VKgram!",
+        date = "пн"
     )
 }
