@@ -20,14 +20,21 @@ val Typography = Typography(
     h5 = TextStyle(
         color = BlueGrey700,
         fontFamily = RobotoFontFamily,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Medium,
         fontSize = 24.sp
     ),
 
-    subtitle1 = TextStyle(
-        color = BlueGrey300,
+    h6 = TextStyle(
+        color = BlueGrey700,
         fontFamily = RobotoFontFamily,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Medium,
+        fontSize = 20.sp
+    ),
+
+    subtitle1 = TextStyle(
+        color = BlueGrey700,
+        fontFamily = RobotoFontFamily,
+        fontWeight = FontWeight.Medium,
         fontSize = 16.sp
     ),
 
@@ -36,6 +43,13 @@ val Typography = Typography(
         fontFamily = RobotoFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp
+    ),
+
+    body1 = TextStyle(
+        color = BlueGrey300,
+        fontFamily = RobotoFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp
     ),
 
     body2 = TextStyle(

@@ -24,11 +24,10 @@ fun Conversation(
     lastMsg: String,
     date: String
 ) {
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -40,7 +39,7 @@ fun Conversation(
             contentDescription = stringResource(R.string.default_avatar_content_description),
             modifier = Modifier
                 .clip(CircleShape)
-                .size(48.dp)
+                .size(56.dp)
         )
 
         Spacer(modifier = Modifier.width(16.dp))
@@ -49,12 +48,12 @@ fun Conversation(
             Row {
                 Text(
                     title,
-                    style = Typography.subtitle2
+                    style = Typography.subtitle1
                 )
 
                 Box(
                     modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.TopEnd
+                    contentAlignment = Alignment.CenterEnd
                 ) {
                     Text(
                         date,
@@ -67,10 +66,10 @@ fun Conversation(
 
             Text(
                 lastMsg,
-                modifier = Modifier.padding(end = 32.dp),
+                modifier = Modifier.padding(end = 28.dp),
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
-                style = Typography.body2
+                style = Typography.body1
             )
         }
     }
