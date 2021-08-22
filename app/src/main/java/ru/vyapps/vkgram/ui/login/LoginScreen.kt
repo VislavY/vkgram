@@ -3,6 +3,7 @@ package ru.vyapps.vkgram.ui.login
 import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -36,7 +37,7 @@ fun LoginScreen(
         Text(
             stringResource(R.string.login_hello_headline),
             modifier = Modifier.padding(16.dp, 0.dp),
-            style = Typography.h5
+            style = Typography.h4
         )
 
         Spacer(Modifier.height(16.dp))
@@ -44,7 +45,7 @@ fun LoginScreen(
         Text(
             stringResource(R.string.login_thanks_body),
             modifier = Modifier.padding(16.dp, 0.dp),
-            style = Typography.subtitle1
+            style = Typography.body1
         )
     }
 
@@ -53,10 +54,13 @@ fun LoginScreen(
         contentAlignment = Alignment.BottomCenter
     ) {
         Button(
-            onClick = { viewModel.login(context as Activity) },
+            onClick = {
+                viewModel.login(context as Activity)
+            },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp, 64.dp)
+                .padding(16.dp, 64.dp),
+            shape = CircleShape
         ) {
             Text(stringResource(R.string.login_button_text))
         }

@@ -17,6 +17,13 @@ val RobotoFontFamily = FontFamily(
 )
 
 val Typography = Typography(
+    h4 = TextStyle(
+        color = BlueGrey700,
+        fontFamily = RobotoFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 34.sp
+    ),
+
     h5 = TextStyle(
         color = BlueGrey700,
         fontFamily = RobotoFontFamily,
