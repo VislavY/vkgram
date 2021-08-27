@@ -24,7 +24,7 @@ class GetConversationsRequest(
             .args("lang", "ru")
             .args("extended", 1)
             .args("count", count)
-            .args("fields", "photo_200")
+            .args("fields", "photo_50,photo_100,photo_200")
             .version(manager.config.version)
             .build()
         return manager.execute(methodCall, Parser())

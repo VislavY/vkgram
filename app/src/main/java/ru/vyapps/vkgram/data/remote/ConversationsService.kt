@@ -22,7 +22,7 @@ class ConversationsService @Inject constructor() {
             }
 
             override fun fail(error: Exception) {
-
+                println(error)
             }
         })
     }
