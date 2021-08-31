@@ -3,15 +3,19 @@ package ru.vyapps.vkgram.ui.messages
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.draw.shadow
@@ -20,6 +24,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import ru.vyapps.vkgram.data.Message
+import ru.vyapps.vkgram.ui.Destinations
 import ru.vyapps.vkgram.ui.theme.*
 
 @ExperimentalCoilApi
@@ -35,17 +42,23 @@ fun MessagesScreen(
 
     Scaffold(
         topBar = {
-            MessageHistoryTopBar()
+            MessageHistoryTopBar(navController, viewModel)
+        },
+        content = { padding ->
+            val modifier = Modifier.padding(padding)
+            MessageHistoryContent(modifier, viewModel)
+        },
+        bottomBar = {
+            MessageHistoryBottomBar(viewModel)
         }
-    ) {
-
-    }
+    )
 }
 
 
 @ExperimentalCoilApi
 @Composable
 fun MessageHistoryTopBar(
+    navController: NavController = rememberNavController(),
     viewModel: MessagesViewModel = viewModel()
 ) {
     Box(modifier = Modifier.shadow(8.dp)) {
@@ -56,9 +69,12 @@ fun MessageHistoryTopBar(
                 .height(56.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = {}) {
+            IconButton(
+                onClick = {
+                    navController.navigate(Destinations.CONVERSATIONS_SCREEN)
+                }) {
                 Icon(
-                    imageVector = Icons.Default.ArrowBack,
+                    imageVector = Icons.Outlined.ArrowBack,
                     contentDescription = null,
                     tint = BlueGrey700
                 )
@@ -71,19 +87,22 @@ fun MessageHistoryTopBar(
                 userState.value?.let { user ->
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Image(
-                            painter = rememberImagePainter(user.photo_50),
+                            painter = rememberImagePainter(user.photo_100),
                             contentDescription = null,
                             modifier = Modifier
                                 .clip(CircleShape)
-                                .size(36.dp),
+                                .size(42.dp),
                             alignment = Alignment.Center
                         )
+
                         Spacer(modifier = Modifier.width(12.dp))
+
                         Column {
                             Text(
                                 text = "${user.first_name} ${user.last_name}",
-                                style = Typography.subtitle1
+                                style = Typography.h6
                             )
+
                             Text(
                                 text = "${user.id}",
                                 style = Typography.caption
@@ -95,7 +114,7 @@ fun MessageHistoryTopBar(
 
             IconButton(onClick = {}) {
                 Icon(
-                    imageVector = Icons.Default.MoreVert,
+                    imageVector = Icons.Outlined.MoreVert,
                     contentDescription = null,
                     tint = BlueGrey700
                 )
@@ -104,49 +123,46 @@ fun MessageHistoryTopBar(
     }
 }
 
-//@Composable
-//fun MessageHistoryContent(
-//    conversationId: Long,
-//    modifier: Modifier = Modifier,
-//    viewModel: MessagesViewModel = viewModel()
-//) {
-//    val newMessages = viewModel.messages.collectAsState(ArrayList())
-//    val messages by remember { mutableStateOf(ArrayList<Message>()) }
-//    messages.addAll(newMessages.value)
-//
-//    val newMsg = viewModel.newMsg.collectAsState(null)
-//    newMsg.value?.let { message ->
-//        messages.add(0, message)
-//    }
-//
-//    LazyColumn(
-//        modifier = modifier,
-//        reverseLayout = true
-//    ) {
-//        itemsIndexed(messages) { index, message ->
-//            val messageHorizontalAlignment = if (message.out == 1) {
-//                Alignment.End
-//            } else {
-//                Alignment.Start
-//            }
-//
-//            Message(
-//                text = message.text,
-//                horizontalAlignment= messageHorizontalAlignment
-//            )
-//
-//            if (index >= messages.size - 1) {
-//                viewModel.loadMessages(conversationId, messages.size)
-//            }
-//        }
-//    }
-//}
+@Composable
+fun MessageHistoryContent(
+    modifier: Modifier = Modifier,
+    viewModel: MessagesViewModel = viewModel()
+) {
+    val messages by remember { mutableStateOf(ArrayList<Message>()) }
+
+    val oldMessages = viewModel.messages.collectAsState(ArrayList())
+    messages.addAll(oldMessages.value)
+
+    val newMessage = viewModel.newMessage.collectAsState(null)
+    newMessage.value?.let { message ->
+        messages.add(0, message)
+    }
+
+    LazyColumn(
+        modifier = modifier,
+        reverseLayout = true
+    ) {
+        itemsIndexed(messages) { index, message ->
+            Message(message)
+
+            if (index >= messages.size - 1) {
+                viewModel.loadMessages(messages.size)
+            }
+        }
+    }
+}
 
 @Composable
-fun Message(
-    text: String,
-    horizontalAlignment: Alignment.Horizontal = Alignment.Start
-) {
+fun Message(msg: Message) {
+    var horizontalAlignment = Alignment.Start
+    var backgroundColor = BlueGrey50
+    var textColor = BlueGrey700
+    if (msg.out == 1) {
+        horizontalAlignment = Alignment.End
+        backgroundColor = Cyan500
+        textColor = Color.White
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -160,15 +176,15 @@ fun Message(
             Box(
                 modifier = Modifier
                     .background(
-                        color = BlueGrey50,
+                        color = backgroundColor,
                         shape = Shapes.small.copy(CornerSize(12.dp))
                     )
                     .padding(8.dp)
             ) {
                 Text(
-                    text = text,
-                    color = BlueGrey700,
-                    style = Typography.body2
+                    text = msg.text,
+                    color = textColor,
+                    style = Typography.body1
                 )
             }
         }
@@ -177,49 +193,62 @@ fun Message(
     }
 }
 
-//@Preview("Message")
-//@Composable
-//fun MessagePreview() {
-//    Message("Привет!")
-//}
-
 @Composable
-fun MessagesBottomBar(viewModel: MessagesViewModel = viewModel()) {
+fun MessageHistoryBottomBar(viewModel: MessagesViewModel = viewModel()) {
+    Box(modifier = Modifier.shadow(8.dp)) {
+        Row(
+            modifier = Modifier
+                .background(Color.White)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = {}) {
+                Icon(
+                    imageVector = Icons.Outlined.Attachment,
+                    contentDescription = null,
+                    modifier = Modifier.rotate(300f),
+                    tint = BlueGrey300
+                )
+            }
 
-//    Row(modifier = Modifier.shadow(8.dp)) {
-//        var enteredText by remember { mutableStateOf("") }
-//        TextField(
-//            value = enteredText,
-//            onValueChange = { enteredText = it },
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .weight(1f),
-//            placeholder = {
-//                Text(
-//                    text = "Сообщение",
-//                    style = Typography.body1
-//                )
-//            },
-//            maxLines = 4,
-//            colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White)
-//        )
-//
-//        IconButton(onClick = {
-//            viewModel.sendMessage(enteredText)
-//            enteredText = ""
-//            },
-//            modifier = Modifier.background(Color.White)
-//        ) {
-//            Icon(
-//                imageVector = Icons.Default.Send,
-//                contentDescription = null,
-//                tint = Cyan500
-//            )
-//        }
+            var enteredTextState by remember { mutableStateOf("") }
+            TextField(
+                value = enteredTextState,
+                onValueChange = { text ->
+                    enteredTextState = text
+                },
+                modifier = Modifier.weight(1f),
+                placeholder = {
+                    Text(
+                        text = "Сообщение",
+                        style = Typography.body1
+                    )
+                },
+                maxLines = 4,
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent
+                )
+            )
+
+            IconButton(onClick = {}) {
+                Icon(
+                    imageVector = Icons.Outlined.EmojiEmotions,
+                    contentDescription = null,
+                    tint = BlueGrey300
+                )
+            }
+
+            IconButton(onClick = {
+                viewModel.sendMessage(enteredTextState)
+                enteredTextState = ""
+            }) {
+                Icon(
+                    imageVector = Icons.Filled.Send,
+                    contentDescription = null,
+                    tint = Cyan500
+                )
+            }
+        }
+    }
 }
-
-//@Preview("Bottom Bar")
-//@Composable
-//fun MessagesBottomBarPreview() {
-//    MessagesBottomBar()
-//}

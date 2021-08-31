@@ -27,17 +27,17 @@ class MessagesViewModel(
     private val _messages = MutableSharedFlow<List<Message>>()
     val messages = _messages.asSharedFlow()
 
-    private val _newMsg = MutableSharedFlow<Message>()
-    val newMsg = _newMsg.asSharedFlow()
+    private val _newMessage = MutableSharedFlow<Message>()
+    val newMessage = _newMessage.asSharedFlow()
 
     init {
         loadUserById(conversationId)
-        loadMessages(conversationId)
+        loadMessages()
 
         getLongPollServer()
     }
 
-    fun loadMessages(conversationId: Long, offset: Int = 0) {
+    fun loadMessages(offset: Int = 0) {
         VK.execute(GetMessageHistory(conversationId, offset), object: VKApiCallback<List<Message>> {
 
             override fun success(result: List<Message>) {
@@ -74,16 +74,9 @@ class MessagesViewModel(
     }
 
     fun sendMessage(text: String) {
-        VK.execute(SendMessageRequest(conversationId, text), object: VKApiCallback<Unit> {
-
-            override fun success(result: Unit) {
-
-            }
-
-            override fun fail(error: Exception) {
-                println(error)
-            }
-        })
+        if (text.isNotEmpty()) {
+            VK.execute(SendMessageRequest(conversationId, text))
+        }
     }
 
     private fun getLongPollServer() {
@@ -136,7 +129,7 @@ class MessagesViewModel(
                 result?.let { message ->
                     if (message.peer_id == conversationId) {
                         viewModelScope.launch {
-                            _newMsg.emit(result)
+                            _newMessage.emit(result)
                         }
                     }
                 }

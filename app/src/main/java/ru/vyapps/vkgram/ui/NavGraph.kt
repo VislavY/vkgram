@@ -1,12 +1,14 @@
 package ru.vyapps.vkgram.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.vyapps.vkgram.ui.conversations.ConversationsScreen
 import ru.vyapps.vkgram.ui.conversations.ConversationsViewModel
 import ru.vyapps.vkgram.ui.login.LoginScreen

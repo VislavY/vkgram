@@ -1,21 +1,29 @@
 package ru.vyapps.vkgram.ui.login
 
 import android.app.Activity
+import android.view.Window
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.vk.api.sdk.utils.VKUtils
 import ru.vyapps.vkgram.R
+import ru.vyapps.vkgram.ui.theme.Cyan500
 import ru.vyapps.vkgram.ui.theme.Typography
 
 @Composable
@@ -23,6 +31,11 @@ fun LoginScreen(
     viewModel: LoginViewModel = viewModel()
 ) {
     val context = LocalContext.current
+
+    val systemUiController = rememberSystemUiController()
+    SideEffect {
+        systemUiController.setStatusBarColor(Cyan500)
+    }
 
     Column {
         Image(
@@ -54,9 +67,7 @@ fun LoginScreen(
         contentAlignment = Alignment.BottomCenter
     ) {
         Button(
-            onClick = {
-                viewModel.login(context as Activity)
-            },
+            onClick = { viewModel.login(context as Activity) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 64.dp),

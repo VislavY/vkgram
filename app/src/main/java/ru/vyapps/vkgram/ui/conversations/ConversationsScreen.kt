@@ -10,6 +10,7 @@ import androidx.compose.material.BottomAppBar
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,9 +22,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.vyapps.vkgram.R
 import ru.vyapps.vkgram.data.Conversation
 import ru.vyapps.vkgram.ui.Destinations
+import ru.vyapps.vkgram.ui.theme.BlueGrey800
 import ru.vyapps.vkgram.ui.theme.Typography
 
 @Composable
@@ -31,6 +34,11 @@ fun ConversationsScreen(
     viewModel: ConversationsViewModel = viewModel(),
     navController: NavController
 ) {
+    val systemUiController = rememberSystemUiController()
+    SideEffect {
+        systemUiController.setNavigationBarColor(BlueGrey800)
+    }
+
     Scaffold(bottomBar = {
         BottomAppBar {
 
