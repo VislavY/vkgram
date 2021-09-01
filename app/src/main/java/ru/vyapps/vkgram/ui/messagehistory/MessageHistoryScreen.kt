@@ -1,4 +1,4 @@
-package ru.vyapps.vkgram.ui.messages
+package ru.vyapps.vkgram.ui.messagehistory
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,12 +19,12 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.vyapps.vkgram.data.Message
 import ru.vyapps.vkgram.ui.Destinations
 import ru.vyapps.vkgram.ui.theme.*
@@ -36,8 +36,8 @@ fun MessagesScreen(
     conversationType: String,
     conversationId: Long
 ) {
-    val viewModel: MessagesViewModel = viewModel(
-        factory = MessagesViewModelFactory(conversationId)
+    val viewModel: MessageHistoryViewModel = viewModel(
+        factory = MessageHistoryFactory(conversationId)
     )
 
     Scaffold(
@@ -49,7 +49,7 @@ fun MessagesScreen(
             MessageHistoryContent(modifier, viewModel)
         },
         bottomBar = {
-            MessageHistoryBottomBar(viewModel)
+            MessageHistoryBottomBar(viewModel   )
         }
     )
 }
@@ -59,7 +59,7 @@ fun MessagesScreen(
 @Composable
 fun MessageHistoryTopBar(
     navController: NavController = rememberNavController(),
-    viewModel: MessagesViewModel = viewModel()
+    viewModel: MessageHistoryViewModel = viewModel()
 ) {
     Box(modifier = Modifier.shadow(8.dp)) {
         Row(
@@ -126,7 +126,7 @@ fun MessageHistoryTopBar(
 @Composable
 fun MessageHistoryContent(
     modifier: Modifier = Modifier,
-    viewModel: MessagesViewModel = viewModel()
+    viewModel: MessageHistoryViewModel = viewModel()
 ) {
     val messages by remember { mutableStateOf(ArrayList<Message>()) }
 
@@ -194,7 +194,7 @@ fun Message(msg: Message) {
 }
 
 @Composable
-fun MessageHistoryBottomBar(viewModel: MessagesViewModel = viewModel()) {
+fun MessageHistoryBottomBar(viewModel: MessageHistoryViewModel = viewModel()) {
     Box(modifier = Modifier.shadow(8.dp)) {
         Row(
             modifier = Modifier

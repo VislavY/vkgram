@@ -1,4 +1,4 @@
-package ru.vyapps.vkgram.ui.messages
+package ru.vyapps.vkgram.ui.messagehistory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,7 +17,7 @@ import ru.vyapps.vkgram.data.User
 import ru.vyapps.vkgram.data.remote.requests.*
 import java.util.concurrent.TimeUnit
 
-class MessagesViewModel(
+class MessageHistoryViewModel(
     private val conversationId: Long
 ) : ViewModel() {
 
