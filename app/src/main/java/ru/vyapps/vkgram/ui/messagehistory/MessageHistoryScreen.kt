@@ -200,7 +200,7 @@ fun MessageHistoryBottomBar(viewModel: MessageHistoryViewModel = viewModel()) {
             modifier = Modifier
                 .background(Color.White)
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.Bottom
         ) {
             IconButton(onClick = {}) {
                 Icon(
