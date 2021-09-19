@@ -1,28 +1,71 @@
 package ru.vyapps.vkgram.ui
 
+import android.app.Activity
+import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
-import ru.vyapps.vkgram.ui.conversations.ConversationsScreen
-import ru.vyapps.vkgram.ui.conversations.ConversationsViewModel
+import coil.annotation.ExperimentalCoilApi
+import dagger.hilt.android.EntryPointAccessors
+import ru.vyapps.vkgram.R
+import ru.vyapps.vkgram.ui.conversationlist.ConversationListScreen
+import ru.vyapps.vkgram.ui.conversationlist.ConversationListViewModel
 import ru.vyapps.vkgram.ui.login.LoginScreen
 import ru.vyapps.vkgram.ui.login.LoginViewModel
+import ru.vyapps.vkgram.ui.messagehistory.MessageHistoryViewModel
 import ru.vyapps.vkgram.ui.messagehistory.MessagesScreen
 
 object Destinations {
     const val LOGIN_SCREEN = "login_screen"
-    const val CONVERSATIONS_SCREEN = "conversations_screen"
+    const val CONVERSATION_LIST_SCREEN = "conversation_list_screen"
     const val MESSAGE_HISTORY_SCREEN= "message_history_screen"
 }
 
+// TODO Anti-pattern?
+@Composable
+fun conversationListViewModel(token: String): ConversationListViewModel {
+    val factory = EntryPointAccessors.fromActivity(
+        LocalContext.current as Activity,
+        MainActivity.ViewModelFactoryProvider::class.java
+    ).provideConversationListViewModelFactory()
+
+    return viewModel(
+        factory = ConversationListViewModel.provideFactory(factory, token)
+    )
+}
+
+@Composable
+fun messageHistoryViewModel(
+    conversationId: Long,
+    token: String
+): MessageHistoryViewModel {
+    val factory = EntryPointAccessors.fromActivity(
+        LocalContext.current as Activity,
+        MainActivity.ViewModelFactoryProvider::class.java
+    ).provideMessageHistoryViewModelFactory()
+
+    return viewModel(
+        factory = MessageHistoryViewModel.provideFactory(
+            factory,
+            conversationId,
+            token
+        )
+    )
+}
+
+@ExperimentalCoilApi
 @Composable
 fun NavGraph(startDestination: String) {
     val navController = rememberNavController()
-
+    val activity = (LocalContext.current as Activity)
+    val preferences = activity.getPreferences(Context.MODE_PRIVATE)
+    val token = preferences.getString(activity.getString(R.string.token_pref_key), "")
     NavHost(
         navController = navController,
         startDestination = startDestination
@@ -32,9 +75,9 @@ fun NavGraph(startDestination: String) {
             LoginScreen(viewModel)
         }
 
-        composable(Destinations.CONVERSATIONS_SCREEN) {
-            val viewModel: ConversationsViewModel = hiltViewModel()
-            ConversationsScreen(viewModel, navController)
+        composable(Destinations.CONVERSATION_LIST_SCREEN) {
+
+            ConversationListScreen(navController, conversationListViewModel(token!!))
         }
 
         composable(
@@ -44,11 +87,7 @@ fun NavGraph(startDestination: String) {
             backStackEntry.arguments?.let { args ->
                 val conversationType = args.getString("conversationType", "user")
                 val conversationId = args.getLong("conversationId", 386070111)
-                MessagesScreen(
-                    navController = navController,
-                    conversationType = conversationType,
-                    conversationId = conversationId
-                )
+                MessagesScreen(navController, messageHistoryViewModel(conversationId, token!!))
             }
         }
     }

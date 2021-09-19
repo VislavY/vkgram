@@ -1,6 +1,6 @@
-package ru.vyapps.vkgram.ui.conversations
+package ru.vyapps.vkgram.ui.conversationlist
 
-import androidx.compose.foundation.Image
+import  androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,9 +9,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,6 +19,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.vyapps.vkgram.R
@@ -28,42 +28,61 @@ import ru.vyapps.vkgram.data.Conversation
 import ru.vyapps.vkgram.ui.Destinations
 import ru.vyapps.vkgram.ui.theme.BlueGrey800
 import ru.vyapps.vkgram.ui.theme.Typography
+import ru.vyapps.vkgram.utils.LastMessageDate
 
+@ExperimentalCoilApi
 @Composable
-fun ConversationsScreen(
-    viewModel: ConversationsViewModel = viewModel(),
-    navController: NavController
+fun ConversationListScreen(
+    navController: NavController,
+    viewModel: ConversationListViewModel = viewModel()
 ) {
     val systemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.setNavigationBarColor(BlueGrey800)
     }
 
-    Scaffold(bottomBar = {
-        BottomAppBar {
+    Scaffold(
+        content = { padding  ->
+            val modifier = Modifier.padding(padding)
+            ConversationListContent(modifier, navController, viewModel)
+        },
+        bottomBar = {
+            BottomAppBar {
 
+            }
         }
-    }) {
-        val conversations = viewModel.conversations.observeAsState()
-        LazyColumn {
-            conversations.value?.let {
-                itemsIndexed(it) {index, conversation ->
-                    Conversation(
-                        conversation,
-                        modifier = Modifier.clickable {
-                            navController.navigate("${Destinations.MESSAGE_HISTORY_SCREEN}/${conversation.type}/${conversation.id}")
-                        }
-                    )
+    )
+}
 
-                    if (index >= it.size - 1) {
-                        viewModel.loadConversations(it.size + it.size)
-                    }
+@ExperimentalCoilApi
+@Composable
+fun ConversationListContent(
+    modifier: Modifier = Modifier,
+    navController: NavController = rememberNavController(),
+    viewModel: ConversationListViewModel = viewModel()
+) {
+    val conversations = remember { mutableStateListOf<Conversation>() }
+    val loadedConversations = viewModel.loadedConversations.collectAsState(ArrayList())
+    conversations.addAll(loadedConversations.value)
+    LazyColumn(modifier = modifier) {
+        itemsIndexed(conversations) {index, conversation ->
+            Conversation(
+                conversation,
+                modifier = Modifier.clickable {
+                    navController.navigate("${Destinations.MESSAGE_HISTORY_SCREEN}/"
+                            + "${conversation.type}/"
+                            + "${conversation.id}")
                 }
+            )
+
+            if (index == (conversations.size - 5)) {
+                viewModel.getConversations(viewModel.loadedConversationsCount, conversations.size)
             }
         }
     }
 }
 
+@ExperimentalCoilApi
 @Composable
 fun Conversation(conversation: Conversation, modifier: Modifier = Modifier) {
     Row(
@@ -84,12 +103,14 @@ fun Conversation(conversation: Conversation, modifier: Modifier = Modifier) {
                 .size(56.dp)
         )
 
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(Modifier.width(16.dp))
 
         Column {
             Row {
                 Text(
-                    conversation.title,
+                    text = conversation.title,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
                     style = Typography.subtitle1
                 )
 
@@ -98,20 +119,19 @@ fun Conversation(conversation: Conversation, modifier: Modifier = Modifier) {
                     contentAlignment = Alignment.CenterEnd
                 ) {
                     Text(
-                        conversation.last_message_date.toString(),
+                        text = LastMessageDate.timeDifference(conversation.lastMessageDate),
                         style = Typography.caption
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(2.dp))
+            Spacer(Modifier.height(2.dp))
 
             Text(
-                conversation.last_message,
+                text = conversation.lastMessage,
                 modifier = Modifier.padding(end = 28.dp),
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
-                style = Typography.body1
             )
         }
     }

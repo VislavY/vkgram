@@ -4,23 +4,20 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.vyapps.vkgram.data.repositories.ConversationsRepository
-import ru.vyapps.vkgram.data.repositories.ConversationsRepositoryImpl
-import ru.vyapps.vkgram.data.repositories.LoginRepository
-import ru.vyapps.vkgram.data.repositories.LoginRepositoryImpl
+import ru.vyapps.vkgram.data.repositories.*
 
-@Suppress("Unused")
+@Suppress("UNUSED")
 @Module
 @InstallIn(SingletonComponent::class)
 interface AppBindModule {
 
     @Binds
-    fun bindLoginRepository(
-        impl: LoginRepositoryImpl
-    ): LoginRepository
+    fun bindMessageRepo(
+        impl: MessageRepoImpl
+    ): MessageRepo
 
     @Binds
-    fun bindConversationsRepository(
-        impl: ConversationsRepositoryImpl
-    ): ConversationsRepository
+    fun bindUserRepo(
+        impl: UserRepoImpl
+    ): UserRepo
 }

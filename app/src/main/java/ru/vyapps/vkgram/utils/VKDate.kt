@@ -1,19 +1,13 @@
 package ru.vyapps.vkgram.utils
 
-import kotlinx.serialization.Serializable
-import ru.vyapps.vkgram.utils.VKDateAsLongSerializer
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Serializable(VKDateAsLongSerializer::class)
-class VKDate(
-    val date: Long
-) {
+object LastMessageDate {
 
-    override fun toString(): String {
+    fun timeDifference(date: Date): String {
         val receivedCalendar = GregorianCalendar()
-        receivedCalendar.time = Date(date)
-
+        receivedCalendar.time = date
         val currentCalendar = GregorianCalendar()
         val datePattern = when {
             receivedCalendar

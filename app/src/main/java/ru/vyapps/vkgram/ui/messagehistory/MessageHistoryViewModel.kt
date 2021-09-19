@@ -1,143 +1,89 @@
 package ru.vyapps.vkgram.ui.messagehistory
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.vk.api.sdk.VK
-import com.vk.api.sdk.VKApiCallback
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okio.use
-import org.json.JSONObject
-import ru.gildor.coroutines.okhttp.await
-import ru.vyapps.vkgram.data.LongPollServer
-import ru.vyapps.vkgram.data.Message
-import ru.vyapps.vkgram.data.User
-import ru.vyapps.vkgram.data.remote.requests.*
-import java.util.concurrent.TimeUnit
+import ru.vyapps.vkgram.data.remote.Message
+import ru.vyapps.vkgram.data.remote.User
+import ru.vyapps.vkgram.data.repositories.MessageRepo
+import ru.vyapps.vkgram.data.repositories.UserRepo
 
-class MessageHistoryViewModel(
-    private val conversationId: Long
+class MessageHistoryViewModel @AssistedInject constructor(
+    @Assisted private val conversationId: Long,
+    @Assisted private val token: String,
+    private val userRepo: UserRepo,
+    private val messageRepo: MessageRepo
+
 ) : ViewModel() {
+
+    val loadedMessageCount = 20
 
     private val _user = MutableSharedFlow<User>()
     val user = _user.asSharedFlow()
 
-    private val _messages = MutableSharedFlow<List<Message>>()
-    val messages = _messages.asSharedFlow()
-
-    private val _newMessage = MutableSharedFlow<Message>()
-    val newMessage = _newMessage.asSharedFlow()
+    private val _loadedMessages = MutableSharedFlow<List<Message>>()
+    val loadedMessages = _loadedMessages.asSharedFlow()
 
     init {
-        loadUserById(conversationId)
-        loadMessages()
-
-        getLongPollServer()
+        getUserById(conversationId)
+        getMessagesByConversationId(loadedMessageCount, 0)
     }
 
-    fun loadMessages(offset: Int = 0) {
-        VK.execute(GetMessageHistory(conversationId, offset), object: VKApiCallback<List<Message>> {
-
-            override fun success(result: List<Message>) {
-                viewModelScope.launch {
-                    _messages.emit(result)
-                }
-            }
-
-            override fun fail(error: Exception) {
-                println(error)
-            }
-        })
+    fun getMessagesByConversationId(messageCount: Int, offset: Int) {
+        viewModelScope.launch {
+            val messages = messageRepo.getMessagesByConversationId(
+                conversationId,
+                messageCount,
+                offset,
+                token
+            )
+            _loadedMessages.emit(messages)
+        }
     }
 
-    private fun loadUserById(userId: Long) {
-
-        VK.execute(GetUsersByIdRequest(userId), object: VKApiCallback<User?> {
-
-            override fun success(result: User?) {
-                result?.let {
-                    viewModelScope.launch {
-                        _user.emit(it)
-                    }
-
-                    println("GGGGGGGGGGGGGGGGGGGGG")
-                    println(userId)
-                }
-            }
-
-            override fun fail(error: Exception) {
-                println(error)
-            }
-        })
+    private fun getUserById(userId: Long) {
+        viewModelScope.launch {
+            val user = userRepo.getUserById(userId, token)
+            _user.emit(user)
+        }
     }
 
     fun sendMessage(text: String) {
         if (text.isNotEmpty()) {
-            VK.execute(SendMessageRequest(conversationId, text))
+            viewModelScope.launch {
+                messageRepo.sendMessage(
+                    conversationId,
+                    text,
+                    token
+                )
+            }
         }
     }
 
-    private fun getLongPollServer() {
-        VK.execute(GetLongPollServerRequest(), object: VKApiCallback<LongPollServer?> {
-
-            override fun success(result: LongPollServer?) {
-                result?.let { longPollServer ->
-//                    getLongPollHistory(longPollServer.ts)
-                    viewModelScope.launch {
-                        loadLongPollServer(result)
-                    }
-                }
-            }
-
-            override fun fail(error: Exception) {
-                println(error)
-            }
-        })
+    @AssistedFactory
+    interface Factory {
+        fun create(
+            conversationId: Long,
+            token: String
+        ): MessageHistoryViewModel
     }
 
-    private suspend fun loadLongPollServer(server: LongPollServer) {
-        val client = OkHttpClient.Builder()
-            .readTimeout(24, TimeUnit.HOURS)
-            .build()
-        val url = "https://${server.server}?act=a_check&key=${server.key}&ts=${server.ts}&wait=25&mode=2&version=3"
-        val request = Request.Builder()
-            .url(url)
-            .build()
-        try {
-            val response = client.newCall(request).await()
-            response.body.use { body ->
-                body?.let {
-                    getLongPollHistory(server.ts)
+    companion object {
+        fun provideFactory(
+            factory: Factory,
+            conversationId: Long,
+            token: String
+        ) = object: ViewModelProvider.Factory {
 
-                    val bodyMessage = body.string()
-                    val newTs = JSONObject(bodyMessage).getLong("ts")
-                    server.ts = newTs
-                    loadLongPollServer(server)
-                }
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return factory.create(conversationId, token) as T
             }
-        } catch (exception: Exception) {
-            println(exception.toString())
         }
-    }
-
-    private fun getLongPollHistory(ts: Long) {
-        VK.execute(GetLongPollHistoryRequest(ts), object: VKApiCallback<Message?> {
-
-            override fun success(result: Message?) {
-                result?.let { message ->
-                    if (message.peer_id == conversationId) {
-                        viewModelScope.launch {
-                            _newMessage.emit(result)
-                        }
-                    }
-                }
-            }
-
-            override fun fail(error: Exception) {
-                println(error)
-            }
-        })
     }
 }

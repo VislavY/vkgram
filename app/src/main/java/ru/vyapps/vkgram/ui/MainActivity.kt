@@ -1,5 +1,6 @@
 package ru.vyapps.vkgram.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -8,8 +9,13 @@ import androidx.activity.compose.setContent
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.components.ActivityComponent
 import ru.vyapps.vkgram.R
+import ru.vyapps.vkgram.ui.conversationlist.ConversationListViewModel
+import ru.vyapps.vkgram.ui.messagehistory.MessageHistoryViewModel
 import ru.vyapps.vkgram.ui.theme.VKgramTheme
 
 @AndroidEntryPoint
@@ -21,7 +27,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             VKgramTheme {
                 val startDestination = if (VK.isLoggedIn())
-                    Destinations.CONVERSATIONS_SCREEN else Destinations.LOGIN_SCREEN
+                    Destinations.CONVERSATION_LIST_SCREEN else Destinations.LOGIN_SCREEN
                 NavGraph(startDestination)
             }
         }
@@ -29,7 +35,14 @@ class MainActivity : ComponentActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val callback = object: VKAuthCallback {
+
             override fun onLogin(token: VKAccessToken) {
+                val preferences = getPreferences(Context.MODE_PRIVATE)
+                with (preferences.edit()) {
+                    putString(getString(R.string.token_pref_key), token.accessToken)
+                    apply()
+                }
+
                 showSuccessfulLoginToast()
             }
 
@@ -37,6 +50,7 @@ class MainActivity : ComponentActivity() {
                 showFailedLoginToast()
             }
         }
+
         if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback)) {
             super.onActivityResult(requestCode, resultCode, data)
         }
@@ -56,5 +70,14 @@ class MainActivity : ComponentActivity() {
             R.string.login_failed,
             Toast.LENGTH_SHORT
         ).show()
+    }
+
+    @EntryPoint
+    @InstallIn(ActivityComponent::class)
+    interface ViewModelFactoryProvider {
+
+        fun provideConversationListViewModelFactory(): ConversationListViewModel.Factory
+
+        fun provideMessageHistoryViewModelFactory(): MessageHistoryViewModel.Factory
     }
 }

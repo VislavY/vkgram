@@ -19,13 +19,12 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import ru.vyapps.vkgram.data.Message
+import ru.vyapps.vkgram.data.remote.Message
 import ru.vyapps.vkgram.ui.Destinations
 import ru.vyapps.vkgram.ui.theme.*
 
@@ -33,13 +32,8 @@ import ru.vyapps.vkgram.ui.theme.*
 @Composable
 fun MessagesScreen(
     navController: NavController = rememberNavController(),
-    conversationType: String,
-    conversationId: Long
+    viewModel: MessageHistoryViewModel = viewModel()
 ) {
-    val viewModel: MessageHistoryViewModel = viewModel(
-        factory = MessageHistoryFactory(conversationId)
-    )
-
     Scaffold(
         topBar = {
             MessageHistoryTopBar(navController, viewModel)
@@ -71,7 +65,7 @@ fun MessageHistoryTopBar(
         ) {
             IconButton(
                 onClick = {
-                    navController.navigate(Destinations.CONVERSATIONS_SCREEN)
+                    navController.navigate(Destinations.CONVERSATION_LIST_SCREEN)
                 }) {
                 Icon(
                     imageVector = Icons.Outlined.ArrowBack,
@@ -87,7 +81,7 @@ fun MessageHistoryTopBar(
                 userState.value?.let { user ->
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Image(
-                            painter = rememberImagePainter(user.photo_100),
+                            painter = rememberImagePainter(user.photo100),
                             contentDescription = null,
                             modifier = Modifier
                                 .clip(CircleShape)
@@ -99,7 +93,7 @@ fun MessageHistoryTopBar(
 
                         Column {
                             Text(
-                                text = "${user.first_name} ${user.last_name}",
+                                text = "${user.firstName} ${user.lastName}",
                                 style = Typography.h6
                             )
 
@@ -128,15 +122,9 @@ fun MessageHistoryContent(
     modifier: Modifier = Modifier,
     viewModel: MessageHistoryViewModel = viewModel()
 ) {
-    val messages by remember { mutableStateOf(ArrayList<Message>()) }
-
-    val oldMessages = viewModel.messages.collectAsState(ArrayList())
-    messages.addAll(oldMessages.value)
-
-    val newMessage = viewModel.newMessage.collectAsState(null)
-    newMessage.value?.let { message ->
-        messages.add(0, message)
-    }
+    val messages = remember { mutableStateListOf<Message>() }
+    val loadedMessages = viewModel.loadedMessages.collectAsState(ArrayList())
+    messages.addAll(loadedMessages.value)
 
     LazyColumn(
         modifier = modifier,
@@ -145,8 +133,8 @@ fun MessageHistoryContent(
         itemsIndexed(messages) { index, message ->
             Message(message)
 
-            if (index >= messages.size - 1) {
-                viewModel.loadMessages(messages.size)
+            if (index == (messages.size - 5)) {
+                viewModel.getMessagesByConversationId(viewModel.loadedMessageCount, messages.size)
             }
         }
     }
