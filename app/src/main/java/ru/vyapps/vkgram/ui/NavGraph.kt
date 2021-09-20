@@ -59,25 +59,30 @@ fun messageHistoryViewModel(
     )
 }
 
+@Composable
+fun rememberToken(): String {
+    val activity = (LocalContext.current as Activity)
+    val preferences = activity.getPreferences(Context.MODE_PRIVATE)
+    val token = preferences.getString(activity.getString(R.string.token_pref_key), null)
+    return if (token.isNullOrBlank()) "" else token
+}
+
 @ExperimentalCoilApi
 @Composable
 fun NavGraph(startDestination: String) {
     val navController = rememberNavController()
-    val activity = (LocalContext.current as Activity)
-    val preferences = activity.getPreferences(Context.MODE_PRIVATE)
-    val token = preferences.getString(activity.getString(R.string.token_pref_key), "")
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
+
         composable(Destinations.LOGIN_SCREEN) {
             val viewModel: LoginViewModel = hiltViewModel()
-            LoginScreen(viewModel)
+            LoginScreen(navController, viewModel)
         }
 
         composable(Destinations.CONVERSATION_LIST_SCREEN) {
-
-            ConversationListScreen(navController, conversationListViewModel(token!!))
+            ConversationListScreen(navController, conversationListViewModel(rememberToken()))
         }
 
         composable(
@@ -87,7 +92,7 @@ fun NavGraph(startDestination: String) {
             backStackEntry.arguments?.let { args ->
                 val conversationType = args.getString("conversationType", "user")
                 val conversationId = args.getLong("conversationId", 386070111)
-                MessagesScreen(navController, messageHistoryViewModel(conversationId, token!!))
+                MessagesScreen(navController, messageHistoryViewModel(conversationId, rememberToken()))
             }
         }
     }
