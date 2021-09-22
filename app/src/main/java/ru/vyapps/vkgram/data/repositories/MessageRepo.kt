@@ -1,7 +1,7 @@
 package ru.vyapps.vkgram.data.repositories
 
 import ru.vyapps.vkgram.data.Conversation
-import ru.vyapps.vkgram.data.remote.Message
+import ru.vyapps.vkgram.vk_api.Message
 
 interface MessageRepo {
 

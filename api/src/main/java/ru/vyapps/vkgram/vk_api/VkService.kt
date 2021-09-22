@@ -1,41 +1,57 @@
-package ru.vyapps.vkgram.data.remote
+package ru.vyapps.vkgram.vk_api
 
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType
 import retrofit2.Call
+import retrofit2.Retrofit
 import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Headers
 import retrofit2.http.Query
 
 interface VkService {
 
     @GET("method/messages.getConversations?extended=1&fields=photo_50,photo_100,photo_200&v=5.131")
-    fun getConversations(
+    suspend fun getConversations(
         @Query("count") count: Int,
         @Query("offset") offset: Int,
         @Query("access_token") token: String,
-    ): Call<ConversationData>
+    ): ConversationData
 
     @GET("method/messages.getHistory?v=5.131")
-    fun getMessagesByConversationId(
+    suspend fun getMessagesByConversationId(
         @Query("peer_id") conversationId: Long,
         @Query("count") count: Int,
         @Query("offset") offset: Int,
         @Query("access_token") token: String
-    ): Call<MessageHistoryData>
+    ): MessageData
 
     @GET("method/users.get?fields=photo_50,photo_100,photo_200&v=5.131")
-    fun getUserById(
+    suspend fun getUserById(
         @Query("user_ids") userId: Long,
         @Query("access_token") token: String
-    ): Call<UserData>
+    ): UserData
 
     @GET("method/messages.send?random_id=0&v=5.131")
-    fun sendMessage(
+    suspend fun sendMessage(
         @Query("peer_id") conversationId: Long,
         @Query("message") text: String,
         @Query("access_token") token: String,
-    ): Call<Unit>
+    )
 }
 
+@ExperimentalSerializationApi
+fun VkService(): VkService {
+    val json = Json {
+        ignoreUnknownKeys = true
+    }
 
+    val retrofit = Retrofit.Builder()
+        .baseUrl("https://api.vk.com/")
+        .addConverterFactory(
+            json.asConverterFactory(MediaType.parse("application/json")!!)
+        )
+        .build()
 
+    return retrofit.create(VkService::class.java)
+}

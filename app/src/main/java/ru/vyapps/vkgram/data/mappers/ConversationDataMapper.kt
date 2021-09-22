@@ -1,7 +1,7 @@
 package ru.vyapps.vkgram.data.mappers
 
 import ru.vyapps.vkgram.data.Conversation
-import ru.vyapps.vkgram.data.remote.ConversationData
+import ru.vyapps.vkgram.vk_api.ConversationData
 import javax.inject.Inject
 import kotlin.math.abs
 

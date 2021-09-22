@@ -4,8 +4,8 @@ import retrofit2.await
 import ru.vyapps.vkgram.data.Conversation
 import ru.vyapps.vkgram.data.mappers.ConversationDataMapper
 import ru.vyapps.vkgram.data.mappers.MessageHistoryDataMapper
-import ru.vyapps.vkgram.data.remote.Message
-import ru.vyapps.vkgram.data.remote.VkService
+import ru.vyapps.vkgram.vk_api.Message
+import ru.vyapps.vkgram.vk_api.VkService
 import javax.inject.Inject
 
 class MessageRepoImpl @Inject constructor(
@@ -23,7 +23,7 @@ class MessageRepoImpl @Inject constructor(
             count,
             offset,
             token
-        ).await()
+        )
         return conversationDataMapper.map(conversationData)
     }
 
@@ -38,7 +38,7 @@ class MessageRepoImpl @Inject constructor(
             messageCount,
             offset,
             token
-        ).await()
+        )
         return messageHistoryDataMapper.map(messageHistoryData)
     }
 
@@ -51,6 +51,6 @@ class MessageRepoImpl @Inject constructor(
             conversationId,
             text,
             token
-        ).await()
+        )
     }
 }

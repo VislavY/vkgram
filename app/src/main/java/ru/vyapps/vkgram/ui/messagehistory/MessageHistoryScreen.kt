@@ -24,9 +24,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import ru.vyapps.vkgram.data.remote.Message
 import ru.vyapps.vkgram.ui.Destinations
 import ru.vyapps.vkgram.ui.theme.*
+import ru.vyapps.vkgram.vk_api.Message
 
 @ExperimentalCoilApi
 @Composable

@@ -73,4 +73,10 @@ object Libs {
 
         const val kotlinXSerializationJson = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
     }
+
+    object Retrofit {
+
+        const val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
+        const val retrofitKotlinXSerializationConverter = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+    }
 }

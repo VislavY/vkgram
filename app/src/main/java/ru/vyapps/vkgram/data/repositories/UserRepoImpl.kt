@@ -1,9 +1,8 @@
 package ru.vyapps.vkgram.data.repositories
 
-import retrofit2.await
 import ru.vyapps.vkgram.data.mappers.UserDataMapper
-import ru.vyapps.vkgram.data.remote.User
-import ru.vyapps.vkgram.data.remote.VkService
+import ru.vyapps.vkgram.vk_api.User
+import ru.vyapps.vkgram.vk_api.VkService
 import javax.inject.Inject
 
 class UserRepoImpl @Inject constructor(
@@ -15,7 +14,7 @@ class UserRepoImpl @Inject constructor(
         id: Long,
         token: String
     ): User {
-        val userData = vkService.getUserById(id, token).await()
+        val userData = vkService.getUserById(id, token)
         return userDataMapper.map(userData)
     }
 }

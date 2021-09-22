@@ -1,7 +1,7 @@
 package ru.vyapps.vkgram.data.mappers
 
-import ru.vyapps.vkgram.data.remote.User
-import ru.vyapps.vkgram.data.remote.UserData
+import ru.vyapps.vkgram.vk_api.User
+import ru.vyapps.vkgram.vk_api.UserData
 import javax.inject.Inject
 
 class UserDataMapper @Inject constructor() {

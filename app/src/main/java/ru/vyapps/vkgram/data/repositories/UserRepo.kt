@@ -1,6 +1,6 @@
 package ru.vyapps.vkgram.data.repositories
 
-import ru.vyapps.vkgram.data.remote.User
+import ru.vyapps.vkgram.vk_api.User
 
 interface UserRepo {
 

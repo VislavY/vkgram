@@ -8,10 +8,10 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ru.vyapps.vkgram.data.remote.Message
-import ru.vyapps.vkgram.data.remote.User
 import ru.vyapps.vkgram.data.repositories.MessageRepo
 import ru.vyapps.vkgram.data.repositories.UserRepo
+import ru.vyapps.vkgram.vk_api.Message
+import ru.vyapps.vkgram.vk_api.User
 
 class MessageHistoryViewModel @AssistedInject constructor(
     @Assisted private val conversationId: Long,
