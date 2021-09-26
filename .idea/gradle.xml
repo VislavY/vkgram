@@ -13,6 +13,10 @@
             <option value="$PROJECT_DIR$/api" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/conversations" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/login" />
+            <option value="$PROJECT_DIR$/message_history" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -8,3 +8,7 @@ dependencyResolutionManagement {
 rootProject.name = "VKgram"
 include ':app'
 include ':api'
+include ':login'
+include ':core'
+include ':conversations'
+include ':message_history'

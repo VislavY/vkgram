@@ -4,10 +4,12 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Query
+import ru.vyapps.vkgram.vk_api.data.ConversationData
+import ru.vyapps.vkgram.vk_api.data.MessageData
+import ru.vyapps.vkgram.vk_api.data.UserData
 
 interface VkService {
 

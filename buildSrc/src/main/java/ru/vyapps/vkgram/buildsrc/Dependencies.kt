@@ -54,14 +54,10 @@ object Libs {
 
             const val navigationCompose = "androidx.navigation:navigation-compose:2.4.0-alpha06"
         }
+    }
 
-        object VK {
-
-            const val version = "3.2.0"
-
-            const val androidSdkCore = "com.vk:android-sdk-core:$version"
-            const val androidSdkApi = "com.vk:android-sdk-api:$version"
-        }
+    object Google {
+        const val accompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
     }
 
     object Coil {
@@ -71,6 +67,7 @@ object Libs {
 
     object KotlinX {
 
+        const val kotlinXCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"
         const val kotlinXSerializationJson = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
     }
 
@@ -78,5 +75,13 @@ object Libs {
 
         const val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
         const val retrofitKotlinXSerializationConverter = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+    }
+
+    object VK {
+
+        const val version = "3.2.0"
+
+        const val androidSdkCore = "com.vk:android-sdk-core:$version"
+        const val androidSdkApi = "com.vk:android-sdk-api:$version"
     }
 }

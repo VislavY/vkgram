@@ -54,26 +54,12 @@ android {
 
 dependencies {
     implementation project(":api")
+    implementation project(":login")
+    implementation project(":conversations")
+    implementation project(":message_history")
 
     implementation Libs.AndroidX.coreKtx
     implementation Libs.AndroidX.appcompat
-    implementation Libs.AndroidX.Activity.activityKtx
-    implementation Libs.AndroidX.Activity.activityCompose
-
-    implementation Libs.AndroidX.Compose.animation
-    implementation Libs.AndroidX.Compose.foundation
-    implementation Libs.AndroidX.Compose.foundationLayout
-    implementation Libs.AndroidX.Compose.runtimeLiveData
-    implementation Libs.AndroidX.Compose.material
-    implementation Libs.AndroidX.Compose.materialIconsExtended
-    implementation Libs.AndroidX.Compose.runtime
-    implementation Libs.AndroidX.Compose.ui
-    implementation Libs.AndroidX.Compose.uiTooling
-
-    implementation Libs.AndroidX.Lifecycle.lifecycleLiveDataKtx
-    implementation Libs.AndroidX.Lifecycle.lifecycleViewModelKtx
-    implementation Libs.AndroidX.Lifecycle.lifecycleViewModelCompose
-
 
     implementation Libs.AndroidX.Hilt.hiltAndroid
     implementation Libs.AndroidX.Hilt.hiltNavigationCompose
@@ -81,16 +67,5 @@ dependencies {
 
     implementation Libs.AndroidX.Navigation.navigationCompose
 
-    implementation Libs.AndroidX.VK.androidSdkCore
-    implementation Libs.AndroidX.VK.androidSdkApi
-
-    implementation Libs.Coil.coilCompose
-
-    implementation Libs.KotlinX.kotlinXSerializationJson
-
-    implementation("com.squareup.okhttp3:okhttp:4.9.0")
-    implementation("ru.gildor.coroutines:kotlin-coroutines-okhttp:1.0")
-    implementation 'com.google.accompanist:accompanist-systemuicontroller:0.17.0'
-    implementation Libs.Retrofit.retrofit
-    implementation Libs.Retrofit.retrofitKotlinXSerializationConverter
+    implementation Libs.VK.androidSdkApi
 }

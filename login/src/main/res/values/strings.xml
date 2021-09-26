@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_button_text">Log in</string>
+    <string name="login_failed">Failed login</string>
+    <string name="login_header_content_description">Header</string>
+    <string name="login_hello_headline">Hello!</string>
+    <string name="login_successful">Successful login</string>
+    <string name="login_thanks_body">Thank you for installing \nVKgram</string>
+</resources>
