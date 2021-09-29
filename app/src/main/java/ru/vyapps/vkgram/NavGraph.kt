@@ -24,9 +24,8 @@ object Destinations {
     const val MESSAGE_HISTORY_SCREEN= "message_history_screen"
 }
 
-// TODO Anti-pattern?
 @Composable
-fun conversationsViewModel(accessToken: String): ConversationsViewModel {
+fun rememberConversationsViewModel(accessToken: String): ConversationsViewModel {
     val factory = EntryPointAccessors.fromActivity(
         LocalContext.current as Activity,
         MainActivity.ViewModelFactoryProvider::class.java
@@ -38,7 +37,7 @@ fun conversationsViewModel(accessToken: String): ConversationsViewModel {
 }
 
 @Composable
-fun messageHistoryViewModel(
+fun rememberMessageHistoryViewModel(
     conversationId: Long,
     token: String
 ): MessageHistoryViewModel {
@@ -57,7 +56,7 @@ fun messageHistoryViewModel(
 }
 
 @Composable
-fun rememberToken(): String {
+fun rememberAccessToken(): String {
     val activity = (LocalContext.current as Activity)
     val preferences = activity.getPreferences(Context.MODE_PRIVATE)
     val token = preferences.getString(activity.getString(R.string.token_pref_key), null)
@@ -78,7 +77,7 @@ fun NavGraph(startDestination: String) {
         }
 
         composable(Destinations.CONVERSATION_LIST_SCREEN) {
-            ConversationsScreen(navController, conversationsViewModel(rememberToken()))
+            ConversationsScreen(navController, rememberConversationsViewModel(rememberAccessToken()))
         }
 
         composable(
@@ -88,7 +87,7 @@ fun NavGraph(startDestination: String) {
             backStackEntry.arguments?.let { args ->
                 val conversationType = args.getString("conversationType", "user")
                 val conversationId = args.getLong("conversationId", 386070111)
-                MessageHistoryScreen(navController, messageHistoryViewModel(conversationId, rememberToken()))
+                MessageHistoryScreen(navController, rememberMessageHistoryViewModel(conversationId, rememberAccessToken()))
             }
         }
     }

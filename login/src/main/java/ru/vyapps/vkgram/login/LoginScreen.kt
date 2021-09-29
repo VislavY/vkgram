@@ -1,6 +1,8 @@
 package ru.vyapps.vkgram.login
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.pm.ActivityInfo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -28,6 +30,7 @@ import ru.vyapps.vkgram.core.theme.BlueGrey700
 import ru.vyapps.vkgram.core.theme.Cyan500
 import ru.vyapps.vkgram.core.theme.Typography
 
+@SuppressLint("SourceLockedOrientationActivity")
 @Composable
 fun LoginScreen(
     navController: NavController = rememberNavController(),
@@ -68,6 +71,7 @@ fun LoginScreen(
     }
 
     val activity = (LocalContext.current as Activity)
+    activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     Box(
         modifier = Modifier.fillMaxHeight(),
         contentAlignment = Alignment.BottomCenter) {
