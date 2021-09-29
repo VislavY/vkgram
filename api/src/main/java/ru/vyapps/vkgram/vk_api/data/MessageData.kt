@@ -7,9 +7,9 @@ import java.util.*
 
 @Serializable
 data class Message(
-    val id: Long,
-    @SerialName("from_id") val userId: Long,
-    @SerialName("peer_id") val ConversationId: Long,
+    val id: Int,
+    @SerialName("from_id") val userId: Int,
+    @SerialName("peer_id") val ConversationId: Int,
     val text: String,
     @Serializable(DateSerializer::class) val date: Date,
     val out: Int,

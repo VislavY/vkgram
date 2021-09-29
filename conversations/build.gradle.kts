@@ -55,5 +55,6 @@ android {
         api(Libs.AndroidX.Hilt.hiltAndroid)
         kapt(Libs.AndroidX.Hilt.hiltCompiler)
 
+        api(Libs.VK.androidSdkApi)
     }
 }

@@ -14,13 +14,14 @@ data class ChatPhoto(
 
 @Serializable
 data class ChatSettings(
-    val title: String,
-    val photo: ChatPhoto? = null
+    var title: String = "",
+    var photo: ChatPhoto? = null,
+    @SerialName("active_ids") val activeIds: List<Int> = emptyList()
 )
 
 @Serializable
 data class Profile(
-    val id: Long,
+    val id: Int,
     @SerialName("first_name") val firstName: String,
     @SerialName("last_name") val lastName: String,
     @SerialName("photo_50") val photo50: String,
@@ -30,7 +31,7 @@ data class Profile(
 
 @Serializable
 data class Group(
-    val id: Long,
+    val id: Int,
     val name: String,
     @SerialName("photo_50") val photo50: String,
     @SerialName("photo_100") val photo100: String,
@@ -39,14 +40,8 @@ data class Group(
 
 @Serializable
 data class ConversationPeer(
-    val id: Long,
+    val id: Int,
     val type: String
-)
-
-@Serializable
-data class ConversationLastMessage(
-    val text: String,
-    @Serializable(DateSerializer::class) val date: Date
 )
 
 @Serializable
@@ -58,14 +53,14 @@ data class Conversation(
 @Serializable
 data class ConversationItem(
     val conversation: Conversation,
-    @SerialName("last_message") val lastMessage: ConversationLastMessage
+    @SerialName("last_message") val lastMessage: Message
 )
 
 @Serializable
 data class ConversationDataResponse(
     val items: List<ConversationItem>,
-    val profiles: List<Profile> = ArrayList(),
-    val groups: List<Group> = ArrayList()
+    val profiles: List<Profile> = emptyList(),
+    val groups: List<Group> = emptyList()
 )
 
 

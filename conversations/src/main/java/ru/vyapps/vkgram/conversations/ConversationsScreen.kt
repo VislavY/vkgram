@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -22,8 +23,10 @@ import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.vk.api.sdk.VK
 import ru.vyapps.vkgram.conversations.utils.LastMessageDate
 import ru.vyapps.vkgram.core.theme.BlueGrey800
+import ru.vyapps.vkgram.core.theme.Cyan500
 import ru.vyapps.vkgram.core.theme.Typography
 
 @ExperimentalCoilApi
@@ -102,7 +105,12 @@ fun Conversation(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = rememberImagePainter(conversation.avatar),
+            painter = rememberImagePainter(
+                conversation
+                .properties
+                .photo
+                ?.photo200
+            ),
             contentDescription = "Conversation image",
             modifier = Modifier
                 .clip(CircleShape)
@@ -114,7 +122,7 @@ fun Conversation(
         Column {
             Row {
                 Text(
-                    text = conversation.title,
+                    text = conversation.properties.title,
                     modifier = Modifier.weight(1f),
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
@@ -124,7 +132,7 @@ fun Conversation(
                 Spacer(Modifier.width(10.dp))
 
                 Text(
-                    text = LastMessageDate.timeDifference(conversation.lastMessageDate),
+                    text = LastMessageDate.timeDifference(conversation.lastMessage.date),
                     modifier = Modifier.padding(top = 5.dp),
                     maxLines = 1,
                     style = Typography.caption
@@ -133,13 +141,32 @@ fun Conversation(
 
             Spacer(Modifier.height(2.dp))
 
-            Text(
-                text = conversation.lastMessage,
-                modifier = Modifier.padding(end = 26.dp),
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
-                style = Typography.body1
-            )
+            Row {
+                if (conversation.type == "chat") {
+                    val lastMessagePrefix =
+                        if (VK.getUserId() != conversation.lastMessage.id)
+                            "${conversation.lastMessageAuthor}: " else ""
+                    Text(
+                        text = lastMessagePrefix,
+                        color = Cyan500,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1,
+                        style = Typography.body1
+                    )
+                }
+
+                val lastMessageFontWeight =
+                    if (VK.getUserId() == conversation.lastMessage.userId)
+                        FontWeight.Medium else FontWeight.Normal
+                Text(
+                    text = conversation.lastMessage.text,
+                    modifier = Modifier.padding(end = 26.dp),
+                    fontWeight = lastMessageFontWeight,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
+                    style = Typography.body1
+                )
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
 package ru.vyapps.vkgram.conversations.mappers
 
 import ru.vyapps.vkgram.conversations.Conversation
+import ru.vyapps.vkgram.vk_api.data.ChatPhoto
+import ru.vyapps.vkgram.vk_api.data.ChatSettings
 import ru.vyapps.vkgram.vk_api.data.ConversationData
 import javax.inject.Inject
 import kotlin.math.abs
@@ -16,15 +18,18 @@ class ConversationDataMapper @Inject constructor() {
                     Conversation(
                         id = conversation.peer.id,
                         type = conversation.peer.type,
-                        lastMessage = lastMessage.text,
-                        lastMessageDate = lastMessage.date
+                        properties = ChatSettings(),
+                        lastMessage = lastMessage
                     )
                 }
 
-                item.conversation.chatSettings?.let { chatSettings ->
-                    conversation.title = chatSettings.title
-                    chatSettings.photo?.let { photo ->
-                        conversation.avatar = photo.photo200
+                item.conversation.chatSettings?.let { properties ->
+                    conversation.properties = properties
+
+                    profiles.forEach { profile ->
+                        if (profile.id == conversation.lastMessage.userId) {
+                            conversation.lastMessageAuthor = profile.firstName
+                        }
                     }
                 }
 
@@ -32,8 +37,13 @@ class ConversationDataMapper @Inject constructor() {
                     "user" -> {
                         profiles.forEach { profile ->
                             if (conversation.id == profile.id) {
-                                conversation.avatar = profile.photo200
-                                conversation.title = "${profile.firstName} ${profile.lastName}"
+                                conversation.properties.photo = ChatPhoto(
+                                    profile.photo50,
+                                    profile.photo100,
+                                    profile.photo200
+                                )
+                                conversation.properties.title =
+                                    "${profile.firstName} ${profile.lastName}"
                             }
                         }
                     }
@@ -41,8 +51,12 @@ class ConversationDataMapper @Inject constructor() {
                     "group" -> {
                         groups.forEach { group ->
                             if (abs(conversation.id) == group.id) {
-                                conversation.avatar = group.photo200
-                                conversation.title = group.name
+                                conversation.properties.photo = ChatPhoto(
+                                    group.photo50,
+                                    group.photo100,
+                                    group.photo200
+                                )
+                                conversation.properties.title = group.name
                             }
                         }
                     }

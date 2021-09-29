@@ -1,12 +1,12 @@
 package ru.vyapps.vkgram.conversations
 
-import java.util.*
+import ru.vyapps.vkgram.vk_api.data.ChatSettings
+import ru.vyapps.vkgram.vk_api.data.Message
 
 data class Conversation(
-    val id: Long,
+    val id: Int,
     val type: String,
-    var avatar: String = "",
-    var title: String = "",
-    var lastMessage: String = "",
-    var lastMessageDate: Date
+    var properties: ChatSettings,
+    var lastMessage: Message,
+    var lastMessageAuthor: String = ""
 )
