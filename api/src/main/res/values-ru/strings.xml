@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="conversation_photo_content_desc">Фотография беседы</string>
+
+    <string name="album">Альбом</string>
+    <string name="audio">Аудио</string>
+    <string name="audio_message">Голосовое сообщение</string>
+    <string name="call">Звонок</string>
+    <string name="document">Документ</string>
+    <string name="gift">Подарок</string>
+    <string name="link">Ссылка</string>
+    <string name="market">Товар</string>
+    <string name="market_album">Подборка товаров</string>
+    <string name="photo">Фотография</string>
+    <string name="sticker">Стикер</string>
+    <string name="video">Видео</string>
+    <string name="vk_pay">VK Pay</string>
+    <string name="wall">Пост</string>
+    <string name="wall_reply">Комментарий к посту</string>
+</resources>

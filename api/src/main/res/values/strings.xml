@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="conversation_photo_content_desc">Conversation photo</string>
+
+    <string name="album">Album</string>
+    <string name="audio">Audio</string>
+    <string name="audio_message">Audio message</string>
+    <string name="call">Call</string>
+    <string name="document">Document</string>
+    <string name="gift">Gift</string>
+    <string name="link">Link</string>
+    <string name="market">Goods</string>
+    <string name="market_album">Selection of goods</string>
+    <string name="photo">Photo</string>
+    <string name="sticker">Sticker</string>
+    <string name="video">Video</string>
+    <string name="vk_pay">VK Pay</string>
+    <string name="wall">Post</string>
+    <string name="wall_reply">Post comment</string>
+</resources>

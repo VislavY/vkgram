@@ -11,7 +11,7 @@ import java.util.*
 internal object DateSerializer : KSerializer<Date> {
 
     override val descriptor: SerialDescriptor
-        get() = PrimitiveSerialDescriptor("Date", PrimitiveKind.LONG)
+        get() = PrimitiveSerialDescriptor("Date", PrimitiveKind.INT)
 
     override fun serialize(encoder: Encoder, value: Date) {
         val date = (value.time / 1000)

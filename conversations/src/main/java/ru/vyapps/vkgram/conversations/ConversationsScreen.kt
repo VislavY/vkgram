@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -27,7 +28,9 @@ import com.vk.api.sdk.VK
 import ru.vyapps.vkgram.conversations.utils.LastMessageDate
 import ru.vyapps.vkgram.core.theme.BlueGrey800
 import ru.vyapps.vkgram.core.theme.Cyan500
+import ru.vyapps.vkgram.core.theme.Shapes
 import ru.vyapps.vkgram.core.theme.Typography
+import ru.vyapps.vkgram.vk_api.AttachmentType
 
 @ExperimentalCoilApi
 @Composable
@@ -98,74 +101,100 @@ fun Conversation(
     conversation: Conversation,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            painter = rememberImagePainter(
-                conversation
-                .properties
-                .photo
-                ?.photo200
-            ),
-            contentDescription = "Conversation image",
-            modifier = Modifier
-                .clip(CircleShape)
-                .size(56.dp)
-        )
+    with (conversation) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = rememberImagePainter(properties.photo?.photo200),
+                contentDescription = stringResource(R.string.conversation_photo_content_desc),
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(56.dp)
+            )
 
-        Spacer(Modifier.width(16.dp))
+            Spacer(Modifier.width(16.dp))
 
-        Column {
-            Row {
-                Text(
-                    text = conversation.properties.title,
-                    modifier = Modifier.weight(1f),
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
-                    style = Typography.subtitle1
-                )
-
-                Spacer(Modifier.width(10.dp))
-
-                Text(
-                    text = LastMessageDate.timeDifference(conversation.lastMessage.date),
-                    modifier = Modifier.padding(top = 5.dp),
-                    maxLines = 1,
-                    style = Typography.caption
-                )
-            }
-
-            Spacer(Modifier.height(2.dp))
-
-            Row {
-                if (conversation.type == "chat") {
-                    val lastMessagePrefix =
-                        if (VK.getUserId() != conversation.lastMessage.id)
-                            "${conversation.lastMessageAuthor}: " else ""
+            Column {
+                Row {
                     Text(
-                        text = lastMessagePrefix,
-                        color = Cyan500,
+                        text = properties.title,
+                        modifier = Modifier.weight(1f),
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1,
+                        style = Typography.subtitle1
+                    )
+
+                    Spacer(Modifier.width(10.dp))
+
+                    Text(
+                        text = LastMessageDate.timeDifference(lastMessage.date),
+                        modifier = Modifier.padding(top = 5.dp),
+                        maxLines = 1,
+                        style = Typography.caption
+                    )
+                }
+
+                Spacer(Modifier.height(2.dp))
+
+                Row {
+                    if (type == "chat") {
+                        if (VK.getUserId() != lastMessage.userId) {
+                            Text(
+                                text = "${lastMessageAuthor}: ",
+                                color = Cyan500,
+                                style = Typography.body1
+                            )
+                        }
+                    }
+
+                    if (lastMessage.attachments.isNotEmpty()) {
+                        val attachment =
+                            if (lastMessage.attachments.size > 2) {
+                                stringResource(R.string.album)
+                            } else {
+                                when(lastMessage.attachments.first().type) {
+                                    AttachmentType.PHOTO -> stringResource(R.string.photo)
+                                    AttachmentType.VIDEO -> stringResource(R.string.video)
+                                    AttachmentType.AUDIO -> stringResource(R.string.audio)
+                                    AttachmentType.AUDIO_MESSAGE -> stringResource(R.string.audio_message)
+                                    AttachmentType.CALL -> stringResource(R.string.call)
+                                    AttachmentType.DOCUMENT -> stringResource(R.string.document)
+                                    AttachmentType.LINK -> stringResource(R.string.link)
+                                    AttachmentType.MARKET -> stringResource(R.string.market)
+                                    AttachmentType.MARKET_ALBUM -> stringResource(R.string.market_album)
+                                    AttachmentType.VKPAY -> stringResource(R.string.vk_pay)
+                                    AttachmentType.WALL -> stringResource(R.string.wall)
+                                    AttachmentType.WALL_REPLY -> stringResource(R.string.wall_reply)
+                                    AttachmentType.STICKER -> stringResource(R.string.sticker)
+                                    AttachmentType.GIFT -> stringResource(R.string.gift)
+                                    else -> ""
+                                }
+                            }
+
+                        val suffix = if (lastMessage.text.isBlank()) "" else ", "
+                        Text(
+                            text = (attachment + suffix),
+                            color = Cyan500,
+                            style = Typography.body1
+                        )
+                    }
+
+                    val lastMessageFontWeight =
+                        if (VK.getUserId() == lastMessage.userId)
+                            FontWeight.Medium else FontWeight.Normal
+                    Text(
+                        text = lastMessage.text,
+                        modifier = Modifier.padding(end = 26.dp),
+                        fontWeight = lastMessageFontWeight,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1,
                         style = Typography.body1
                     )
                 }
-
-                val lastMessageFontWeight =
-                    if (VK.getUserId() == conversation.lastMessage.userId)
-                        FontWeight.Medium else FontWeight.Normal
-                Text(
-                    text = conversation.lastMessage.text,
-                    modifier = Modifier.padding(end = 26.dp),
-                    fontWeight = lastMessageFontWeight,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
-                    style = Typography.body1
-                )
             }
         }
     }

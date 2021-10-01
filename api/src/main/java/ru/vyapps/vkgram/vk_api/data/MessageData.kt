@@ -11,6 +11,7 @@ data class Message(
     @SerialName("from_id") val userId: Int,
     @SerialName("peer_id") val ConversationId: Int,
     val text: String,
+    val attachments: List<Attachment>,
     @Serializable(DateSerializer::class) val date: Date,
     val out: Int,
 )
