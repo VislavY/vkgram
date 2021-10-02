@@ -61,11 +61,12 @@ dependencies {
     implementation Libs.AndroidX.coreKtx
     implementation Libs.AndroidX.appcompat
 
+    implementation Libs.AndroidX.Navigation.navigationCompose
+    implementation Libs.Google.accompanistNavigationAnimation
+
     implementation Libs.AndroidX.Hilt.hiltAndroid
     implementation Libs.AndroidX.Hilt.hiltNavigationCompose
     kapt Libs.AndroidX.Hilt.hiltCompiler
-
-    implementation Libs.AndroidX.Navigation.navigationCompose
 
     implementation Libs.VK.androidSdkApi
 }

@@ -39,7 +39,10 @@ object Libs {
     }
 
     object Google {
-        const val accompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:0.19.0"
+        const val version = "0.19.0"
+
+        const val accompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:${version}"
+        const val accompanistNavigationAnimation = "com.google.accompanist:accompanist-navigation-animation:${version}"
     }
 
     object Coil {

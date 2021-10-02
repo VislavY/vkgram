@@ -5,6 +5,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -29,6 +31,7 @@ import coil.transform.CircleCropTransformation
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.vk.api.sdk.VK
 import ru.vyapps.vkgram.conversations.utils.LastMessageDate
+import ru.vyapps.vkgram.core.theme.BlueGrey50
 import ru.vyapps.vkgram.core.theme.BlueGrey800
 import ru.vyapps.vkgram.core.theme.Cyan500
 import ru.vyapps.vkgram.core.theme.Typography
@@ -66,34 +69,38 @@ fun ConversationsScreen(
         isFloatingActionButtonDocked = true,
         floatingActionButtonPosition = FabPosition.Center,
         bottomBar = {
-            BottomAppBar(
-                backgroundColor = BlueGrey800,
-                cutoutShape = RoundedCornerShape(50)
-            ) {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(
-                        imageVector = Icons.Rounded.Menu,
-                        contentDescription = null,
-                        tint = Color.White
-                    )
-                }
-
-                Spacer(Modifier.weight(1f))
-
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(
-                        imageVector = Icons.Rounded.Search,
-                        contentDescription = null,
-                        tint = Color.White
-                    )
-                }
-            }
+            ConversationsBottomBar()
         }
     )
 
     DisposableEffect(Unit) {
         onDispose {
             systemUiController.setNavigationBarColor(Color.White)
+        }
+    }
+}
+
+@Composable
+fun ConversationsBottomBar() {
+    BottomAppBar(
+        backgroundColor = BlueGrey800,
+        contentColor = Color.White,
+        cutoutShape = RoundedCornerShape(50)
+    ) {
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(
+                imageVector = Icons.Rounded.Menu,
+                contentDescription = null
+            )
+        }
+
+        Spacer(Modifier.weight(1f, true))
+
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(
+                imageVector = Icons.Rounded.Search,
+                contentDescription = null
+            )
         }
     }
 }
