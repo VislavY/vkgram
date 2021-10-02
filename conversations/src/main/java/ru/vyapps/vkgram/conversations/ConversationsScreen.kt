@@ -5,9 +5,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.BottomAppBar
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Menu
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,15 +49,44 @@ fun ConversationsScreen(
     Scaffold(
         content = { padding  ->
             val modifier = Modifier.padding(padding)
-            ConversationListContent(
+            ConversationsContent(
                 modifier,
                 navController,
                 viewModel
             )
         },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { /*TODO*/ }) {
+                Icon(
+                    imageVector = Icons.Rounded.Add,
+                    contentDescription = null
+                )
+            }
+        },
+        isFloatingActionButtonDocked = true,
+        floatingActionButtonPosition = FabPosition.Center,
         bottomBar = {
-            BottomAppBar(backgroundColor = BlueGrey800) {
+            BottomAppBar(
+                backgroundColor = BlueGrey800,
+                cutoutShape = RoundedCornerShape(50)
+            ) {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        imageVector = Icons.Rounded.Menu,
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                }
 
+                Spacer(Modifier.weight(1f))
+
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        imageVector = Icons.Rounded.Search,
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                }
             }
         }
     )
@@ -67,7 +100,7 @@ fun ConversationsScreen(
 
 @ExperimentalCoilApi
 @Composable
-fun ConversationListContent(
+fun ConversationsContent(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     viewModel: ConversationsViewModel = viewModel()
