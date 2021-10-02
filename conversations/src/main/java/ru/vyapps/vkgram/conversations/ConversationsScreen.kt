@@ -5,14 +5,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -23,12 +21,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import coil.transform.CircleCropTransformation
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.vk.api.sdk.VK
 import ru.vyapps.vkgram.conversations.utils.LastMessageDate
 import ru.vyapps.vkgram.core.theme.BlueGrey800
 import ru.vyapps.vkgram.core.theme.Cyan500
-import ru.vyapps.vkgram.core.theme.Shapes
 import ru.vyapps.vkgram.core.theme.Typography
 import ru.vyapps.vkgram.vk_api.AttachmentType
 
@@ -109,10 +107,16 @@ fun Conversation(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = rememberImagePainter(properties.photo?.photo200),
+                painter = rememberImagePainter(
+                    properties.photo?.photo200,
+                    builder = {
+                        crossfade(true)
+                        placeholder(R.drawable.photo_placeholder)
+                        transformations(CircleCropTransformation())
+                    }
+                ),
                 contentDescription = stringResource(R.string.conversation_photo_content_desc),
                 modifier = Modifier
-                    .clip(CircleShape)
                     .size(56.dp)
             )
 
@@ -156,7 +160,7 @@ fun Conversation(
                             if (lastMessage.attachments.size > 2) {
                                 stringResource(R.string.album)
                             } else {
-                                when(lastMessage.attachments.first().type) {
+                                when (lastMessage.attachments.first().type) {
                                     AttachmentType.PHOTO -> stringResource(R.string.photo)
                                     AttachmentType.VIDEO -> stringResource(R.string.video)
                                     AttachmentType.AUDIO -> stringResource(R.string.audio)
