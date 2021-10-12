@@ -17,10 +17,10 @@ class MessageRepoImpl @Inject constructor(
         accessToken: String
     ): List<Message> {
         val messageData = vkService.getMessagesByConversationId(
+            accessToken,
             conversationId,
             count,
-            offset,
-            accessToken
+            offset
         )
         return messageDataMapper.map(messageData)
     }

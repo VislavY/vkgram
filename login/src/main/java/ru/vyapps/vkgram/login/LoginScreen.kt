@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonColors
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +23,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.vk.api.sdk.VK
+import kotlinx.coroutines.delay
 import ru.vyapps.vkgram.core.theme.BlueGrey300
 import ru.vyapps.vkgram.core.theme.BlueGrey700
 import ru.vyapps.vkgram.core.theme.Cyan500
@@ -39,6 +39,16 @@ fun LoginScreen(
     val systemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.setStatusBarColor(Cyan500)
+    }
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            if (VK.isLoggedIn()) {
+                navController.navigate("conversations_screen")
+            }
+
+            delay(1000)
+        }
     }
 
     Column {
@@ -60,7 +70,7 @@ fun LoginScreen(
             style = Typography.h4
         )
 
-        Text(
+        Text(   
             text = stringResource(R.string.login_thanks_body),
             modifier = Modifier.padding(
                 horizontal = 24.dp,

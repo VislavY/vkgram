@@ -28,8 +28,11 @@ android {
 dependencies {
     api(Libs.AndroidX.coreKtx)
     api(Libs.AndroidX.appcompat)
+    api(Libs.KotlinX.kotlinXCoroutinesCore)
 
     api(Libs.KotlinX.kotlinXSerializationJson)
+    api("com.squareup.okhttp3:okhttp:4.9.1")
+    api("ru.gildor.coroutines:kotlin-coroutines-okhttp:1.0")
     api(Libs.Retrofit.retrofit)
     api(Libs.Retrofit.retrofitKotlinXSerializationConverter)
 }

@@ -23,7 +23,7 @@ import ru.vyapps.vkgram.message_history.MessageHistoryScreen
 
 object Destinations {
     const val LOGIN_SCREEN = "login_screen"
-    const val CONVERSATION_LIST_SCREEN = "conversation_list_screen"
+    const val CONVERSATION_LIST_SCREEN = "conversations_screen"
     const val MESSAGE_HISTORY_SCREEN= "message_history_screen"
 }
 

@@ -11,12 +11,11 @@ import javax.inject.Inject
 ) : ConversationRepo {
 
     override suspend fun getConversations(
+        accessToken: String,
         count: Int,
-        offset: Int,
-        accessToken: String
+        offset: Int
     ): List<Conversation> {
-        val conversationData = vkService.getConversations(count, offset, accessToken)
-
+        val conversationData = vkService.getConversations(accessToken, count, offset)
         return conversationDataMapper.map(conversationData)
     }
-}
+ }

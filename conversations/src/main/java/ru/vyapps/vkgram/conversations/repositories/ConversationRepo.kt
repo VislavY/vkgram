@@ -5,8 +5,8 @@ import ru.vyapps.vkgram.conversations.Conversation
 interface ConversationRepo {
 
     suspend fun getConversations(
+        accessToken: String,
         count: Int,
-        offset: Int,
-        accessToken: String
+        offset: Int
     ): List<Conversation>
 }
