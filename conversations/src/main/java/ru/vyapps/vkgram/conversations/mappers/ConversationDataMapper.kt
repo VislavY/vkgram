@@ -19,6 +19,8 @@ class ConversationDataMapper @Inject constructor() {
                         id = conversation.peer.id,
                         type = conversation.peer.type,
                         properties = ChatSettings(),
+                        unreadMessageCount = conversation.unreadMessageCount,
+                        lastReadMessageId = conversation.lastReadMessageId,
                         lastMessage = lastMessage
                     )
                 }

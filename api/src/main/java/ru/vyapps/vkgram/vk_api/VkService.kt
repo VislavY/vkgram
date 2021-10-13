@@ -32,7 +32,7 @@ interface VkService {
     @GET("users.get?fields=photo_50,photo_100,photo_200&v=5.131")
     suspend fun getUserById(
         @Query("access_token") accessToken: String,
-        @Query("user_ids") userId: Long
+        @Query("user_ids") ids: IntArray
     ): UserData
 
     @GET("messages.send?random_id=0&v=5.131")

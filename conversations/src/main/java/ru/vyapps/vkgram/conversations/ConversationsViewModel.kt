@@ -1,8 +1,10 @@
 package ru.vyapps.vkgram.conversations
 
+import android.service.autofill.UserData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.vk.api.sdk.VK
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -11,17 +13,25 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 import ru.vyapps.vkgram.conversations.repositories.ConversationRepo
 import ru.vyapps.vkgram.conversations.repositories.LongPollServerRepo
+import ru.vyapps.vkgram.conversations.repositories.UserRepo
 import ru.vyapps.vkgram.vk_api.EventFlag
 import ru.vyapps.vkgram.vk_api.LongPollServerManager
+import ru.vyapps.vkgram.vk_api.data.User
 
 class ConversationsViewModel @AssistedInject constructor(
     @Assisted private val accessToken: String,
     private val conversationRepo: ConversationRepo,
-    private val longPollServerRepo: LongPollServerRepo
+    private val longPollServerRepo: LongPollServerRepo,
+    private val userRepo: UserRepo
 ) : ViewModel() {
 
     private val _conversations = MutableStateFlow<List<Conversation>>(emptyList())
     val conversations = _conversations.asStateFlow()
+
+    val user = flow {
+        val receivedUser = userRepo.getUsersById(accessToken, VK.getUserId()).response
+        emit(receivedUser.first())
+    }
 
     init {
         getConversations()
@@ -65,7 +75,7 @@ class ConversationsViewModel @AssistedInject constructor(
             }
 
             conversationsCopy.add(0, updatedConversation)
-            _conversations.compareAndSet(conversations.value, conversationsCopy)
+            _conversations.emit(conversationsCopy)
         }
     }
 

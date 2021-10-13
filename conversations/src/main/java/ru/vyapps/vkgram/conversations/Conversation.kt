@@ -7,6 +7,8 @@ data class Conversation(
     val id: Int,
     val type: String,
     var properties: ChatSettings,
+    val unreadMessageCount: Int,
+    val lastReadMessageId: Int,
     var lastMessage: Message,
     var lastMessageAuthor: String = ""
 )

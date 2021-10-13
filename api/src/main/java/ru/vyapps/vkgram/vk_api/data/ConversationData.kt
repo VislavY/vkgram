@@ -47,6 +47,8 @@ data class ConversationPeer(
 @Serializable
 data class Conversation(
     val peer: ConversationPeer,
+    @SerialName("out_read") val lastReadMessageId: Int,
+    @SerialName("unread_count") val unreadMessageCount: Int = 0,
     @SerialName("chat_settings") val chatSettings: ChatSettings? = null,
 )
 

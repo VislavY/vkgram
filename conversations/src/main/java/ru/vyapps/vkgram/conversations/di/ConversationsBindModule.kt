@@ -4,10 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.vyapps.vkgram.conversations.repositories.ConversationRepo
-import ru.vyapps.vkgram.conversations.repositories.ConversationRepoImpl
-import ru.vyapps.vkgram.conversations.repositories.LongPollServerRepo
-import ru.vyapps.vkgram.conversations.repositories.LongPollServerRepoImpl
+import ru.vyapps.vkgram.conversations.repositories.*
 
 @Suppress("UNUSED")
 @Module
@@ -19,4 +16,7 @@ interface ConversationsBindModule {
 
     @Binds
     fun bindLongPollServerRepo(impl: LongPollServerRepoImpl): LongPollServerRepo
+
+    @Binds
+    fun bindUserRepo(impl: UserRepoImpl): UserRepo
 }

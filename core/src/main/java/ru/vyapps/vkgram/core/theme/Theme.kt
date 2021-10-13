@@ -1,10 +1,7 @@
 package ru.vyapps.vkgram.core.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
-import androidx.compose.runtime.Composable
 
 private val DarkColorPalette = darkColors(
     primary = Purple200,
@@ -13,7 +10,7 @@ private val DarkColorPalette = darkColors(
 )
 
 private val LightColorPalette = lightColors(
-    primary = BlueGrey800,
+    primary = BlueGrey900,
     primaryVariant = Purple700,
     secondary = Teal200,
 
@@ -26,19 +23,3 @@ private val LightColorPalette = lightColors(
     onSurface = Color.Black,
     */
 )
-
-@Composable
-fun VKgramTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
-    }
-
-    MaterialTheme(
-        colors = colors,
-        typography = Typography,
-        shapes = Shapes,
-        content = content
-    )
-}

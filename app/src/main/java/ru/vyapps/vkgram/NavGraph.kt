@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.compose.animation.*
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -66,6 +67,7 @@ fun rememberAccessToken(): String {
     return if (token.isNullOrBlank()) "" else token
 }
 
+@ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @ExperimentalCoilApi
 @Composable

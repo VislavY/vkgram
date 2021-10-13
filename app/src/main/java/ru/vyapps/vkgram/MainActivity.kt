@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import coil.annotation.ExperimentalCoilApi
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
@@ -23,6 +24,7 @@ import ru.vyapps.vkgram.message_history.MessageHistoryViewModel
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    @ExperimentalMaterialApi
     @ExperimentalCoilApi
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
