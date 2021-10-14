@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ru.vyapps.vkgram.conversations">
+    package="ru.vyapps.vkgram.home">
 
 </manifest>

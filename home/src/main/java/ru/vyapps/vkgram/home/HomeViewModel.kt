@@ -1,6 +1,5 @@
-package ru.vyapps.vkgram.conversations
+package ru.vyapps.vkgram.home
 
-import android.service.autofill.UserData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -10,15 +9,14 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.serialization.ExperimentalSerializationApi
-import ru.vyapps.vkgram.conversations.repositories.ConversationRepo
-import ru.vyapps.vkgram.conversations.repositories.LongPollServerRepo
-import ru.vyapps.vkgram.conversations.repositories.UserRepo
+import ru.vyapps.vkgram.home.repositories.ConversationRepo
+import ru.vyapps.vkgram.home.repositories.LongPollServerRepo
+import ru.vyapps.vkgram.home.repositories.UserRepo
 import ru.vyapps.vkgram.vk_api.EventFlag
 import ru.vyapps.vkgram.vk_api.LongPollServerManager
-import ru.vyapps.vkgram.vk_api.data.User
+import ru.vyapps.vkgram.vk_api.data.Friend
 
-class ConversationsViewModel @AssistedInject constructor(
+class HomeViewModel @AssistedInject constructor(
     @Assisted private val accessToken: String,
     private val conversationRepo: ConversationRepo,
     private val longPollServerRepo: LongPollServerRepo,
@@ -28,12 +26,16 @@ class ConversationsViewModel @AssistedInject constructor(
     private val _conversations = MutableStateFlow<List<Conversation>>(emptyList())
     val conversations = _conversations.asStateFlow()
 
+    private val _friends = MutableStateFlow<List<Friend>>(emptyList())
+    val friends = _friends.asStateFlow()
+
     val user = flow {
         val receivedUser = userRepo.getUsersById(accessToken, VK.getUserId()).response
         emit(receivedUser.first())
     }
 
     init {
+        getFriends()
         getConversations()
 
         viewModelScope.launch {
@@ -55,6 +57,29 @@ class ConversationsViewModel @AssistedInject constructor(
                 offset = offset,
             )
            _conversations.value = (conversations.value + receivedConversations)
+        }
+    }
+
+    fun getFriends(offset: Int = 0) {
+        viewModelScope.launch {
+            val receivedFriends = userRepo.getFriends(
+                accessToken = accessToken,
+                count = FRIENDS_COUNT,
+                offset = offset
+            ).response.friends
+            _friends.emit(friends.value + receivedFriends)
+        }
+    }
+
+    fun addFriend(id: Int) {
+        viewModelScope.launch {
+            userRepo.addFriend(accessToken, id)
+        }
+    }
+
+    fun deleteFriend(id: Int) {
+        viewModelScope.launch {
+            userRepo.deleteFriend(accessToken, id)
         }
     }
 
@@ -82,12 +107,13 @@ class ConversationsViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory {
 
-        fun create(accessToken: String): ConversationsViewModel
+        fun create(accessToken: String): HomeViewModel
     }
 
     companion object {
 
         private const val CONVERSATION_COUNT = 20
+        private const val FRIENDS_COUNT = 20
 
         fun provideFactory(
             factory: Factory,

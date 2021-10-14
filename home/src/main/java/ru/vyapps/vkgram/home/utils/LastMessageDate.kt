@@ -1,4 +1,4 @@
-package ru.vyapps.vkgram.conversations.utils
+package ru.vyapps.vkgram.home.utils
 
 import java.text.SimpleDateFormat
 import java.util.*

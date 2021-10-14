@@ -1,4 +1,4 @@
-package ru.vyapps.vkgram.conversations.repositories
+package ru.vyapps.vkgram.home.repositories
 
 import ru.vyapps.vkgram.vk_api.VkService
 import ru.vyapps.vkgram.vk_api.data.LongPollServerResponse

@@ -7,10 +7,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import retrofit2.Retrofit
     import retrofit2.http.GET
 import retrofit2.http.Query
-import ru.vyapps.vkgram.vk_api.data.ConversationData
-import ru.vyapps.vkgram.vk_api.data.LongPollServerResponse
-import ru.vyapps.vkgram.vk_api.data.MessageData
-import ru.vyapps.vkgram.vk_api.data.UserData
+import ru.vyapps.vkgram.vk_api.data.*
 
 interface VkService {
 
@@ -34,6 +31,25 @@ interface VkService {
         @Query("access_token") accessToken: String,
         @Query("user_ids") ids: IntArray
     ): UserData
+
+    @GET("friends.get?fields=domain,photo_200&order=hints&v=5.131")
+    suspend fun getFriends(
+        @Query("access_token") accessToken: String,
+        @Query("count") count: Int,
+        @Query("offset") offset: Int
+    ): FriendData
+
+    @GET("friends.add?v=5.131")
+    suspend fun addFriend(
+        @Query("access_token") accessToken: String,
+        @Query("user_id") id: Int
+    )
+
+    @GET("friends.delete?v=5.131")
+    suspend fun deleteFriend(
+        @Query("access_token") accessToken: String,
+        @Query("user_id") id: Int
+    )
 
     @GET("messages.send?random_id=0&v=5.131")
     suspend fun sendMessage(

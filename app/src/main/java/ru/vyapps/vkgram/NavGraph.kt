@@ -3,7 +3,6 @@ package ru.vyapps.vkgram
 import android.app.Activity
 import android.content.Context
 import androidx.compose.animation.*
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -15,9 +14,10 @@ import coil.annotation.ExperimentalCoilApi
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.EntryPointAccessors
-import ru.vyapps.vkgram.conversations.ConversationsScreen
-import ru.vyapps.vkgram.conversations.ConversationsViewModel
+import ru.vyapps.vkgram.home.HomeScreen
+import ru.vyapps.vkgram.home.HomeViewModel
 import ru.vyapps.vkgram.login.LoginScreen
 import ru.vyapps.vkgram.message_history.MessageHistoryViewModel
 import ru.vyapps.vkgram.message_history.MessageHistoryScreen
@@ -29,14 +29,14 @@ object Destinations {
 }
 
 @Composable
-fun rememberConversationsViewModel(accessToken: String): ConversationsViewModel {
+fun rememberHomeViewModel(accessToken: String): HomeViewModel {
     val factory = EntryPointAccessors.fromActivity(
         LocalContext.current as Activity,
         MainActivity.ViewModelFactoryProvider::class.java
-    ).provideConversationsViewModelFactory()
+    ).provideHomeViewModelFactory()
 
     return viewModel(
-        factory = ConversationsViewModel.provideFactory(factory, accessToken)
+        factory = HomeViewModel.provideFactory(factory, accessToken)
     )
 }
 
@@ -67,6 +67,7 @@ fun rememberAccessToken(): String {
     return if (token.isNullOrBlank()) "" else token
 }
 
+@ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @ExperimentalCoilApi
@@ -96,7 +97,7 @@ fun NavGraph(startDestination: String) {
                 fadeOut(animationSpec = tween(0))
             }
         ) {
-            ConversationsScreen(navController, rememberConversationsViewModel(rememberAccessToken()))
+            HomeScreen(navController, rememberHomeViewModel(rememberAccessToken()))
         }
 
         composable(

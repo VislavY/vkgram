@@ -2,8 +2,6 @@ package ru.vyapps.vkgram
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ActivityInfo
-import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -11,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import coil.annotation.ExperimentalCoilApi
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
@@ -18,12 +17,13 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.components.ActivityComponent
-import ru.vyapps.vkgram.conversations.ConversationsViewModel
+import ru.vyapps.vkgram.home.HomeViewModel
 import ru.vyapps.vkgram.message_history.MessageHistoryViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    @ExperimentalPagerApi
     @ExperimentalMaterialApi
     @ExperimentalCoilApi
     @ExperimentalAnimationApi
@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
     @InstallIn(ActivityComponent::class)
     interface ViewModelFactoryProvider {
 
-        fun provideConversationsViewModelFactory(): ConversationsViewModel.Factory
+        fun provideHomeViewModelFactory(): HomeViewModel.Factory
 
         fun provideMessageHistoryViewModelFactory(): MessageHistoryViewModel.Factory
     }

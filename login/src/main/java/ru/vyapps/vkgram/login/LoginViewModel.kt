@@ -9,7 +9,8 @@ class LoginViewModel : ViewModel() {
 
     fun login(activity: Activity) {
         val scopes = listOf(
-            VKScope.MESSAGES
+            VKScope.MESSAGES,
+            VKScope.FRIENDS
         )
         VK.login(activity, scopes)
     }

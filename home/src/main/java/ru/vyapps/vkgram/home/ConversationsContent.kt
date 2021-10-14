@@ -1,4 +1,4 @@
-package ru.vyapps.vkgram.conversations
+package ru.vyapps.vkgram.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -7,175 +7,57 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Done
-import androidx.compose.material.icons.rounded.Search
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.vk.api.sdk.VK
-import ru.vyapps.vkgram.conversations.utils.LastMessageDate
-import ru.vyapps.vkgram.core.theme.*
+import ru.vyapps.vkgram.home.utils.LastMessageDate
+import ru.vyapps.vkgram.core.theme.BlueGrey300
+import ru.vyapps.vkgram.core.theme.BlueGrey900
+import ru.vyapps.vkgram.core.theme.LightBlue500
+import ru.vyapps.vkgram.core.theme.Typography
 import ru.vyapps.vkgram.vk_api.AttachmentType
-
-@ExperimentalMaterialApi
-@ExperimentalCoilApi
-@Composable
-fun ConversationsScreen(
-    navController: NavHostController = rememberNavController(),
-    viewModel: ConversationsViewModel = viewModel()
-) {
-    val systemUiController = rememberSystemUiController()
-    SideEffect {
-        systemUiController.setSystemBarsColor(Color.White)
-    }
-
-    Scaffold(
-        topBar = {
-            ConversationsTopBar(viewModel)
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { /*TODO*/ },
-                modifier = Modifier.padding(bottom = 16.dp),
-                backgroundColor = LightBlue500,
-                contentColor = Color.White
-            ) {
-                Icon(Icons.Rounded.Add, null)
-            }
-        }
-    ) { padding ->
-        val modifier = Modifier.padding(padding)
-        ConversationsContent(
-            modifier = modifier,
-            navController = navController,
-            viewModel = viewModel
-        )
-    }
-}
-
-@ExperimentalCoilApi
-@Composable
-fun ConversationsTopBar(viewModel: ConversationsViewModel = viewModel()) {
-    TopAppBar(
-        modifier = Modifier.padding(start = 16.dp),
-        backgroundColor = Color.White,
-        elevation = 0.dp
-    ) {
-        val user = viewModel.user.collectAsState(null)
-        Image(
-            painter = rememberImagePainter(
-                user.value?.photo200,
-                builder = {
-                    crossfade(true)
-                    placeholder(R.drawable.photo_placeholder)
-                    transformations(CircleCropTransformation())
-                }
-            ),
-            contentDescription = null,
-            modifier = Modifier.size(48.dp)
-        )
-
-        Spacer(Modifier.weight(1f))
-
-        IconButton(onClick = { /*TODO*/ }) {
-            Icon(
-                imageVector = Icons.Rounded.Search,
-                contentDescription = null,
-                tint = BlueGrey700
-            )
-        }
-    }
-}
-
-@Composable
-fun ConversationsTabRow(modifier: Modifier = Modifier) {
-    val titles = listOf("Беседы", "Друзья")
-
-    val tabIndexState by remember { mutableStateOf(0) }
-    Box(
-        modifier = modifier
-            .background(BlueGrey50, RoundedCornerShape(8.dp))
-            .fillMaxWidth()
-    ) {
-        Row {
-            titles.forEachIndexed { index, title ->
-                val isSelected = index == tabIndexState
-                Surface(
-                    modifier = Modifier
-                        .padding(4.dp)
-                        .weight(1f),
-                    shape = RoundedCornerShape(8.dp),
-                    color = if (isSelected) Color.White else BlueGrey50,
-                    elevation = if (isSelected) 8.dp else 0.dp,
-                ) {
-                    Tab(
-                        selected = isSelected,
-                        onClick = {},
-                        content = {
-                            Text(
-                                text = title,
-                                modifier = Modifier.padding(vertical = 4.dp),
-                                color = if (isSelected) BlueGrey900 else BlueGrey300,
-                                style = Typography.h6
-                            )
-                        }
-                    )
-                }
-            }
-        }
-    }
-}
 
 @ExperimentalCoilApi
 @Composable
 fun ConversationsContent(
-    modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
-    viewModel: ConversationsViewModel = viewModel()
+    navController: NavController = rememberNavController(),
+    viewModel: HomeViewModel = viewModel()
 ) {
-    Column(modifier.padding(top = 16.dp)) {
-        ConversationsTabRow(Modifier.padding(horizontal = 16.dp))
+    val conversationsState = viewModel.conversations.collectAsState(emptyList())
+    with(conversationsState) {
+        LazyColumn() {
+            itemsIndexed(value) { index, conversation ->
+                ConversationItem(
+                    conversation,
+                    modifier = Modifier
+                        .clickable {
+                            navController.navigate(
+                                "message_history_screen/"
+                                        + "${conversation.type}/"
+                                        + "${conversation.id}"
+                            )
+                        }
+                        .padding(16.dp, 8.dp)
+                )
 
-        Spacer(Modifier.height(24.dp))
-
-        val conversationsState = viewModel.conversations.collectAsState(emptyList())
-        with(conversationsState) {
-            LazyColumn() {
-                itemsIndexed(value) { index, conversation ->
-                    ConversationItem(
-                        conversation,
-                        modifier = Modifier
-                            .clickable {
-                                navController.navigate(
-                                    "message_history_screen/"
-                                            + "${conversation.type}/"
-                                            + "${conversation.id}"
-                                )
-                            }
-                            .padding(16.dp, 8.dp)
-                    )
-
-                    if (index == (value.size - 5)) {
-                        viewModel.getConversations(value.size)
-                    }
+                if (index == (value.size - 5)) {
+                    viewModel.getConversations(value.size)
                 }
             }
         }
@@ -192,7 +74,7 @@ fun ConversationItem(
         with(conversation) {
             Image(
                 painter = rememberImagePainter(
-                    properties.photo?.photo200,
+                    data = properties.photo?.photo200,
                     builder = {
                         crossfade(true)
                         placeholder(R.drawable.photo_placeholder)

@@ -1,6 +1,6 @@
-package ru.vyapps.vkgram.conversations.repositories
+package ru.vyapps.vkgram.home.repositories
 
-import ru.vyapps.vkgram.conversations.Conversation
+import ru.vyapps.vkgram.home.Conversation
 
 interface ConversationRepo {
 

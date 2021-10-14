@@ -1,6 +1,6 @@
-package ru.vyapps.vkgram.conversations.mappers
+package ru.vyapps.vkgram.home.mappers
 
-import ru.vyapps.vkgram.conversations.Conversation
+import ru.vyapps.vkgram.home.Conversation
 import ru.vyapps.vkgram.vk_api.data.ChatPhoto
 import ru.vyapps.vkgram.vk_api.data.ChatSettings
 import ru.vyapps.vkgram.vk_api.data.ConversationData

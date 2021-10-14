@@ -1,4 +1,4 @@
-package ru.vyapps.vkgram.conversations
+package ru.vyapps.vkgram.home
 
 import ru.vyapps.vkgram.vk_api.data.ChatSettings
 import ru.vyapps.vkgram.vk_api.data.Message

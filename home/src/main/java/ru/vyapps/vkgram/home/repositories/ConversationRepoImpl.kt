@@ -1,7 +1,7 @@
-package ru.vyapps.vkgram.conversations.repositories
+package ru.vyapps.vkgram.home.repositories
 
-import ru.vyapps.vkgram.conversations.Conversation
-import ru.vyapps.vkgram.conversations.mappers.ConversationDataMapper
+import ru.vyapps.vkgram.home.Conversation
+import ru.vyapps.vkgram.home.mappers.ConversationDataMapper
 import ru.vyapps.vkgram.vk_api.VkService
 import javax.inject.Inject
 
