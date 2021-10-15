@@ -77,7 +77,7 @@ fun ConversationItem(
                     data = properties.photo?.photo200,
                     builder = {
                         crossfade(true)
-                        placeholder(R.drawable.photo_placeholder)
+                        placeholder(R.drawable.photo_placeholder_56)
                         transformations(CircleCropTransformation())
                     }
                 ),

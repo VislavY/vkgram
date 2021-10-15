@@ -17,8 +17,10 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.components.ActivityComponent
+import ru.vyapps.vkgram.core.Destinations
 import ru.vyapps.vkgram.home.HomeViewModel
 import ru.vyapps.vkgram.message_history.MessageHistoryViewModel
+import ru.vyapps.vkgram.profile.ProfileViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -32,7 +34,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val startDestination = if (VK.isLoggedIn())
-                Destinations.CONVERSATION_LIST_SCREEN else Destinations.LOGIN_SCREEN
+                Destinations.HOME_SCREEN else Destinations.LOGIN_SCREEN
             NavGraph(startDestination)
         }
     }
@@ -83,5 +85,7 @@ class MainActivity : ComponentActivity() {
         fun provideHomeViewModelFactory(): HomeViewModel.Factory
 
         fun provideMessageHistoryViewModelFactory(): MessageHistoryViewModel.Factory
+
+        fun provideProfileViewModelFactory(): ProfileViewModel.Factory
     }
 }

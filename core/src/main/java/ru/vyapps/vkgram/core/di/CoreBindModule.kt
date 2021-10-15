@@ -1,4 +1,4 @@
-package ru.vyapps.vkgram.home.di
+package ru.vyapps.vkgram.core.di
 
 import dagger.Binds
 import dagger.Module
@@ -6,16 +6,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ru.vyapps.vkgram.core.repositories.UserRepo
 import ru.vyapps.vkgram.core.repositories.UserRepoImpl
-import ru.vyapps.vkgram.home.repositories.*
 
 @Suppress("UNUSED")
 @Module
 @InstallIn(SingletonComponent::class)
-interface ConversationsBindModule {
+interface CoreBindModule {
 
     @Binds
-    fun bindConversationRepo(impl: ConversationRepoImpl): ConversationRepo
-
-    @Binds
-    fun bindLongPollServerRepo(impl: LongPollServerRepoImpl): LongPollServerRepo
+    fun bindUserRepo(impl: UserRepoImpl): UserRepo
 }

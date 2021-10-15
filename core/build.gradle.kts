@@ -2,7 +2,8 @@ import ru.vyapps.vkgram.buildsrc.Libs
 
 plugins {
     id("com.android.library")
-    id("kotlin-android")
+    kotlin("android")
+    kotlin("kapt")
 }
 
 android {
@@ -24,9 +25,14 @@ android {
     }
 
     dependencies {
+        api(project(":api"))
+
         api(Libs.AndroidX.coreKtx)
         api(Libs.AndroidX.appcompat)
 
         api(Libs.AndroidX.Compose.material)
+
+        api(Libs.AndroidX.Hilt.hiltAndroid)
+        kapt(Libs.AndroidX.Hilt.hiltCompiler)
     }
 }

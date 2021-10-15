@@ -53,7 +53,7 @@ fun FriendItem(
                     data = photoUrl,
                     builder = {
                         crossfade(true)
-                        placeholder(R.drawable.photo_placeholder)
+                        placeholder(R.drawable.photo_placeholder_56)
                         transformations(CircleCropTransformation())
                     }
                 ),

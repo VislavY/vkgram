@@ -28,7 +28,10 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.36666666666666664" />
         <entry key="app/src/main/res/font/roboto.xml" value="0.3748717948717949" />
         <entry key="conversations/src/main/res/drawable/photo_placeholder.xml" value="0.3734375" />
+        <entry key="core/src/main/res/drawable/photo_placeholder.xml" value="0.375" />
+        <entry key="home/src/main/res/drawable/photo_placeholder_56.xml" value="0.375" />
         <entry key="login/src/main/res/drawable/login_header.xml" value="0.3734375" />
+        <entry key="profile/src/main/res/drawable/photo_placeholder_200.xml" value="0.375" />
       </map>
     </option>
   </component>

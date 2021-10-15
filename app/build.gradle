@@ -57,6 +57,7 @@ dependencies {
     implementation project(":login")
     implementation project(':home')
     implementation project(":message_history")
+    implementation project(":profile")
 
     implementation Libs.AndroidX.coreKtx
     implementation Libs.AndroidX.appcompat

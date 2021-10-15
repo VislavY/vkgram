@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -14,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
@@ -25,6 +25,7 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
+import ru.vyapps.vkgram.core.Destinations
 import ru.vyapps.vkgram.core.theme.*
 
 @ExperimentalPagerApi
@@ -43,7 +44,7 @@ fun HomeScreen(
     val pagerState = rememberPagerState()
     Scaffold(
         topBar = {
-            HomeTopBar(viewModel)
+            HomeTopBar(navController, viewModel)
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -74,25 +75,30 @@ fun HomeScreen(
 
 @ExperimentalCoilApi
 @Composable
-fun HomeTopBar(viewModel: HomeViewModel = viewModel()) {
+fun HomeTopBar(
+    navController: NavController = rememberNavController(),
+    viewModel: HomeViewModel = viewModel()
+) {
     TopAppBar(
         modifier = Modifier.padding(start = 16.dp),
         backgroundColor = Color.White,
         elevation = 0.dp
     ) {
         val user = viewModel.user.collectAsState(null)
-        Image(
-            painter = rememberImagePainter(
-                user.value?.photo200,
-                builder = {
-                    crossfade(true)
-                    placeholder(R.drawable.photo_placeholder)
-                    transformations(CircleCropTransformation())
-                }
-            ),
-            contentDescription = null,
-            modifier = Modifier.size(48.dp)
-        )
+        IconButton(onClick = { navController.navigate(Destinations.PROFILE_SCREEN) }) {
+            Image(
+                painter = rememberImagePainter(
+                    user.value?.photo200,
+                    builder = {
+                        crossfade(true)
+                        placeholder(R.drawable.photo_placeholder_56)
+                        transformations(CircleCropTransformation())
+                    }
+                ),
+                contentDescription = null,
+                modifier = Modifier.size(48.dp)
+            )
+        }
 
         Spacer(Modifier.weight(1f))
 

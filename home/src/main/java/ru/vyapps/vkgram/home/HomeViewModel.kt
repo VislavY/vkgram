@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.vyapps.vkgram.home.repositories.ConversationRepo
 import ru.vyapps.vkgram.home.repositories.LongPollServerRepo
-import ru.vyapps.vkgram.home.repositories.UserRepo
+import ru.vyapps.vkgram.core.repositories.UserRepo
 import ru.vyapps.vkgram.vk_api.EventFlag
 import ru.vyapps.vkgram.vk_api.LongPollServerManager
 import ru.vyapps.vkgram.vk_api.data.Friend
