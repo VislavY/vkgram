@@ -20,7 +20,7 @@ import ru.vyapps.vkgram.core.theme.BlueGrey300
 import ru.vyapps.vkgram.core.theme.BlueGrey900
 import ru.vyapps.vkgram.core.theme.LightBlue500
 import ru.vyapps.vkgram.core.theme.Typography
-import ru.vyapps.vkgram.vk_api.data.Friend
+import ru.vyapps.vkgram.vk_api.data.User
 
 @ExperimentalCoilApi
 @Composable
@@ -42,7 +42,7 @@ fun FriendsContent(viewModel: HomeViewModel = viewModel()) {
 @ExperimentalCoilApi
 @Composable
 fun FriendItem(
-    friend: Friend,
+    friend: User,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel()
 ) {
@@ -50,7 +50,7 @@ fun FriendItem(
         Row(modifier.fillMaxWidth()) {
             Image(
                 painter = rememberImagePainter(
-                    data = photoUrl,
+                    data = photo200Url,
                     builder = {
                         crossfade(true)
                         placeholder(R.drawable.photo_placeholder_56)

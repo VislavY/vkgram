@@ -9,12 +9,13 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ru.vyapps.vkgram.home.repositories.ConversationRepo
+import ru.vyapps.vkgram.core.Conversation
+import ru.vyapps.vkgram.core.repositories.ConversationRepo
 import ru.vyapps.vkgram.home.repositories.LongPollServerRepo
 import ru.vyapps.vkgram.core.repositories.UserRepo
 import ru.vyapps.vkgram.vk_api.EventFlag
 import ru.vyapps.vkgram.vk_api.LongPollServerManager
-import ru.vyapps.vkgram.vk_api.data.Friend
+import ru.vyapps.vkgram.vk_api.data.User
 
 class HomeViewModel @AssistedInject constructor(
     @Assisted private val accessToken: String,
@@ -23,16 +24,16 @@ class HomeViewModel @AssistedInject constructor(
     private val userRepo: UserRepo
 ) : ViewModel() {
 
+    val user = flow {
+        val receivedUser = userRepo.getUsersById(accessToken, VK.getUserId()).first()
+        emit(receivedUser)
+    }
+
     private val _conversations = MutableStateFlow<List<Conversation>>(emptyList())
     val conversations = _conversations.asStateFlow()
 
-    private val _friends = MutableStateFlow<List<Friend>>(emptyList())
+    private val _friends = MutableStateFlow<List<User>>(emptyList())
     val friends = _friends.asStateFlow()
-
-    val user = flow {
-        val receivedUser = userRepo.getUsersById(accessToken, VK.getUserId()).response
-        emit(receivedUser.first())
-    }
 
     init {
         getFriends()
@@ -66,7 +67,7 @@ class HomeViewModel @AssistedInject constructor(
                 accessToken = accessToken,
                 count = FRIENDS_COUNT,
                 offset = offset
-            ).response.friends
+            )
             _friends.emit(friends.value + receivedFriends)
         }
     }

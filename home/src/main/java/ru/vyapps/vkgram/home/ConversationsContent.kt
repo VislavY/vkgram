@@ -26,6 +26,8 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
 import com.vk.api.sdk.VK
+import ru.vyapps.vkgram.core.Conversation
+import ru.vyapps.vkgram.core.Destinations
 import ru.vyapps.vkgram.home.utils.LastMessageDate
 import ru.vyapps.vkgram.core.theme.BlueGrey300
 import ru.vyapps.vkgram.core.theme.BlueGrey900
@@ -41,16 +43,16 @@ fun ConversationsContent(
 ) {
     val conversationsState = viewModel.conversations.collectAsState(emptyList())
     with(conversationsState) {
-        LazyColumn() {
+        LazyColumn {
             itemsIndexed(value) { index, conversation ->
                 ConversationItem(
-                    conversation,
+                    conversation = conversation,
                     modifier = Modifier
                         .clickable {
                             navController.navigate(
-                                "message_history_screen/"
-                                        + "${conversation.type}/"
-                                        + "${conversation.id}"
+                                route = Destinations.MESSAGE_HISTORY_SCREEN +
+                                        "/${conversation.id}" +
+                                        "/${conversation.type}"
                             )
                         }
                         .padding(16.dp, 8.dp)

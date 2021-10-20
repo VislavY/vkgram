@@ -85,29 +85,35 @@ fun HomeTopBar(
         elevation = 0.dp
     ) {
         val user = viewModel.user.collectAsState(null)
-        IconButton(onClick = { navController.navigate(Destinations.PROFILE_SCREEN) }) {
-            Image(
-                painter = rememberImagePainter(
-                    user.value?.photo200,
-                    builder = {
-                        crossfade(true)
-                        placeholder(R.drawable.photo_placeholder_56)
-                        transformations(CircleCropTransformation())
-                    }
-                ),
-                contentDescription = null,
-                modifier = Modifier.size(48.dp)
-            )
-        }
+        with (user) {
+            IconButton(
+                onClick = {
+                    navController.navigate(Destinations.PROFILE_SCREEN)
+                }
+            ) {
+                Image(
+                    painter = rememberImagePainter(
+                        data = value?.photo200Url,
+                        builder = {
+                            crossfade(true)
+                            placeholder(R.drawable.photo_placeholder_56)
+                            transformations(CircleCropTransformation())
+                        }
+                    ),
+                    contentDescription = null,
+                    modifier = Modifier.size(48.dp)
+                )
+            }
 
-        Spacer(Modifier.weight(1f))
+            Spacer(Modifier.weight(1f))
 
-        IconButton(onClick = { /*TODO*/ }) {
-            Icon(
-                imageVector = Icons.Rounded.Search,
-                contentDescription = null,
-                tint = BlueGrey700
-            )
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(
+                    imageVector = Icons.Rounded.Search,
+                    contentDescription = null,
+                    tint = BlueGrey700
+                )
+            }
         }
     }
 }

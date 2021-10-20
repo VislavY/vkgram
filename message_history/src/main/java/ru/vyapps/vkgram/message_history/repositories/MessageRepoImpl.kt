@@ -11,10 +11,10 @@ class MessageRepoImpl @Inject constructor(
 ) : MessageRepo {
 
     override suspend fun getMessages(
-        conversationId: Long,
+        accessToken: String,
+        conversationId: Int,
         count: Int,
-        offset: Int,
-        accessToken: String
+        offset: Int
     ): List<Message> {
         val messageData = vkService.getMessagesByConversationId(
             accessToken,
@@ -23,5 +23,17 @@ class MessageRepoImpl @Inject constructor(
             offset
         )
         return messageDataMapper.map(messageData)
+    }
+
+    override suspend fun sendMessage(
+        accessToken: String,
+        conversationId: Int,
+        text: String
+    ) {
+        vkService.sendMessage(
+            accessToken = accessToken,
+            conversationId = conversationId,
+            text = text
+        )
     }
 }

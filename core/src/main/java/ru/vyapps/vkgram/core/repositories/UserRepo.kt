@@ -1,21 +1,20 @@
 package ru.vyapps.vkgram.core.repositories
 
-import ru.vyapps.vkgram.vk_api.data.Friend
 import ru.vyapps.vkgram.vk_api.data.FriendData
-import ru.vyapps.vkgram.vk_api.data.UserData
+import ru.vyapps.vkgram.vk_api.data.User
 
 interface UserRepo {
 
     suspend fun getUsersById(
         accessToken: String,
         vararg ids: Int
-    ): UserData
+    ): List<User>
 
     suspend fun getFriends(
         accessToken: String,
         count: Int,
         offset: Int
-    ): FriendData
+    ): List<User>
 
     suspend fun addFriend(accessToken: String, id: Int)
 

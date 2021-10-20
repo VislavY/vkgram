@@ -5,9 +5,15 @@ import ru.vyapps.vkgram.message_history.Message
 interface MessageRepo {
 
     suspend fun getMessages(
-        conversationId: Long,
+        accessToken: String,
+        conversationId: Int,
         count: Int,
-        offset: Int,
-        accessToken: String
+        offset: Int
     ): List<Message>
+
+    suspend fun sendMessage(
+        accessToken: String,
+        conversationId: Int,
+        text: String
+    )
 }

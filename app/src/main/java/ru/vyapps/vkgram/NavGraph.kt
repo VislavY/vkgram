@@ -16,6 +16,7 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.EntryPointAccessors
+import kotlinx.serialization.ExperimentalSerializationApi
 import ru.vyapps.vkgram.core.Destinations
 import ru.vyapps.vkgram.home.HomeScreen
 import ru.vyapps.vkgram.home.HomeViewModel
@@ -25,6 +26,11 @@ import ru.vyapps.vkgram.message_history.MessageHistoryScreen
 import ru.vyapps.vkgram.profile.ProfileScreen
 import ru.vyapps.vkgram.profile.ProfileViewModel
 
+@ExperimentalSerializationApi
+@ExperimentalAnimationApi
+@ExperimentalMaterialApi
+@ExperimentalCoilApi
+@ExperimentalPagerApi
 @Composable
 fun homeViewModel(accessToken: String): HomeViewModel {
     val factory = EntryPointAccessors.fromActivity(
@@ -37,9 +43,15 @@ fun homeViewModel(accessToken: String): HomeViewModel {
     )
 }
 
+@ExperimentalSerializationApi
+@ExperimentalCoilApi
+@ExperimentalAnimationApi
+@ExperimentalMaterialApi
+@ExperimentalPagerApi
 @Composable
 fun messageHistoryViewModel(
-    conversationId: Long,
+    conversationId: Int,
+    conversationType: String,
     accessToken: String
 ): MessageHistoryViewModel {
     val factory = EntryPointAccessors.fromActivity(
@@ -51,11 +63,17 @@ fun messageHistoryViewModel(
         factory = MessageHistoryViewModel.provideFactory(
             factory = factory,
             conversationId = conversationId,
+            conversationType = conversationType,
             accessToken = accessToken
         )
     )
 }
 
+@ExperimentalSerializationApi
+@ExperimentalCoilApi
+@ExperimentalAnimationApi
+@ExperimentalMaterialApi
+@ExperimentalPagerApi
 @Composable
 fun profileViewModel(accessToken: String): ProfileViewModel {
     val factory = EntryPointAccessors.fromActivity(
@@ -74,6 +92,7 @@ fun accessToken(): String {
     return if (token.isNullOrBlank()) "" else token
 }
 
+@ExperimentalSerializationApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
@@ -108,8 +127,12 @@ fun NavGraph(startDestination: String) {
         }
 
         composable(
-            route = "${Destinations.MESSAGE_HISTORY_SCREEN}/{conversationType}/{conversationId}",
-            arguments = listOf(navArgument("conversationId") { type = NavType.LongType }),
+            route = "${Destinations.MESSAGE_HISTORY_SCREEN}/{conversationId}/{conversationType}",
+            arguments = listOf(
+                navArgument("conversationId") {
+                    type = NavType.IntType
+                }
+            ),
             enterTransition = { _, _ ->
                 slideInHorizontally(
                     initialOffsetX = { 200 },
@@ -124,9 +147,16 @@ fun NavGraph(startDestination: String) {
             }
         ) { backStackEntry ->
             backStackEntry.arguments?.let { args ->
-//                val conversationType = args.getString("conversationType", "user")
-                val conversationId = args.getLong("conversationId", 386070111)
-                MessageHistoryScreen(navController, messageHistoryViewModel(conversationId, accessToken()))
+                val conversationId = args.getInt("conversationId")
+                val conversationType = args.getString("conversationType", "")
+                MessageHistoryScreen(
+                    navController = navController,
+                    messageHistoryViewModel(
+                        conversationId = conversationId,
+                        conversationType = conversationType,
+                        accessToken = accessToken()
+                    )
+                )
             }
         }
 

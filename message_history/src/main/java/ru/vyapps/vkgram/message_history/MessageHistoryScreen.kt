@@ -5,20 +5,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.Shapes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
-import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.Attachment
-import androidx.compose.material.icons.outlined.EmojiEmotions
-import androidx.compose.material.icons.outlined.MoreVert
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -28,6 +22,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import coil.transform.CircleCropTransformation
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.vyapps.vkgram.core.theme.*
 import ru.vyapps.vkgram.core.theme.Typography
@@ -47,16 +42,14 @@ fun MessageHistoryScreen(
         topBar = {
             MessageHistoryTopBar(navController, viewModel)
         },
-        content = { padding ->
-            val modifier = Modifier.padding(padding)
-            MessageHistoryContent(modifier, viewModel)
-        },
         bottomBar = {
             MessageHistoryBottomBar(viewModel)
         }
-    )
+    ) { padding ->
+        val modifier = Modifier.padding(padding)
+        MessageHistoryContent(modifier, viewModel)
+    }
 }
-
 
 @ExperimentalCoilApi
 @Composable
@@ -78,45 +71,55 @@ fun MessageHistoryTopBar(
                 }
             ) {
                 Icon(
-                    imageVector = Icons.Outlined.ArrowBack,
+                    imageVector = Icons.Outlined.ArrowBackIos,
                     contentDescription = null,
                     tint = BlueGrey700
                 )
             }
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(Modifier.width(16.dp))
 
-            Box(modifier = Modifier.weight(1f)) {
-//                val userState = viewModel.user.collectAsState(null)
-//                userState.value?.let { user ->
-//                    Row(verticalAlignment = Alignment.CenterVertically) {
-//                        Image(
-//                            painter = rememberImagePainter(user.photo100),
-//                            contentDescription = null,
-//                            modifier = Modifier
-//                                .clip(CircleShape)
-//                                .size(42.dp),
-//                            alignment = Alignment.Center
-//                        )
-//
-//                        Spacer(modifier = Modifier.width(12.dp))
-//
-//                        Column {
-//                            Text(
-//                                text = "${user.firstName} ${user.lastName}",
-//                                style = Typography.h6
-//                            )
-//
-//                            Text(
-//                                text = "${user.id}",
-//                                style = Typography.caption
-//                            )
-//                        }
-//                    }
-//                }
+            Row {
+                val photoState = viewModel.photoUrl.collectAsState()
+                Image(
+                    painter = rememberImagePainter(
+                        data = photoState.value,
+                        builder = {
+                            crossfade(true)
+                            transformations(CircleCropTransformation())
+                            placeholder(R.drawable.photo_placeholder_42)
+                        }
+                    ),
+                    contentDescription = null,
+                    modifier = Modifier.size(42.dp)
+                )
+
+                Spacer(Modifier.width(16.dp))
+
+                Column {
+                    val titleState = viewModel.title.collectAsState()
+                    Text(
+                        text = titleState.value,
+                        color = BlueGrey900,
+                        style = Typography.subtitle1
+                    )
+
+                    val subtitle = viewModel.subtitle.collectAsState()
+                    Text(
+                        text = subtitle.value,
+                        color = BlueGrey300,
+                        style = Typography.body2
+                    )
+                }
             }
 
-            IconButton(onClick = {}) {
+            Spacer(Modifier.weight(1f))
+
+            IconButton(
+                onClick = {
+
+                }
+            ) {
                 Icon(
                     imageVector = Icons.Outlined.MoreVert,
                     contentDescription = null,
@@ -139,7 +142,11 @@ fun MessageHistoryContent(
     ) {
         with(messagesState) {
             itemsIndexed(value) { index, message ->
-                Message(message)
+                MessageItem(
+                    message = message,
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
+                )
+
 
                 if (index == (value.size - 5)) {
                     viewModel.getMessages(value.size)
@@ -150,43 +157,25 @@ fun MessageHistoryContent(
 }
 
 @Composable
-fun Message(msg: Message) {
-    var horizontalAlignment = Alignment.Start
-    var backgroundColor = BlueGrey50
-    var textColor = BlueGrey700
-    if (msg.out == 1) {
-        horizontalAlignment = Alignment.End
-        backgroundColor = Cyan500
-        textColor = Color.White
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp),
-        horizontalAlignment = horizontalAlignment
-    ) {
-        Column(
-            modifier = Modifier.width(250.dp),
-            horizontalAlignment = horizontalAlignment
-        ) {
+fun MessageItem(message: Message, modifier: Modifier = Modifier) {
+    val isSender = (message.out == 1)
+    val messageAlignment = if (isSender) Alignment.CenterEnd else Alignment.CenterStart
+    val messageBackgroundColor = if (isSender) LightBlue500 else BlueGrey50
+    val messageTextColor = if (isSender) Color.White else BlueGrey900
+    Box(modifier.fillMaxWidth(), messageAlignment) {
+        Box(Modifier.width(300.dp), messageAlignment) {
             Box(
                 modifier = Modifier
-                    .background(
-                        color = backgroundColor,
-                        shape = Shapes.small.copy(CornerSize(12.dp))
-                    )
-                    .padding(8.dp)
+                    .background(messageBackgroundColor, RoundedCornerShape(14.dp))
+                    .padding(horizontal = 10.dp, vertical = 8.dp),
             ) {
                 Text(
-                    text = msg.text,
-                    color = textColor,
+                    text = message.text,
+                    color = messageTextColor,
                     style = Typography.body1
                 )
             }
         }
-
-        Spacer(modifier = Modifier.height(6.dp))
     }
 }
 
@@ -194,14 +183,18 @@ fun Message(msg: Message) {
 fun MessageHistoryBottomBar(
     viewModel: MessageHistoryViewModel = viewModel()
 ) {
-    Box(modifier = Modifier.shadow(8.dp)) {
+    Box(Modifier.shadow(8.dp)) {
         Row(
             modifier = Modifier
                 .background(Color.White)
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.Bottom
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = {}) {
+            IconButton(
+                onClick = {
+
+                }
+            ) {
                 Icon(
                     imageVector = Icons.Outlined.Attachment,
                     contentDescription = null,
@@ -217,16 +210,21 @@ fun MessageHistoryBottomBar(
                     enteredTextState = text
                 },
                 modifier = Modifier.weight(1f),
+                textStyle = Typography.body1.copy(BlueGrey900),
                 placeholder = {
                     Text(
                         text = "Сообщение",
+                        color = Color(0xFFb0bec5),
                         style = Typography.body1
                     )
                 },
                 maxLines = 4,
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent
+                    backgroundColor = Color.White,
+                    cursorColor = LightBlue500,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent
                 )
             )
 
@@ -239,13 +237,13 @@ fun MessageHistoryBottomBar(
             }
 
             IconButton(onClick = {
-//                viewModel.sendMessage(enteredTextState)
+                viewModel.sendMessage(enteredTextState)
                 enteredTextState = ""
             }) {
                 Icon(
                     imageVector = Icons.Filled.Send,
                     contentDescription = null,
-                    tint = Cyan500
+                    tint = LightBlue500
                 )
             }
         }

@@ -93,12 +93,12 @@ fun ProfileContent(
     viewModel: ProfileViewModel = viewModel()
 ) {
     Column(modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-        val profile = viewModel.profile.collectAsState(null)
-        with(profile) {
+        val user = viewModel.user.collectAsState(null)
+        with(user) {
             Box(contentAlignment = Alignment.BottomEnd) {
                 Image(
                     painter = rememberImagePainter(
-                        data = value?.photo200,
+                        data = value?.photo400OrigUrl,
                         builder = {
                             crossfade(true)
                             placeholder(R.drawable.photo_placeholder_200)

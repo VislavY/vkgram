@@ -14,12 +14,9 @@ class ProfileViewModel @AssistedInject constructor(
     private val userRepo: UserRepo
 ) : ViewModel() {
 
-    val profile = flow {
-        val receivedProfile = userRepo
-            .getUsersById(accessToken, VK.getUserId())
-            .response
-            .first()
-        emit(receivedProfile)
+    val user = flow {
+        val receivedUser = userRepo.getUsersById(accessToken, VK.getUserId()).first()
+        emit(receivedUser)
     }
 
     @AssistedFactory

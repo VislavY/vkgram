@@ -17,18 +17,20 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.components.ActivityComponent
+import kotlinx.serialization.ExperimentalSerializationApi
 import ru.vyapps.vkgram.core.Destinations
 import ru.vyapps.vkgram.home.HomeViewModel
 import ru.vyapps.vkgram.message_history.MessageHistoryViewModel
 import ru.vyapps.vkgram.profile.ProfileViewModel
 
+@ExperimentalSerializationApi
+@ExperimentalPagerApi
+@ExperimentalMaterialApi
+@ExperimentalCoilApi
+@ExperimentalAnimationApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @ExperimentalPagerApi
-    @ExperimentalMaterialApi
-    @ExperimentalCoilApi
-    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

@@ -1,6 +1,6 @@
-package ru.vyapps.vkgram.home.mappers
+package ru.vyapps.vkgram.core.mappers
 
-import ru.vyapps.vkgram.home.Conversation
+import ru.vyapps.vkgram.core.Conversation
 import ru.vyapps.vkgram.vk_api.data.ChatPhoto
 import ru.vyapps.vkgram.vk_api.data.ChatSettings
 import ru.vyapps.vkgram.vk_api.data.ConversationData
@@ -16,7 +16,7 @@ class ConversationDataMapper @Inject constructor() {
             items.forEach { item ->
                 val conversation = with(item) {
                     Conversation(
-                        id = conversation.peer.id,
+                        id = conversation.peer.localId,
                         type = conversation.peer.type,
                         properties = ChatSettings(),
                         unreadMessageCount = conversation.unreadMessageCount,
@@ -54,9 +54,9 @@ class ConversationDataMapper @Inject constructor() {
                         groups.forEach { group ->
                             if (abs(conversation.id) == group.id) {
                                 conversation.properties.photo = ChatPhoto(
-                                    group.photo50,
-                                    group.photo100,
-                                    group.photo200
+                                    group.photo50Url,
+                                    group.photo100Url,
+                                    group.photo200Url
                                 )
                                 conversation.properties.title = group.name
                             }
