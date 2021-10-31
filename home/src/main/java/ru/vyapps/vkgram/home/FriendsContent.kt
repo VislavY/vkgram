@@ -16,10 +16,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
-import ru.vyapps.vkgram.core.theme.BlueGrey300
-import ru.vyapps.vkgram.core.theme.BlueGrey900
-import ru.vyapps.vkgram.core.theme.LightBlue500
-import ru.vyapps.vkgram.core.theme.Typography
+import ru.vyapps.vkgram.core.theme.VKgramTheme
 import ru.vyapps.vkgram.vk_api.data.User
 
 @ExperimentalCoilApi
@@ -66,20 +63,20 @@ fun FriendItem(
             Column {
                 Text(
                     text = "$firstName $lastName",
-                    color = BlueGrey900,
+                    color = VKgramTheme.palette.primaryText,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
-                    style = Typography.subtitle1
+                    style = VKgramTheme.typography.subtitle1
                 )
 
                 Spacer(Modifier.height(2.dp))
 
                 Text(
                     text = domain,
-                    color = BlueGrey300,
+                    color = VKgramTheme.palette.secondaryText,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
-                    style = Typography.body1
+                    style = VKgramTheme.typography.body1
                 )
             }
 
@@ -101,7 +98,7 @@ fun FriendItem(
                     Icon(
                         painter = painterResource(R.drawable.outline_person_add_24),
                         contentDescription = null,
-                        tint = BlueGrey300
+                        tint = VKgramTheme.palette.onSurface
                     )
                 }
             } else {
@@ -114,7 +111,7 @@ fun FriendItem(
                     Icon(
                         painter = painterResource(R.drawable.outline_people_24),
                         contentDescription = null,
-                        tint = LightBlue500
+                        tint = VKgramTheme.palette.secondary
                     )
                 }
             }

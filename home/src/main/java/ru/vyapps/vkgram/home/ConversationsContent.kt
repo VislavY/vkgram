@@ -28,11 +28,8 @@ import coil.transform.CircleCropTransformation
 import com.vk.api.sdk.VK
 import ru.vyapps.vkgram.core.Conversation
 import ru.vyapps.vkgram.core.Destinations
+import ru.vyapps.vkgram.core.theme.VKgramTheme
 import ru.vyapps.vkgram.home.utils.LastMessageDate
-import ru.vyapps.vkgram.core.theme.BlueGrey300
-import ru.vyapps.vkgram.core.theme.BlueGrey900
-import ru.vyapps.vkgram.core.theme.LightBlue500
-import ru.vyapps.vkgram.core.theme.Typography
 import ru.vyapps.vkgram.vk_api.AttachmentType
 
 @ExperimentalCoilApi
@@ -94,11 +91,11 @@ fun ConversationItem(
                     Row(Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             text = properties.title,
-                            color = BlueGrey900,
+                            color = VKgramTheme.palette.primaryText,
                             modifier = Modifier.weight(1f, false),
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1,
-                            style = Typography.subtitle1
+                            style = VKgramTheme.typography.subtitle1
                         )
 
                         if (unreadMessageCount > 0) {
@@ -107,11 +104,14 @@ fun ConversationItem(
                             Text(
                                 text = "$unreadMessageCount",
                                 modifier = Modifier
-                                    .background(LightBlue500, RoundedCornerShape(16.dp))
+                                    .background(
+                                        color = VKgramTheme.palette.secondary,
+                                        shape = RoundedCornerShape(16.dp)
+                                    )
                                     .padding(horizontal = 8.dp),
                                 color = Color.White,
                                 maxLines = 1,
-                                style = Typography.caption
+                                style = VKgramTheme.typography.caption
                             )
                         }
                     }
@@ -121,9 +121,9 @@ fun ConversationItem(
                     Text(
                         text = LastMessageDate.timeDifference(conversation.lastMessage.date),
                         modifier = Modifier.wrapContentWidth(Alignment.End),
-                        color = BlueGrey300,
+                        color = VKgramTheme.palette.secondaryText,
                         maxLines = 1,
-                        style = Typography.caption
+                        style = VKgramTheme.typography.caption
                     )
                 }
 
@@ -135,8 +135,8 @@ fun ConversationItem(
                             if (VK.getUserId() != lastMessage.userId) {
                                 Text(
                                     text = "${lastMessageAuthor}: ",
-                                    color = LightBlue500,
-                                    style = Typography.body1
+                                    color = VKgramTheme.palette.secondary,
+                                    style = VKgramTheme.typography.body1
                                 )
                             }
                         }
@@ -168,8 +168,8 @@ fun ConversationItem(
                             val suffix = if (lastMessage.text.isBlank()) "" else ", "
                             Text(
                                 text = (attachment + suffix),
-                                color = LightBlue500,
-                                style = Typography.body1
+                                color = VKgramTheme.palette.secondary,
+                                style = VKgramTheme.typography.body1
                             )
                         }
 
@@ -178,7 +178,7 @@ fun ConversationItem(
                             modifier = Modifier.padding(end = 32.dp),
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1,
-                            style = Typography.body1
+                            style = VKgramTheme.typography.body1
                         )
                     }
 
@@ -187,7 +187,11 @@ fun ConversationItem(
                         Icon(
                             imageVector = Icons.Rounded.Done,
                             contentDescription = null,
-                            tint = if (lastMessageIsRead) BlueGrey300 else LightBlue500
+                            tint = if (lastMessageIsRead) {
+                                VKgramTheme.palette.onSurface
+                            } else {
+                                VKgramTheme.palette.secondary
+                            }
                         )
                     }
                 }

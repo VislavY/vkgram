@@ -57,6 +57,7 @@ dependencies {
     implementation project(":login")
     implementation project(':home')
     implementation project(":message_history")
+    implementation project(":new_conversation")
     implementation project(":profile")
 
     implementation Libs.AndroidX.coreKtx
@@ -64,6 +65,8 @@ dependencies {
 
     implementation Libs.AndroidX.Navigation.navigationCompose
     implementation Libs.Google.accompanistNavigationAnimation
+
+    api("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0-rc01")
 
     implementation Libs.AndroidX.Hilt.hiltAndroid
     implementation Libs.AndroidX.Hilt.hiltNavigationCompose

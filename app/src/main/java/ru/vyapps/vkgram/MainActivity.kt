@@ -7,9 +7,11 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import coil.annotation.ExperimentalCoilApi
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
@@ -19,10 +21,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.components.ActivityComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 import ru.vyapps.vkgram.core.Destinations
+import ru.vyapps.vkgram.core.theme.MainTheme
 import ru.vyapps.vkgram.home.HomeViewModel
 import ru.vyapps.vkgram.message_history.MessageHistoryViewModel
 import ru.vyapps.vkgram.profile.ProfileViewModel
 
+@ExperimentalPermissionsApi
+@ExperimentalFoundationApi
 @ExperimentalSerializationApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
@@ -35,9 +40,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val startDestination = if (VK.isLoggedIn())
-                Destinations.HOME_SCREEN else Destinations.LOGIN_SCREEN
-            NavGraph(startDestination)
+            MainTheme {
+                val startDestination = if (VK.isLoggedIn())
+                    Destinations.HOME_SCREEN else Destinations.LOGIN_SCREEN
+                NavGraph(startDestination)
+            }
         }
     }
 
@@ -45,11 +52,8 @@ class MainActivity : ComponentActivity() {
         val callback = object: VKAuthCallback {
 
             override fun onLogin(token: VKAccessToken) {
-                val preferences = getPreferences(Context.MODE_PRIVATE)
-                with (preferences.edit()) {
-                    putString(getString(R.string.token_pref_key), token.accessToken)
-                    apply()
-                }
+                val sharedPreferences = getSharedPreferences(getString(R.string.pref_file_key), Context.MODE_PRIVATE)
+                sharedPreferences!!.edit().putString(getString(R.string.access_token_pref_key), token.accessToken).apply()
 
                 showSuccessfulLoginToast()
             }

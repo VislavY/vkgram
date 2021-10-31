@@ -23,7 +23,6 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 import ru.vyapps.vkgram.core.Destinations
 import ru.vyapps.vkgram.core.theme.*
@@ -36,11 +35,6 @@ fun HomeScreen(
     navController: NavHostController = rememberNavController(),
     viewModel: HomeViewModel = viewModel()
 ) {
-    val systemUiController = rememberSystemUiController()
-    SideEffect {
-        systemUiController.setSystemBarsColor(Color.White)
-    }
-
     val pagerState = rememberPagerState()
     Scaffold(
         topBar = {
@@ -48,15 +42,20 @@ fun HomeScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    navController.navigate(Destinations.NEW_CONVERSATION_SCREEN)
+                },
                 modifier = Modifier.padding(bottom = 16.dp),
-                backgroundColor = LightBlue500,
-                contentColor = Color.White
+                backgroundColor = VKgramTheme.palette.secondary,
+                contentColor = VKgramTheme.palette.onSecondary
             ) {
                 Icon(
                     painter = painterResource(
-                        id = if (pagerState.currentPage == 0)
-                            R.drawable.outline_sms_24 else R.drawable.outline_person_add_24
+                        id = if (pagerState.currentPage == 0) {
+                            R.drawable.outline_sms_24
+                        } else {
+                            R.drawable.outline_person_add_24
+                        }
                     ),
                     contentDescription = null
                 )
@@ -85,7 +84,7 @@ fun HomeTopBar(
         elevation = 0.dp
     ) {
         val user = viewModel.user.collectAsState(null)
-        with (user) {
+        with(user) {
             IconButton(
                 onClick = {
                     navController.navigate(Destinations.PROFILE_SCREEN)
@@ -107,11 +106,11 @@ fun HomeTopBar(
 
             Spacer(Modifier.weight(1f))
 
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { }) {
                 Icon(
                     imageVector = Icons.Rounded.Search,
                     contentDescription = null,
-                    tint = BlueGrey700
+                    tint = VKgramTheme.palette.onPrimary
                 )
             }
         }
@@ -128,7 +127,10 @@ fun HomeTabRow(
     val coroutineScope = rememberCoroutineScope()
     Box(
         modifier = modifier
-            .background(BlueGrey50, RoundedCornerShape(8.dp))
+            .background(
+                color = VKgramTheme.palette.surface,
+                shape = RoundedCornerShape(8.dp)
+            )
             .fillMaxWidth()
     ) {
         Row {
@@ -139,8 +141,16 @@ fun HomeTabRow(
                         .padding(4.dp)
                         .weight(1f),
                     shape = RoundedCornerShape(8.dp),
-                    color = if (isSelected) Color.White else BlueGrey50,
-                    elevation = if (isSelected) 8.dp else 0.dp,
+                    color = if (isSelected) {
+                        VKgramTheme.palette.background
+                    } else {
+                        VKgramTheme.palette.surface
+                    },
+                    elevation = if (isSelected) {
+                        8.dp
+                    }else {
+                        0.dp
+                    },
                 ) {
                     Tab(
                         selected = isSelected,
@@ -153,8 +163,12 @@ fun HomeTabRow(
                             Text(
                                 text = title,
                                 modifier = Modifier.padding(vertical = 4.dp),
-                                color = if (isSelected) BlueGrey900 else BlueGrey300,
-                                style = Typography.h6
+                                color = if (isSelected) {
+                                    VKgramTheme.palette.primaryText
+                                } else {
+                                    VKgramTheme.palette.secondaryText
+                                },
+                                style = VKgramTheme.typography.title
                             )
                         }
                     )
@@ -174,7 +188,7 @@ fun HomeContent(
     viewModel: HomeViewModel = viewModel()
 ) {
     Column(modifier.padding(top = 16.dp)) {
-        HomeTabRow(Modifier.padding(horizontal = 16.dp),  pagerState)
+        HomeTabRow(Modifier.padding(horizontal = 16.dp), pagerState)
 
         Spacer(modifier = Modifier.height(24.dp))
 

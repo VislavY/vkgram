@@ -12,20 +12,27 @@ import ru.vyapps.vkgram.vk_api.data.*
 interface VkService {
 
     @GET("users.get?fields=domain,online,last_seen,photo_50,photo_100,photo_200,photo_400_orig&v=5.131")
-    suspend fun getUserById(
+    suspend fun fetchUserListByIds(
         @Query("access_token") accessToken: String,
-        @Query("user_ids") ids: IntArray
+        @Query("user_ids") ids: List<Int>
     ): UserResponse
 
     @GET("messages.getConversations?extended=1&fields=photo_50,photo_100,photo_200&v=5.131")
-    suspend fun getConversations(
+    suspend fun fetchConversationList(
         @Query("access_token") accessToken: String,
         @Query("count") count: Int,
         @Query("offset") offset: Int
     ): ConversationData
 
+    @GET("messages.createChat?v=5.131")
+    suspend fun createChat(
+        @Query("access_token") accessToken: String,
+        @Query("user_ids") userIds: List<Int>,
+        @Query("title") title: String
+    ): ConversationIdResponse
+
     @GET("messages.getHistory?v=5.131")
-    suspend fun getMessagesByConversationId(
+    suspend fun fetchMessageListByConversationId(
         @Query("access_token") accessToken: String,
         @Query("peer_id") conversationId: Int,
         @Query("count") count: Int,
@@ -33,7 +40,7 @@ interface VkService {
     ): MessageData
 
     @GET("messages.getChat?v=5.131")
-    suspend fun getChatById(
+    suspend fun fetchChatById(
         @Query("access_token") accessToken: String,
         @Query("chat_id") id: Int
     ): ChatResponse
@@ -51,14 +58,14 @@ interface VkService {
     ): LongPollServerResponse
 
     @GET("friends.get?fields=domain,photo_50,photo_100,photo_200,photo_400_orig&order=hints&v=5.131")
-    suspend fun getFriends(
+    suspend fun fetchFriendList(
         @Query("access_token") accessToken: String,
         @Query("count") count: Int,
         @Query("offset") offset: Int
     ): FriendResponse
 
     @GET("friends.add?v=5.131")
-    suspend fun addFriend(
+    suspend fun acceptFriend(
         @Query("access_token") accessToken: String,
         @Query("user_id") id: Int
     )
@@ -70,7 +77,7 @@ interface VkService {
     )
 
     @GET("groups.getById?v=5.131")
-    suspend fun getGroupById(
+    suspend fun fetchGroupById(
         @Query("access_token") accessToken: String,
         @Query("group_id") id: Int
     ): GroupResponse

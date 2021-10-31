@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.vyapps.vkgram.core.repositories.ConversationRepo
-import ru.vyapps.vkgram.core.repositories.UserRepo
+import ru.vyapps.vkgram.core.repositories.UserRepository
 import ru.vyapps.vkgram.message_history.repositories.GroupRepo
 import ru.vyapps.vkgram.message_history.repositories.MessageRepo
 import java.text.SimpleDateFormat
@@ -20,7 +20,7 @@ class MessageHistoryViewModel @AssistedInject constructor(
     @Assisted private val conversationId: Int,
     @Assisted("conversationType") private val conversationType: String,
     @Assisted("accessToken") private val accessToken: String,
-    private val userRepo: UserRepo,
+    private val userRepository: UserRepository,
     private val conversationRepo: ConversationRepo,
     private val groupRepo: GroupRepo,
     private val messageRepo: MessageRepo
@@ -71,7 +71,7 @@ class MessageHistoryViewModel @AssistedInject constructor(
         viewModelScope.launch {
             when (conversationType) {
                 "user" -> {
-                    val receivedUser = userRepo.getUsersById(accessToken, conversationId).first()
+                    val receivedUser = userRepository.fetchUserListByIds(accessToken, listOf(conversationId)).first()
                     _photoUrl.value = receivedUser.photo100Url
                     _title.value = "${receivedUser.firstName} ${receivedUser.lastName}"
                     _subtitle.value =

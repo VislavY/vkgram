@@ -1,20 +1,18 @@
 package ru.vyapps.vkgram.core.repositories
 
 import ru.vyapps.vkgram.vk_api.VkService
-import ru.vyapps.vkgram.vk_api.data.FriendData
 import ru.vyapps.vkgram.vk_api.data.User
-import ru.vyapps.vkgram.vk_api.data.UserResponse
 import javax.inject.Inject
 
-class UserRepoImpl @Inject constructor(
+class UserRepositoryImpl @Inject constructor(
     private val vkService: VkService
-) : UserRepo {
+) : UserRepository {
 
-    override suspend fun getUsersById(
+    override suspend fun fetchUserListByIds(
         accessToken: String,
-        vararg ids: Int
+        ids: List<Int>
     ): List<User> {
-        return vkService.getUserById(accessToken, ids).response
+        return vkService.fetchUserListByIds(accessToken, ids).response
     }
 
     override suspend fun getFriends(
@@ -22,7 +20,7 @@ class UserRepoImpl @Inject constructor(
         count: Int,
         offset: Int
     ): List<User> {
-        return vkService.getFriends(
+        return vkService.fetchFriendList(
             accessToken = accessToken,
             count = count,
             offset = offset
@@ -30,7 +28,7 @@ class UserRepoImpl @Inject constructor(
     }
 
     override suspend fun addFriend(accessToken: String, id: Int) {
-        vkService.addFriend(accessToken, id)
+        vkService.acceptFriend(accessToken, id)
     }
 
     override suspend fun deleteFriend(accessToken: String, id: Int) {

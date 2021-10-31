@@ -13,7 +13,7 @@ class GroupRepoImpl @Inject constructor(
         id: Int
     ): Group {
         return vkService
-            .getGroupById(accessToken, id)
+            .fetchGroupById(accessToken, id)
             .response
             .first()
     }

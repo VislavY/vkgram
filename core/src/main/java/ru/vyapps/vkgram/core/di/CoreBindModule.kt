@@ -4,10 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.vyapps.vkgram.core.repositories.ConversationRepo
-import ru.vyapps.vkgram.core.repositories.ConversationRepoImpl
-import ru.vyapps.vkgram.core.repositories.UserRepo
-import ru.vyapps.vkgram.core.repositories.UserRepoImpl
+import ru.vyapps.vkgram.core.repositories.*
 
 @Suppress("UNUSED")
 @Module
@@ -15,8 +12,11 @@ import ru.vyapps.vkgram.core.repositories.UserRepoImpl
 interface CoreBindModule {
 
     @Binds
-    fun bindUserRepo(impl: UserRepoImpl): UserRepo
+    fun bindUserRepository(impl: UserRepositoryImpl): UserRepository
 
     @Binds
-    fun bindConversationRepo(impl: ConversationRepoImpl): ConversationRepo
+    fun bindFriendRepository(impl: FriendRepositoryImpl): FriendRepository
+
+    @Binds
+    fun bindConversationRepository(impl: ConversationRepoImpl): ConversationRepo
 }

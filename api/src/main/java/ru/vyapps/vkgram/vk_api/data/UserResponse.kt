@@ -16,8 +16,6 @@ data class User(
     val domain: String,
     @SerialName("first_name") val firstName: String,
     @SerialName("last_name") val lastName: String,
-    @SerialName("is_closed") val isClosed: Boolean,
-    @SerialName("can_access_closed") val calAccessClosed: Boolean,
     val online: Int = 0,
     @SerialName("last_seen") val lastSeen: LastSeen? = null,
     @SerialName("photo_50") val photo50Url: String,

@@ -38,7 +38,10 @@ fun ProfileScreen(
         }
     ) { padding ->
         val modifier = Modifier.padding(padding)
-        ProfileContent(modifier.padding(top = 16.dp), viewModel)
+        ProfileContent(
+            modifier = modifier.padding(top = 16.dp),
+            viewModel = viewModel
+        )
     }
 }
 
@@ -46,12 +49,19 @@ fun ProfileScreen(
 fun ProfileTopBar(
     navController: NavController = rememberNavController()
 ) {
-    TopAppBar(backgroundColor = Color.White, elevation = 0.dp) {
-        IconButton(onClick = { navController.popBackStack() }) {
+    TopAppBar(
+        backgroundColor = Color.White,
+        elevation = 0.dp
+    ) {
+        IconButton(
+            onClick = {
+                navController.popBackStack()
+            }
+        ) {
             Icon(
                 painter = painterResource(id = R.drawable.outline_close_24),
                 contentDescription = null,
-                tint = BlueGrey700
+                tint = VKgramTheme.palette.onPrimary
             )
         }
     }
@@ -67,7 +77,11 @@ fun ProfilePager() {
             Box(
                 modifier = Modifier
                     .background(
-                        color = if (pageIsActive) LightBlue500 else BlueGrey50,
+                        color = if (pageIsActive) {
+                            VKgramTheme.palette.secondary
+                        } else {
+                            VKgramTheme.palette.surface
+                        },
                         shape = CircleShape
                     )
                     .size(12.dp)
@@ -114,7 +128,10 @@ fun ProfileContent(
 
                     },
                     modifier = Modifier
-                        .background(LightBlue500, CircleShape)
+                        .background(
+                            color = VKgramTheme.palette.secondary,
+                            shape = CircleShape
+                        )
                         .border(BorderStroke(4.dp, Color.White), CircleShape)
                         .size(56.dp)
                 ) {
@@ -130,8 +147,8 @@ fun ProfileContent(
 
             Text(
                 text = "${value?.firstName}  ${value?.lastName}",
-                color = BlueGrey900,
-                style = Typography.h5
+                color = VKgramTheme.palette.primaryText,
+                style = VKgramTheme.typography.topBarTitle
             )
 
             Spacer(Modifier.height(32.dp))

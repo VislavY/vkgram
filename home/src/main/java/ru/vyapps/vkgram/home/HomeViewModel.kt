@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import ru.vyapps.vkgram.core.Conversation
 import ru.vyapps.vkgram.core.repositories.ConversationRepo
 import ru.vyapps.vkgram.home.repositories.LongPollServerRepo
-import ru.vyapps.vkgram.core.repositories.UserRepo
+import ru.vyapps.vkgram.core.repositories.UserRepository
 import ru.vyapps.vkgram.vk_api.EventFlag
 import ru.vyapps.vkgram.vk_api.LongPollServerManager
 import ru.vyapps.vkgram.vk_api.data.User
@@ -21,11 +21,11 @@ class HomeViewModel @AssistedInject constructor(
     @Assisted private val accessToken: String,
     private val conversationRepo: ConversationRepo,
     private val longPollServerRepo: LongPollServerRepo,
-    private val userRepo: UserRepo
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     val user = flow {
-        val receivedUser = userRepo.getUsersById(accessToken, VK.getUserId()).first()
+        val receivedUser = userRepository.fetchUserListByIds(accessToken, listOf(VK.getUserId())).first()
         emit(receivedUser)
     }
 
@@ -63,7 +63,7 @@ class HomeViewModel @AssistedInject constructor(
 
     fun getFriends(offset: Int = 0) {
         viewModelScope.launch {
-            val receivedFriends = userRepo.getFriends(
+            val receivedFriends = userRepository.getFriends(
                 accessToken = accessToken,
                 count = FRIENDS_COUNT,
                 offset = offset
@@ -74,13 +74,13 @@ class HomeViewModel @AssistedInject constructor(
 
     fun addFriend(id: Int) {
         viewModelScope.launch {
-            userRepo.addFriend(accessToken, id)
+            userRepository.addFriend(accessToken, id)
         }
     }
 
     fun deleteFriend(id: Int) {
         viewModelScope.launch {
-            userRepo.deleteFriend(accessToken, id)
+            userRepository.deleteFriend(accessToken, id)
         }
     }
 

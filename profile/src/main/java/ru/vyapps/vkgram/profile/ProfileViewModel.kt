@@ -7,15 +7,15 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.flow
-import ru.vyapps.vkgram.core.repositories.UserRepo
+import ru.vyapps.vkgram.core.repositories.UserRepository
 
 class ProfileViewModel @AssistedInject constructor(
     @Assisted private val accessToken: String,
-    private val userRepo: UserRepo
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     val user = flow {
-        val receivedUser = userRepo.getUsersById(accessToken, VK.getUserId()).first()
+        val receivedUser = userRepository.fetchUserListByIds(accessToken, listOf(VK.getUserId())).first()
         emit(receivedUser)
     }
 

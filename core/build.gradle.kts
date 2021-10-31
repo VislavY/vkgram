@@ -20,8 +20,16 @@ android {
         }
     }
 
+    buildFeatures {
+        compose = true
+    }
+
     kotlinOptions {
         jvmTarget = "${JavaVersion.VERSION_1_8}"
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Libs.AndroidX.Compose.version
     }
 
     dependencies {
@@ -31,6 +39,7 @@ android {
         api(Libs.AndroidX.appcompat)
 
         api(Libs.AndroidX.Compose.material)
+        api(Libs.AndroidX.Compose.uiTooling)
 
         api(Libs.AndroidX.Hilt.hiltAndroid)
         kapt(Libs.AndroidX.Hilt.hiltCompiler)

@@ -1,4 +1,4 @@
-    package ru.vyapps.vkgram.vk_api.data
+package ru.vyapps.vkgram.vk_api.data
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

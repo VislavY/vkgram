@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/home" />
             <option value="$PROJECT_DIR$/login" />
             <option value="$PROJECT_DIR$/message_history" />
+            <option value="$PROJECT_DIR$/new_conversation" />
             <option value="$PROJECT_DIR$/profile" />
           </set>
         </option>

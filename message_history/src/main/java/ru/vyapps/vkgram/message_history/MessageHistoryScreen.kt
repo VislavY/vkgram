@@ -25,7 +25,6 @@ import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.vyapps.vkgram.core.theme.*
-import ru.vyapps.vkgram.core.theme.Typography
 
 @ExperimentalCoilApi
 @Composable
@@ -73,7 +72,7 @@ fun MessageHistoryTopBar(
                 Icon(
                     imageVector = Icons.Outlined.ArrowBackIos,
                     contentDescription = null,
-                    tint = BlueGrey700
+                    tint = VKgramTheme.palette.onPrimary
                 )
             }
 
@@ -100,15 +99,15 @@ fun MessageHistoryTopBar(
                     val titleState = viewModel.title.collectAsState()
                     Text(
                         text = titleState.value,
-                        color = BlueGrey900,
-                        style = Typography.subtitle1
+                        color = VKgramTheme.palette.primaryText,
+                        style = VKgramTheme.typography.subtitle1
                     )
 
                     val subtitle = viewModel.subtitle.collectAsState()
                     Text(
                         text = subtitle.value,
-                        color = BlueGrey300,
-                        style = Typography.body2
+                        color = VKgramTheme.palette.secondaryText,
+                        style = VKgramTheme.typography.body2
                     )
                 }
             }
@@ -123,7 +122,7 @@ fun MessageHistoryTopBar(
                 Icon(
                     imageVector = Icons.Outlined.MoreVert,
                     contentDescription = null,
-                    tint = BlueGrey700
+                    tint = VKgramTheme.palette.onPrimary
                 )
             }
         }
@@ -160,19 +159,28 @@ fun MessageHistoryContent(
 fun MessageItem(message: Message, modifier: Modifier = Modifier) {
     val isSender = (message.out == 1)
     val messageAlignment = if (isSender) Alignment.CenterEnd else Alignment.CenterStart
-    val messageBackgroundColor = if (isSender) LightBlue500 else BlueGrey50
-    val messageTextColor = if (isSender) Color.White else BlueGrey900
+    val messageBackgroundColor = if (isSender) VKgramTheme.palette.secondary else VKgramTheme.palette.surface
+    val messageTextColor = if (isSender) Color.White else VKgramTheme.palette.primaryText
     Box(modifier.fillMaxWidth(), messageAlignment) {
         Box(Modifier.width(300.dp), messageAlignment) {
-            Box(
+            Column(
                 modifier = Modifier
                     .background(messageBackgroundColor, RoundedCornerShape(14.dp))
                     .padding(horizontal = 10.dp, vertical = 8.dp),
+                horizontalAlignment = Alignment.End
             ) {
                 Text(
                     text = message.text,
                     color = messageTextColor,
-                    style = Typography.body1
+                    style = VKgramTheme.typography.body1
+                )
+
+                Spacer(Modifier.width(8.dp))
+
+                Text(
+                    text = "10:00",
+                    color = messageTextColor,
+                    style = VKgramTheme.typography.caption
                 )
             }
         }
@@ -199,7 +207,7 @@ fun MessageHistoryBottomBar(
                     imageVector = Icons.Outlined.Attachment,
                     contentDescription = null,
                     modifier = Modifier.rotate(300f),
-                    tint = BlueGrey300
+                    tint = VKgramTheme.palette.onSurface
                 )
             }
 
@@ -210,18 +218,18 @@ fun MessageHistoryBottomBar(
                     enteredTextState = text
                 },
                 modifier = Modifier.weight(1f),
-                textStyle = Typography.body1.copy(BlueGrey900),
+                textStyle = VKgramTheme.typography.body1.copy(VKgramTheme.palette.primaryText),
                 placeholder = {
                     Text(
                         text = "Сообщение",
                         color = Color(0xFFb0bec5),
-                        style = Typography.body1
+                        style = VKgramTheme.typography.body1
                     )
                 },
                 maxLines = 4,
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.White,
-                    cursorColor = LightBlue500,
+                    cursorColor = VKgramTheme.palette.secondary,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent
@@ -232,7 +240,7 @@ fun MessageHistoryBottomBar(
                 Icon(
                     imageVector = Icons.Outlined.EmojiEmotions,
                     contentDescription = null,
-                    tint = BlueGrey300
+                    tint = VKgramTheme.palette.onSurface
                 )
             }
 
@@ -243,7 +251,7 @@ fun MessageHistoryBottomBar(
                 Icon(
                     imageVector = Icons.Filled.Send,
                     contentDescription = null,
-                    tint = LightBlue500
+                    tint = VKgramTheme.palette.secondary
                 )
             }
         }

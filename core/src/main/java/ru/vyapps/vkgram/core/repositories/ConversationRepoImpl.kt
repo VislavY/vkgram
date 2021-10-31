@@ -11,12 +11,24 @@ import javax.inject.Inject
     private val conversationDataMapper: ConversationDataMapper
 ) : ConversationRepo {
 
-    override suspend fun getConversations(
+     override suspend fun createChat(
+         accessToken: String,
+         userIds: List<Int>,
+         title: String
+     ): Int {
+         return vkService.createChat(
+             accessToken = accessToken,
+             userIds = userIds,
+             title = title
+         ).response
+     }
+
+     override suspend fun getConversations(
         accessToken: String,
         count: Int,
         offset: Int
     ): List<Conversation> {
-        val conversationData = vkService.getConversations(
+        val conversationData = vkService.fetchConversationList(
             accessToken = accessToken,
             count = count,
             offset = offset
@@ -28,6 +40,6 @@ import javax.inject.Inject
          accessToken: String,
          id: Int
      ): Chat {
-         return vkService.getChatById(accessToken, id).response
+         return vkService.fetchChatById(accessToken, id).response
      }
  }

@@ -7,8 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import ru.vyapps.vkgram.core.theme.LightBlue500
-import ru.vyapps.vkgram.core.theme.Typography
+import ru.vyapps.vkgram.core.theme.VKgramTheme
 
 @Composable
 fun SettingsContent() {
@@ -16,8 +15,8 @@ fun SettingsContent() {
         Text(
             text = "Настройки",
             modifier = Modifier.padding(horizontal = 16.dp),
-            color = LightBlue500,
-            style = Typography.subtitle1
+            color = VKgramTheme.palette.secondary,
+            style = VKgramTheme.typography.subtitle1
         )
     }
 }
