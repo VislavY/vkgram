@@ -1,5 +1,6 @@
 package ru.vyapps.vkgram.home.views
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +23,7 @@ import ru.vyapps.vkgram.vk_api.data.ChatSettings
 import ru.vyapps.vkgram.vk_api.data.Message
 import java.util.*
 
+@ExperimentalAnimationApi
 @Composable
 fun ConversationListContent(
     modifier: Modifier = Modifier,
@@ -58,6 +60,7 @@ fun ConversationListContent(
     }
 }
 
+@ExperimentalAnimationApi
 @Preview
 @Composable
 fun ConversationListContent_Preview() {
@@ -106,6 +109,7 @@ fun ConversationListContent_Preview() {
     }
 }
 
+@ExperimentalAnimationApi
 @Preview
 @Composable
 fun DarkConversationListContent_Preview() {

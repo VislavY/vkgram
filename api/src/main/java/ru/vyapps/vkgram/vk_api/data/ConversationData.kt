@@ -18,16 +18,6 @@ data class ChatSettings(
 )
 
 @Serializable
-data class Profile(
-    val id: Int,
-    @SerialName("first_name") val firstName: String,
-    @SerialName("last_name") val lastName: String,
-    @SerialName("photo_50") val photo50: String,
-    @SerialName("photo_100") val photo100: String,
-    @SerialName("photo_200") val photo200: String
-)
-
-@Serializable
 data class ConversationPeer(
     val id: Int,
     @SerialName("local_id") val localId: Int,
@@ -51,7 +41,7 @@ data class ConversationItem(
 @Serializable
 data class ConversationDataResponse(
     val items: List<ConversationItem>,
-    val profiles: List<Profile> = emptyList(),
+    val profiles: List<User> = emptyList(),
     val groups: List<Group> = emptyList()
 )
 

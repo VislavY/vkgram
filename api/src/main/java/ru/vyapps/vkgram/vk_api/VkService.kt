@@ -17,7 +17,7 @@ interface VkService {
         @Query("user_ids") ids: List<Int>
     ): UserResponse
 
-    @GET("messages.getConversations?extended=1&fields=photo_50,photo_100,photo_200&v=5.131")
+    @GET("messages.getConversations?extended=1&fields=photo_50,photo_100,photo_200,domain,online&v=5.131")
     suspend fun fetchConversationList(
         @Query("access_token") accessToken: String,
         @Query("count") count: Int,

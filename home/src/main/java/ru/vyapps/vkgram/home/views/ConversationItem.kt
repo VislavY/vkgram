@@ -1,12 +1,16 @@
 package ru.vyapps.vkgram.home.views
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Done
@@ -32,6 +36,7 @@ import ru.vyapps.vkgram.vk_api.data.ChatSettings
 import ru.vyapps.vkgram.vk_api.data.Message
 import java.util.*
 
+@ExperimentalAnimationApi
 @Composable
 fun ConversationItem(
     model: Conversation,
@@ -42,19 +47,47 @@ fun ConversationItem(
             onClick(model)
         }
     ) {
+        Box {
+            Image(
+                painter = rememberImagePainter(
+                    data = model.properties.photo?.photo200,
+                    builder = {
+                        crossfade(true)
+                        placeholder(R.drawable.photo_placeholder_56)
+                        transformations(CircleCropTransformation())
+                    }
+                ),
+                contentDescription = stringResource(R.string.conversation_photo_content_desc),
+                modifier = Modifier.size(56.dp)
+            )
 
-        Image(
-            painter = rememberImagePainter(
-                data = model.properties.photo?.photo200,
-                builder = {
-                    crossfade(true)
-                    placeholder(R.drawable.photo_placeholder_56)
-                    transformations(CircleCropTransformation())
+            Row(Modifier.align(Alignment.BottomEnd)) {
+                AnimatedVisibility(
+                    visible = (model.user?.online == 1),
+                    enter = scaleIn(tween(200)),
+                    exit = scaleOut(tween(200))
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                color = VKgramTheme.palette.background,
+                                shape = CircleShape
+                            )
+                            .size(16.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .background(
+                                    color = VKgramTheme.palette.secondary,
+                                    shape = CircleShape
+                                )
+                                .size(12.dp)
+                        )
+                    }
                 }
-            ),
-            contentDescription = stringResource(R.string.conversation_photo_content_desc),
-            modifier = Modifier.size(56.dp)
-        )
+            }
+        }
 
         Spacer(Modifier.width(16.dp))
 
@@ -175,6 +208,7 @@ fun ConversationItem(
     }
 }
 
+@ExperimentalAnimationApi
 @Preview
 @Composable
 fun ConversationItem_Preview() {
@@ -201,6 +235,7 @@ fun ConversationItem_Preview() {
     }
 }
 
+@ExperimentalAnimationApi
 @Preview
 @Composable
 fun DarkConversationItem_Preview() {

@@ -28,10 +28,12 @@ fun UserItem(
     model: UserModel,
     onClick: (UserModel) -> Unit
 ) {
-    ItemButton(onClick = {
-        model.isSelected = !model.isSelected
-        onClick(model)
-    }) {
+    ItemButton(
+        onClick = {
+            model.isSelected = !model.isSelected
+            onClick(model)
+        }
+    ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box {
                 Image(

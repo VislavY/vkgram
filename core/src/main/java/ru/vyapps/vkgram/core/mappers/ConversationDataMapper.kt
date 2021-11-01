@@ -39,10 +39,11 @@ class ConversationDataMapper @Inject constructor() {
                     "user" -> {
                         profiles.forEach { profile ->
                             if (conversation.id == profile.id) {
+                                conversation.user = profile
                                 conversation.properties.photo = ChatPhoto(
-                                    profile.photo50,
-                                    profile.photo100,
-                                    profile.photo200
+                                    profile.photo50Url,
+                                    profile.photo100Url,
+                                    profile.photo200Url
                                 )
                                 conversation.properties.title =
                                     "${profile.firstName} ${profile.lastName}"
