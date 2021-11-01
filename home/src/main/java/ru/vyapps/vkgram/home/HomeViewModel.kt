@@ -1,130 +1,124 @@
 package ru.vyapps.vkgram.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.vk.api.sdk.VK
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ru.vyapps.vkgram.core.Conversation
+import ru.vyapps.vkgram.core.EventHandler
+import ru.vyapps.vkgram.core.VkAccessToken
 import ru.vyapps.vkgram.core.repositories.ConversationRepo
-import ru.vyapps.vkgram.home.repositories.LongPollServerRepo
-import ru.vyapps.vkgram.core.repositories.UserRepository
-import ru.vyapps.vkgram.vk_api.EventFlag
-import ru.vyapps.vkgram.vk_api.LongPollServerManager
-import ru.vyapps.vkgram.vk_api.data.User
+import ru.vyapps.vkgram.core.repositories.FriendRepository
+import ru.vyapps.vkgram.home.models.HomeEvent
+import ru.vyapps.vkgram.home.models.HomeViewState
+import javax.inject.Inject
 
-class HomeViewModel @AssistedInject constructor(
-    @Assisted private val accessToken: String,
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val vkAccessToken: VkAccessToken,
     private val conversationRepo: ConversationRepo,
-    private val longPollServerRepo: LongPollServerRepo,
-    private val userRepository: UserRepository
-) : ViewModel() {
+    private val friendRepository: FriendRepository
+) : ViewModel(), EventHandler<HomeEvent> {
 
-    val user = flow {
-        val receivedUser = userRepository.fetchUserListByIds(accessToken, listOf(VK.getUserId())).first()
-        emit(receivedUser)
+    private val _viewState = MutableStateFlow<HomeViewState>(HomeViewState.Loading)
+    val viewState = _viewState.asStateFlow()
+
+    override fun onEvent(event: HomeEvent) {
+        when (val currentState = _viewState.value) {
+            is HomeViewState.Loading -> reduce(event, currentState)
+            is HomeViewState.Error -> reduce(event, currentState)
+            is HomeViewState.Display -> reduce(event, currentState)
+        }
     }
 
-    private val _conversations = MutableStateFlow<List<Conversation>>(emptyList())
-    val conversations = _conversations.asStateFlow()
+    private fun reduce(event: HomeEvent, currentState: HomeViewState.Loading) {
+        when (event) {
+            is HomeEvent.EnterScreen -> performEnterScreen()
+            else -> throw NotImplementedError("Invalid $event for state $currentState")
+        }
+    }
 
-    private val _friends = MutableStateFlow<List<User>>(emptyList())
-    val friends = _friends.asStateFlow()
+    private fun reduce(event: HomeEvent, currentState: HomeViewState.Error) {
+        when (event) {
+            is HomeEvent.ReloadScreen -> performEnterScreen(true)
+            else -> throw NotImplementedError("Invalid $event for state $currentState")
+        }
+    }
 
-    init {
-        getFriends()
-        getConversations()
+    private fun reduce(event: HomeEvent, currentState: HomeViewState.Display) {
+        when (event) {
+            is HomeEvent.EnterScreen -> performEnterScreen()
+            is HomeEvent.ConversationListEnd -> performExpandConversationList(event.count, currentState)
+            is HomeEvent.FriendListEnd -> performExpandFriendList(event.count, currentState)
+            else -> throw NotImplementedError("Invalid $event for state $currentState")
+        }
+    }
+
+    private fun performEnterScreen(needsToRefresh: Boolean = false) {
+        if (needsToRefresh) {
+            _viewState.value = HomeViewState.Loading
+        }
 
         viewModelScope.launch {
-            val longPollServer = longPollServerRepo.getLongPollServer(accessToken)
-            val longPollServerManager = LongPollServerManager(longPollServer.response)
-            longPollServerManager.events().collect { event ->
-                if (event.eventFlag == EventFlag.NewMessage) {
-                    updateConversation(event.conversationId)
-                }
+            try {
+                val conversations = conversationRepo.getConversations(
+                    accessToken = vkAccessToken.accessToken,
+                    count = DefaultConversationCount,
+                    offset = 0
+                )
+                val friends = friendRepository.fetchFriendList(
+                    accessToken = vkAccessToken.accessToken,
+                    count = DefaultFriendCount,
+                    offset = 0
+                )
+                _viewState.value = HomeViewState.Display(conversations, friends)
+            } catch (e: Exception) {
+                Log.e(Tag, e.toString())
+                _viewState.value = HomeViewState.Error
             }
         }
     }
 
-    fun getConversations(offset: Int = 0) {
+    private fun performExpandConversationList(offset: Int, currentState: HomeViewState.Display) {
         viewModelScope.launch {
-            val receivedConversations = conversationRepo.getConversations(
-                accessToken = accessToken,
-                count = CONVERSATION_COUNT,
-                offset = offset,
-            )
-           _conversations.value = (conversations.value + receivedConversations)
-        }
-    }
-
-    fun getFriends(offset: Int = 0) {
-        viewModelScope.launch {
-            val receivedFriends = userRepository.getFriends(
-                accessToken = accessToken,
-                count = FRIENDS_COUNT,
-                offset = offset
-            )
-            _friends.emit(friends.value + receivedFriends)
-        }
-    }
-
-    fun addFriend(id: Int) {
-        viewModelScope.launch {
-            userRepository.addFriend(accessToken, id)
-        }
-    }
-
-    fun deleteFriend(id: Int) {
-        viewModelScope.launch {
-            userRepository.deleteFriend(accessToken, id)
-        }
-    }
-
-    private fun updateConversation(id: Int) {
-        viewModelScope.launch {
-            val updatedConversation = conversationRepo.getConversations(
-                accessToken = accessToken,
-                count = 1,
-                offset = 0
-            ).first()
-
-            val conversationsCopy = conversations.value.toMutableList()
-            for (conversation in conversations.value) {
-                if (conversation.id == id) {
-                    conversationsCopy.remove(conversation)
-                    break
-                }
+            try {
+                val conversations = conversationRepo.getConversations(
+                    accessToken = vkAccessToken.accessToken,
+                    count = DefaultConversationCount,
+                    offset = offset
+                )
+                val newConversationList = currentState.conversations.toMutableList()
+                newConversationList.addAll(conversations)
+                _viewState.value = currentState.copy(conversations = newConversationList)
+            } catch (e: Exception) {
+                Log.e(Tag, e.toString())
+                _viewState.value = HomeViewState.Error
             }
-
-            conversationsCopy.add(0, updatedConversation)
-            _conversations.emit(conversationsCopy)
         }
     }
 
-    @AssistedFactory
-    interface Factory {
-
-        fun create(accessToken: String): HomeViewModel
+    private fun performExpandFriendList(offset: Int, currentState: HomeViewState.Display) {
+        viewModelScope.launch {
+            try {
+                val friends = friendRepository.fetchFriendList(
+                    accessToken = vkAccessToken.accessToken,
+                    count = DefaultFriendCount,
+                    offset = offset
+                )
+                val newFriendList = currentState.friends.toMutableList()
+                newFriendList.addAll(friends)
+                _viewState.value = currentState.copy(friends = newFriendList)
+            } catch (e: Exception) {
+                Log.e(Tag, e.toString())
+                _viewState.value = HomeViewState.Error
+            }
+        }
     }
 
     companion object {
-
-        private const val CONVERSATION_COUNT = 20
-        private const val FRIENDS_COUNT = 20
-
-        fun provideFactory(
-            factory: Factory,
-            accessToken: String
-        ) = object: ViewModelProvider.Factory {
-
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return factory.create(accessToken) as T
-            }
-        }
+        private const val Tag = "home"
+        private const val DefaultConversationCount = 20
+        private const val DefaultFriendCount = 20
     }
 }

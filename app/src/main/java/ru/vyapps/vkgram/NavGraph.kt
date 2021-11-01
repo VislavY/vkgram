@@ -9,6 +9,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -30,24 +31,7 @@ import ru.vyapps.vkgram.new_conversation.navigation.newConversationGraph
 import ru.vyapps.vkgram.profile.ProfileScreen
 import ru.vyapps.vkgram.profile.ProfileViewModel
 
-@ExperimentalFoundationApi
-@ExperimentalSerializationApi
-@ExperimentalAnimationApi
-@ExperimentalMaterialApi
-@ExperimentalCoilApi
-@ExperimentalPagerApi
-@Composable
-fun homeViewModel(accessToken: String): HomeViewModel {
-    val factory = EntryPointAccessors.fromActivity(
-        LocalContext.current as Activity,
-        MainActivity.ViewModelFactoryProvider::class.java
-    ).provideHomeViewModelFactory()
-
-    return viewModel(
-        factory = HomeViewModel.provideFactory(factory, accessToken)
-    )
-}
-
+@ExperimentalPermissionsApi
 @ExperimentalFoundationApi
 @ExperimentalSerializationApi
 @ExperimentalCoilApi
@@ -75,6 +59,7 @@ fun messageHistoryViewModel(
     )
 }
 
+@ExperimentalPermissionsApi
 @ExperimentalFoundationApi
 @ExperimentalSerializationApi
 @ExperimentalCoilApi
@@ -133,7 +118,8 @@ fun NavGraph(startDestination: String) {
                 null
             }
         ) {
-            HomeScreen(navController, homeViewModel(accessToken()))
+            val viewModel: HomeViewModel = hiltViewModel()
+            HomeScreen(navController, viewModel)
         }
 
         composable(
