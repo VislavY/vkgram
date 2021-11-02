@@ -1,11 +1,8 @@
-package ru.vyapps.vkgram.core
+package ru.vyapps.vkgram.vk_api
 
 import android.content.Context
-import javax.inject.Inject
 
-class VkAccessToken @Inject constructor (
-    private val context: Context
-) {
+class VkAccessToken(private val context: Context) {
 
     val accessToken: String
         get() {

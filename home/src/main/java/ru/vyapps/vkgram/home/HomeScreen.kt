@@ -1,5 +1,6 @@
 package ru.vyapps.vkgram.home
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -19,6 +20,7 @@ import ru.vyapps.vkgram.home.models.HomeViewState
 import ru.vyapps.vkgram.home.views.HomeContent
 import ru.vyapps.vkgram.home.views.HomeTopBar
 
+@ExperimentalAnimationApi
 @ExperimentalPagerApi
 @Composable
 fun HomeScreen(

@@ -1,5 +1,6 @@
 package ru.vyapps.vkgram.home.views
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.Surface
@@ -16,6 +17,7 @@ import ru.vyapps.vkgram.core.theme.MainTheme
 import ru.vyapps.vkgram.core.theme.VKgramTheme
 import ru.vyapps.vkgram.home.models.HomeViewState
 
+@ExperimentalAnimationApi
 @ExperimentalPagerApi
 @Composable
 fun HomeContent(
@@ -67,6 +69,7 @@ fun HomeContent(
     }
 }
 
+@ExperimentalAnimationApi
 @ExperimentalPagerApi
 @Preview
 @Composable
@@ -84,6 +87,7 @@ fun HomeContent_Preview() {
     }
 }
 
+@ExperimentalAnimationApi
 @ExperimentalPagerApi
 @Preview
 @Composable

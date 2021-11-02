@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.vyapps.vkgram.core.EventHandler
-import ru.vyapps.vkgram.core.VkAccessToken
+import ru.vyapps.vkgram.vk_api.VkAccessToken
 import ru.vyapps.vkgram.core.repositories.ConversationRepo
 import ru.vyapps.vkgram.new_conversation.UserModel
 import ru.vyapps.vkgram.new_conversation.screens.conversation_creation.models.ConversationCreationEvent

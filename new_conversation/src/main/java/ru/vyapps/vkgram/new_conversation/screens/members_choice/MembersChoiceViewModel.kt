@@ -7,7 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import ru.vyapps.vkgram.core.VkAccessToken
+import ru.vyapps.vkgram.vk_api.VkAccessToken
 import ru.vyapps.vkgram.core.repositories.FriendRepository
 import ru.vyapps.vkgram.core.EventHandler
 import ru.vyapps.vkgram.new_conversation.UserModel

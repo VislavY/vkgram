@@ -16,7 +16,7 @@ data class User(
     val domain: String,
     @SerialName("first_name") val firstName: String,
     @SerialName("last_name") val lastName: String,
-    val online: Int = 0,
+    var online: Int = 0,
     @SerialName("last_seen") val lastSeen: LastSeen? = null,
     @SerialName("photo_50") val photo50Url: String = "",
     @SerialName("photo_100") val photo100Url: String = "",
