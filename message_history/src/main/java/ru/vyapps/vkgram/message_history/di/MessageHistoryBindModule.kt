@@ -6,8 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ru.vyapps.vkgram.message_history.repositories.GroupRepo
 import ru.vyapps.vkgram.message_history.repositories.GroupRepoImpl
-import ru.vyapps.vkgram.message_history.repositories.MessageRepo
-import ru.vyapps.vkgram.message_history.repositories.MessageRepoImpl
+import ru.vyapps.vkgram.message_history.repositories.MessageRepository
+import ru.vyapps.vkgram.message_history.repositories.MessageRepositoryImpl
 
 @Suppress("UNUSED")
 @Module
@@ -18,5 +18,5 @@ interface MessageHistoryBindModule {
     fun bindGroupRepo(impl: GroupRepoImpl): GroupRepo
 
     @Binds
-    fun bindMessageRepo(impl: MessageRepoImpl): MessageRepo
+    fun bindMessageRepo(impl: MessageRepositoryImpl): MessageRepository
 }

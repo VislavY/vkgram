@@ -2,6 +2,7 @@ import ru.vyapps.vkgram.buildsrc.Libs
 
 plugins {
     id("com.android.library")
+    id("kotlinx-serialization")
     kotlin("android")
     kotlin("kapt")
 }
@@ -40,6 +41,8 @@ android {
 
         api(Libs.AndroidX.Compose.material)
         api(Libs.AndroidX.Compose.uiTooling)
+
+        api(Libs.KotlinX.kotlinXSerializationJson)
 
         api(Libs.AndroidX.Hilt.hiltAndroid)
         kapt(Libs.AndroidX.Hilt.hiltCompiler)

@@ -25,22 +25,21 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
 import com.vk.api.sdk.VK
-import ru.vyapps.vkgram.core.Conversation
+import ru.vyapps.vkgram.core.ConversationModel
 import ru.vyapps.vkgram.core.theme.MainTheme
 import ru.vyapps.vkgram.core.theme.VKgramTheme
 import ru.vyapps.vkgram.core.views.ItemButton
 import ru.vyapps.vkgram.home.R
 import ru.vyapps.vkgram.home.utils.LastMessageDate
 import ru.vyapps.vkgram.vk_api.AttachmentType
-import ru.vyapps.vkgram.vk_api.data.ChatSettings
 import ru.vyapps.vkgram.vk_api.data.Message
 import java.util.*
 
 @ExperimentalAnimationApi
 @Composable
 fun ConversationItem(
-    model: Conversation,
-    onClick: (Conversation) -> Unit
+    model: ConversationModel,
+    onClick: (ConversationModel) -> Unit
 ) {
     ItemButton(
         onClick = {
@@ -50,7 +49,7 @@ fun ConversationItem(
         Box {
             Image(
                 painter = rememberImagePainter(
-                    data = model.properties.photo?.photo200,
+                    data = model.photo,
                     builder = {
                         crossfade(true)
                         placeholder(R.drawable.photo_placeholder_56)
@@ -63,7 +62,7 @@ fun ConversationItem(
 
             Row(Modifier.align(Alignment.BottomEnd)) {
                 AnimatedVisibility(
-                    visible = (model.user?.online == 1),
+                    visible = model.indicatorEnabled,
                     enter = scaleIn(tween(200)),
                     exit = scaleOut(tween(200))
                 ) {
@@ -98,7 +97,7 @@ fun ConversationItem(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = model.properties.title,
+                        text = model.title,
                         color = VKgramTheme.palette.primaryText,
                         modifier = Modifier.weight(1f, false),
                         overflow = TextOverflow.Ellipsis,
@@ -127,7 +126,7 @@ fun ConversationItem(
                 Spacer(Modifier.width(32.dp))
 
                 Text(
-                    text = LastMessageDate.timeDifference(model.lastMessage.date),
+                    text = LastMessageDate.timeDifference(model.lastMessage!!.date),
                     modifier = Modifier.wrapContentWidth(Alignment.End),
                     color = VKgramTheme.palette.secondaryText,
                     maxLines = 1,
@@ -140,7 +139,7 @@ fun ConversationItem(
             Row {
                 Row(Modifier.weight(1f)) {
                     if (model.type == "chat") {
-                        if (VK.getUserId() != model.lastMessage.userId) {
+                        if (VK.getUserId() != model.lastMessage?.userId) {
                             Text(
                                 text = "${model.lastMessageAuthor}: ",
                                 color = VKgramTheme.palette.secondary,
@@ -149,12 +148,12 @@ fun ConversationItem(
                         }
                     }
 
-                    if (model.lastMessage.attachments.isNotEmpty()) {
+                    if (!model.lastMessage?.attachments.isNullOrEmpty()) {
                         val attachment =
-                            if (model.lastMessage.attachments.size > 1) {
+                            if (model.lastMessage!!.attachments.size > 1) {
                                 stringResource(R.string.album)
                             } else {
-                                when (model.lastMessage.attachments.first().type) {
+                                when (model.lastMessage!!.attachments.first().type) {
                                     AttachmentType.PHOTO -> stringResource(R.string.photo)
                                     AttachmentType.VIDEO -> stringResource(R.string.video)
                                     AttachmentType.AUDIO -> stringResource(R.string.audio)
@@ -173,7 +172,7 @@ fun ConversationItem(
                                 }
                             }
 
-                        val suffix = if (model.lastMessage.text.isBlank()) "" else ", "
+                        val suffix = if (model.lastMessage?.text.isNullOrBlank()) "" else ", "
                         Text(
                             text = (attachment + suffix),
                             color = VKgramTheme.palette.secondary,
@@ -182,7 +181,7 @@ fun ConversationItem(
                     }
 
                     Text(
-                        text = model.lastMessage.text,
+                        text = model.lastMessage!!.text,
                         modifier = Modifier.padding(end = 32.dp),
                         color = VKgramTheme.palette.secondaryText,
                         overflow = TextOverflow.Ellipsis,
@@ -191,8 +190,8 @@ fun ConversationItem(
                     )
                 }
 
-                if (model.lastMessage.out == 1) {
-                    val lastMessageIsRead = model.lastReadMessageId < model.lastMessage.id
+                if (model.lastMessage!!.out == 1) {
+                    val lastMessageIsRead = model.lastReadMessageId < model.lastMessage!!.id
                     Icon(
                         imageVector = Icons.Rounded.Done,
                         contentDescription = null,
@@ -214,10 +213,9 @@ fun ConversationItem(
 fun ConversationItem_Preview() {
     MainTheme {
         ConversationItem(
-            model = Conversation(
+            model = ConversationModel(
                 id = 1,
                 type = "user",
-                properties = ChatSettings("Sample title"),
                 unreadMessageCount = 2,
                 lastMessage = Message(
                     id = 1,
@@ -241,16 +239,15 @@ fun ConversationItem_Preview() {
 fun DarkConversationItem_Preview() {
     MainTheme(darkThemeEnabled = true) {
         ConversationItem(
-            model = Conversation(
+            model = ConversationModel(
                 id = 1,
                 type = "user",
-                properties = ChatSettings("Sample title"),
                 unreadMessageCount = 2,
                 lastMessage = Message(
                     id = 1,
                     userId = 1,
                     ConversationId = 1,
-                    text = "Sample message",
+                    text = "Sample message 2",
                     attachments = emptyList(),
                     date = Date(),
                     out = 1

@@ -3,11 +3,11 @@ package ru.vyapps.vkgram.vk_api.data
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+
+
 @Serializable
 data class ChatPhoto(
-    @SerialName("photo_50") val photo50: String,
-    @SerialName("photo_100") val photo100: String,
-    @SerialName("photo_200") val photo200: String
+    @SerialName("photo_200") val photo: String = ""
 )
 
 @Serializable
@@ -39,7 +39,7 @@ data class ConversationItem(
 )
 
 @Serializable
-data class ConversationDataResponse(
+data class ConversationData(
     val items: List<ConversationItem>,
     val profiles: List<User> = emptyList(),
     val groups: List<Group> = emptyList()
@@ -47,6 +47,6 @@ data class ConversationDataResponse(
 
 
 @Serializable
-data class ConversationData(
-    val response: ConversationDataResponse
+data class ConversationResponse(
+    val response: ConversationData
 )

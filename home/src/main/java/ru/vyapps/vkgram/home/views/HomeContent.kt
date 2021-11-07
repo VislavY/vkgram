@@ -77,7 +77,7 @@ fun HomeContent_Preview() {
     MainTheme {
         HomeContent(
             viewState = HomeViewState.Display(
-                conversations = emptyList(),
+                conversationModels = emptyList(),
                 friends = emptyList()
             ),
             navController = rememberNavController(),
@@ -95,7 +95,7 @@ fun DarkHomeContent_Preview() {
     MainTheme(darkThemeEnabled = true) {
         HomeContent(
             viewState = HomeViewState.Display(
-                conversations = emptyList(),
+                conversationModels = emptyList(),
                 friends = emptyList()
             ),
             navController = rememberNavController(),

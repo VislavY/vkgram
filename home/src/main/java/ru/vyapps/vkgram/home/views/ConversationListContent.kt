@@ -14,15 +14,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import ru.vyapps.vkgram.core.Conversation
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import ru.vyapps.vkgram.core.ConversationModel
 import ru.vyapps.vkgram.core.Destinations
 import ru.vyapps.vkgram.core.theme.MainTheme
 import ru.vyapps.vkgram.core.theme.VKgramTheme
 import ru.vyapps.vkgram.home.models.HomeViewState
-import ru.vyapps.vkgram.vk_api.data.ChatSettings
 import ru.vyapps.vkgram.vk_api.data.Message
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 import java.util.*
 
+@ExperimentalSerializationApi
 @ExperimentalAnimationApi
 @Composable
 fun ConversationListContent(
@@ -39,20 +44,28 @@ fun ConversationListContent(
             Spacer(Modifier.height(16.dp))
 
             LazyColumn {
-                itemsIndexed(viewState.conversations) { i, conversation ->
+                itemsIndexed(viewState.conversationModels) { i, conversation ->
                     ConversationItem(
                         model = conversation,
                         onClick = {
+                            val encodedConversation = Json.encodeToString(
+                                value = conversation.copy(
+                                    photo = URLEncoder.encode(
+                                        conversation.photo,
+                                        StandardCharsets.UTF_8.toString()
+                                    ),
+                                    lastMessage = null
+                                )
+                            )
                             navController.navigate(
                                 route = Destinations.MESSAGE_HISTORY_SCREEN
-                                        + "/${it.type}"
-                                        + "/${it.id}"
+                                        + "/$encodedConversation"
                             )
                         }
                     )
 
-                    if (i == (viewState.conversations.size - 1)) {
-                        onListEnd(viewState.conversations.size)
+                    if (i == (viewState.conversationModels.size - 1)) {
+                        onListEnd(viewState.conversationModels.size)
                     }
                 }
             }
@@ -60,6 +73,7 @@ fun ConversationListContent(
     }
 }
 
+@ExperimentalSerializationApi
 @ExperimentalAnimationApi
 @Preview
 @Composable
@@ -67,11 +81,11 @@ fun ConversationListContent_Preview() {
     MainTheme {
         ConversationListContent(
             viewState = HomeViewState.Display(
-                conversations = listOf(
-                    Conversation(
+                conversationModels = listOf(
+                    ConversationModel(
                         id = 1,
                         type = "user",
-                        properties = ChatSettings("Sample title"),
+                        title = "It's Sample",
                         unreadMessageCount = 2,
                         lastMessage = Message(
                             id = 1,
@@ -84,11 +98,11 @@ fun ConversationListContent_Preview() {
                         ),
                         lastReadMessageId = 0,
                     ),
-                    Conversation(
+                    ConversationModel(
                         id = 1,
                         type = "user",
-                        properties = ChatSettings("Sample title 2"),
-                        unreadMessageCount = 0,
+                        title = "It's Sample 2",
+                        unreadMessageCount = 2,
                         lastMessage = Message(
                             id = 1,
                             userId = 1,
@@ -96,10 +110,10 @@ fun ConversationListContent_Preview() {
                             text = "Sample message 2",
                             attachments = emptyList(),
                             date = Date(),
-                            out = 0
+                            out = 1
                         ),
                         lastReadMessageId = 0,
-                    )
+                    ),
                 ),
                 friends = emptyList()
             ),
@@ -109,6 +123,7 @@ fun ConversationListContent_Preview() {
     }
 }
 
+@ExperimentalSerializationApi
 @ExperimentalAnimationApi
 @Preview
 @Composable
@@ -116,11 +131,11 @@ fun DarkConversationListContent_Preview() {
     MainTheme(darkThemeEnabled = true) {
         ConversationListContent(
             viewState = HomeViewState.Display(
-                conversations = listOf(
-                    Conversation(
+                conversationModels = listOf(
+                    ConversationModel(
                         id = 1,
                         type = "user",
-                        properties = ChatSettings("Sample title"),
+                        title = "It's Sample",
                         unreadMessageCount = 2,
                         lastMessage = Message(
                             id = 1,
@@ -133,11 +148,11 @@ fun DarkConversationListContent_Preview() {
                         ),
                         lastReadMessageId = 0,
                     ),
-                    Conversation(
+                    ConversationModel(
                         id = 1,
                         type = "user",
-                        properties = ChatSettings("Sample title 2"),
-                        unreadMessageCount = 0,
+                        title = "It's Sample 2",
+                        unreadMessageCount = 2,
                         lastMessage = Message(
                             id = 1,
                             userId = 1,
@@ -145,10 +160,10 @@ fun DarkConversationListContent_Preview() {
                             text = "Sample message 2",
                             attachments = emptyList(),
                             date = Date(),
-                            out = 0
+                            out = 1
                         ),
                         lastReadMessageId = 0,
-                    )
+                    ),
                 ),
                 friends = emptyList()
             ),

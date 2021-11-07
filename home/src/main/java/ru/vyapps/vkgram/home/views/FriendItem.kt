@@ -28,7 +28,7 @@ fun FriendItem(
     ) {
         Image(
             painter = rememberImagePainter(
-                data = model.photo200Url,
+                data = model.photo,
                 builder = {
                     crossfade(true)
                     placeholder(R.drawable.photo_placeholder_56)

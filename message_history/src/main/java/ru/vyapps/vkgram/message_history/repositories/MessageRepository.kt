@@ -1,10 +1,11 @@
 package ru.vyapps.vkgram.message_history.repositories
 
-import ru.vyapps.vkgram.message_history.Message
+import ru.vyapps.vkgram.vk_api.data.LastActivity
+import ru.vyapps.vkgram.vk_api.data.Message
 
-interface MessageRepo {
+interface MessageRepository {
 
-    suspend fun getMessages(
+    suspend fun fetchMessageList(
         accessToken: String,
         conversationId: Int,
         count: Int,
@@ -16,4 +17,9 @@ interface MessageRepo {
         conversationId: Int,
         text: String
     )
+
+    suspend fun getLastActivity(
+        accessToken: String,
+        userId: Int
+    ): LastActivity
 }

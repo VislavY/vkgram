@@ -22,7 +22,7 @@ interface VkService {
         @Query("access_token") accessToken: String,
         @Query("count") count: Int,
         @Query("offset") offset: Int
-    ): ConversationData
+    ): ConversationResponse
 
     @GET("messages.createChat?v=5.131")
     suspend fun createChat(
@@ -38,6 +38,12 @@ interface VkService {
         @Query("count") count: Int,
         @Query("offset") offset: Int
     ): MessageData
+
+    @GET("messages.getLastActivity?v=5.151")
+    suspend fun getLastActivity(
+        @Query("access_token") accessToken: String,
+        @Query("user_id") userId: Int
+    ): LastActivityResponse
 
     @GET("messages.getChat?v=5.131")
     suspend fun fetchChatById(

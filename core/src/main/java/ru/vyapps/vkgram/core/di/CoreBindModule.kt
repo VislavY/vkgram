@@ -18,5 +18,5 @@ interface CoreBindModule {
     fun bindFriendRepository(impl: FriendRepositoryImpl): FriendRepository
 
     @Binds
-    fun bindConversationRepository(impl: ConversationRepoImpl): ConversationRepo
+    fun bindConversationRepository(impl: ConversationRepositoryImpl): ConversationRepository
 }

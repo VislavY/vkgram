@@ -14,7 +14,5 @@ data class Group(
     val name: String,
     @SerialName("screen_name") val screenName: String,
     @SerialName("is_closed") val isClosed: Int,
-    @SerialName("photo_50") val photo50Url: String,
-    @SerialName("photo_100") val photo100Url: String,
-    @SerialName("photo_200") val photo200Url: String
+    @SerialName("photo_200") val photo: String
 )

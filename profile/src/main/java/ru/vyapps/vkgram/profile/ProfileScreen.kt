@@ -112,7 +112,7 @@ fun ProfileContent(
             Box(contentAlignment = Alignment.BottomEnd) {
                 Image(
                     painter = rememberImagePainter(
-                        data = value?.photo400OrigUrl,
+                        data = value?.photoOrig,
                         builder = {
                             crossfade(true)
                             placeholder(R.drawable.photo_placeholder_200)

@@ -1,9 +1,9 @@
 package ru.vyapps.vkgram.core.repositories
 
-import ru.vyapps.vkgram.core.Conversation
+import ru.vyapps.vkgram.core.ConversationModel
 import ru.vyapps.vkgram.vk_api.data.Chat
 
-interface ConversationRepo {
+interface ConversationRepository {
 
     suspend fun createChat(
         accessToken: String,
@@ -11,13 +11,13 @@ interface ConversationRepo {
         title: String
     ): Int
 
-    suspend fun getConversations(
+    suspend fun fetchConversationList(
         accessToken: String,
         count: Int,
         offset: Int
-    ): List<Conversation>
+    ): List<ConversationModel>
 
-    suspend fun getChatById(
+    suspend fun fetchChatById(
         accessToken: String,
         id: Int
     ): Chat

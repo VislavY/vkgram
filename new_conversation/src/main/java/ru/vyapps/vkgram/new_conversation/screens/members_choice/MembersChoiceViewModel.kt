@@ -87,7 +87,7 @@ class MembersChoiceViewModel @Inject constructor(
                         domain = user.domain,
                         firstName = user.firstName,
                         lastName = user.lastName,
-                        photo = user.photo200Url
+                        photo = user.photo
                     )
                 }
 

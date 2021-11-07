@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.vyapps.vkgram.core.EventHandler
 import ru.vyapps.vkgram.vk_api.VkAccessToken
-import ru.vyapps.vkgram.core.repositories.ConversationRepo
+import ru.vyapps.vkgram.core.repositories.ConversationRepository
 import ru.vyapps.vkgram.new_conversation.UserModel
 import ru.vyapps.vkgram.new_conversation.screens.conversation_creation.models.ConversationCreationEvent
 import ru.vyapps.vkgram.new_conversation.screens.conversation_creation.models.ConversationCreationViewState
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ConversationCreationViewModel @Inject constructor(
     private val vkAccessToken: VkAccessToken,
-    private val conversationRepository: ConversationRepo
+    private val conversationRepository: ConversationRepository
 ) : ViewModel(), EventHandler<ConversationCreationEvent> {
 
     private val _viewState =

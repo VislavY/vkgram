@@ -1,15 +1,15 @@
 package ru.vyapps.vkgram.core.repositories
 
-import ru.vyapps.vkgram.core.Conversation
+import ru.vyapps.vkgram.core.ConversationModel
 import ru.vyapps.vkgram.core.mappers.ConversationDataMapper
 import ru.vyapps.vkgram.vk_api.VkService
 import ru.vyapps.vkgram.vk_api.data.Chat
 import javax.inject.Inject
 
- class ConversationRepoImpl @Inject constructor(
+ class ConversationRepositoryImpl @Inject constructor(
     private val vkService: VkService,
     private val conversationDataMapper: ConversationDataMapper
-) : ConversationRepo {
+) : ConversationRepository {
 
      override suspend fun createChat(
          accessToken: String,
@@ -23,20 +23,20 @@ import javax.inject.Inject
          ).response
      }
 
-     override suspend fun getConversations(
+     override suspend fun fetchConversationList(
         accessToken: String,
         count: Int,
         offset: Int
-    ): List<Conversation> {
+    ): List<ConversationModel> {
         val conversationData = vkService.fetchConversationList(
             accessToken = accessToken,
             count = count,
             offset = offset
-        )
+        ).response
         return conversationDataMapper.map(conversationData)
     }
 
-     override suspend fun getChatById(
+     override suspend fun fetchChatById(
          accessToken: String,
          id: Int
      ): Chat {

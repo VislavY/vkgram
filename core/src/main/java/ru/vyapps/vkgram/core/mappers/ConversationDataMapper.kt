@@ -1,73 +1,66 @@
 package ru.vyapps.vkgram.core.mappers
 
-import ru.vyapps.vkgram.core.Conversation
-import ru.vyapps.vkgram.vk_api.data.ChatPhoto
-import ru.vyapps.vkgram.vk_api.data.ChatSettings
+import ru.vyapps.vkgram.core.ConversationModel
 import ru.vyapps.vkgram.vk_api.data.ConversationData
 import javax.inject.Inject
 import kotlin.math.abs
 
 class ConversationDataMapper @Inject constructor() {
 
-    fun map(input: ConversationData): List<Conversation> {
-        val conversations = ArrayList<Conversation>()
+    fun map(input: ConversationData): List<ConversationModel> {
+        val conversations = mutableListOf<ConversationModel>()
 
-        with(input.response) {
-            items.forEach { item ->
-                val conversation = with(item) {
-                    Conversation(
-                        id = conversation.peer.localId,
-                        type = conversation.peer.type,
-                        properties = ChatSettings(),
-                        unreadMessageCount = conversation.unreadMessageCount,
-                        lastReadMessageId = conversation.lastReadMessageId,
-                        lastMessage = lastMessage
+        input.items.forEach { conversationData ->
+            var conversation = with(conversationData) {
+                ConversationModel(
+                    id = conversation.peer.id,
+                    type = conversation.peer.type,
+                    unreadMessageCount = conversation.unreadMessageCount,
+                    lastReadMessageId = conversation.lastReadMessageId,
+                    lastMessage = lastMessage
+                )
+            }
+
+            when (conversation.type) {
+                "user" -> {
+                    for (user in input.profiles) {
+                        if (user.id == conversation.lastMessage?.userId) {
+                            conversation = conversation.copy(lastMessageAuthor = user.firstName)
+                        }
+
+                        if (user.id != conversation.id) continue
+
+                        conversation = conversation.copy(
+                            title = "${user.firstName} ${user.lastName}",
+                            photo = user.photo,
+                            indicatorEnabled = (user.online == 1)
+                        )
+                        break
+                    }
+                }
+                "group" -> {
+                    for (group in input.groups) {
+                        if (group.id != abs(conversation.id)) continue
+
+                        conversation = conversation.copy(
+                            title = group.name,
+                            photo = group.photo
+                        )
+                        break
+                    }
+                }
+                "chat" -> {
+                    conversation = conversation.copy(
+                        title = conversationData.conversation.chatSettings?.title ?: "",
+                        photo = conversationData.conversation.chatSettings?.photo?.photo ?: "",
+                        userCount = conversationData.conversation.chatSettings?.activeIds?.size ?: 0
                     )
                 }
-
-                item.conversation.chatSettings?.let { properties ->
-                    conversation.properties = properties
-
-                    profiles.forEach { profile ->
-                        if (profile.id == conversation.lastMessage.userId) {
-                            conversation.lastMessageAuthor = profile.firstName
-                        }
-                    }
-                }
-
-                when (conversation.type) {
-                    "user" -> {
-                        profiles.forEach { profile ->
-                            if (conversation.id == profile.id) {
-                                conversation.user = profile
-                                conversation.properties.photo = ChatPhoto(
-                                    profile.photo50Url,
-                                    profile.photo100Url,
-                                    profile.photo200Url
-                                )
-                                conversation.properties.title =
-                                    "${profile.firstName} ${profile.lastName}"
-                            }
-                        }
-                    }
-
-                    "group" -> {
-                        groups.forEach { group ->
-                            if (abs(conversation.id) == group.id) {
-                                conversation.properties.photo = ChatPhoto(
-                                    group.photo50Url,
-                                    group.photo100Url,
-                                    group.photo200Url
-                                )
-                                conversation.properties.title = group.name
-                            }
-                        }
-                    }
-                }
-
-                conversations.add(conversation)
             }
+
+            conversations.add(conversation)
         }
+
 
         return conversations
     }

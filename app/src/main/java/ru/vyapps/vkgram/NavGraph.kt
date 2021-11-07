@@ -11,8 +11,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -21,43 +19,20 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import ru.vyapps.vkgram.core.ConversationModel
 import ru.vyapps.vkgram.core.Destinations
 import ru.vyapps.vkgram.home.HomeScreen
 import ru.vyapps.vkgram.home.HomeViewModel
 import ru.vyapps.vkgram.login.LoginScreen
-import ru.vyapps.vkgram.message_history.MessageHistoryViewModel
 import ru.vyapps.vkgram.message_history.MessageHistoryScreen
+import ru.vyapps.vkgram.message_history.MessageHistoryViewModel
 import ru.vyapps.vkgram.new_conversation.navigation.newConversationGraph
 import ru.vyapps.vkgram.profile.ProfileScreen
 import ru.vyapps.vkgram.profile.ProfileViewModel
-
-@ExperimentalPermissionsApi
-@ExperimentalFoundationApi
-@ExperimentalSerializationApi
-@ExperimentalCoilApi
-@ExperimentalAnimationApi
-@ExperimentalMaterialApi
-@ExperimentalPagerApi
-@Composable
-fun messageHistoryViewModel(
-    conversationId: Int,
-    conversationType: String,
-    accessToken: String
-): MessageHistoryViewModel {
-    val factory = EntryPointAccessors.fromActivity(
-        LocalContext.current as Activity,
-        MainActivity.ViewModelFactoryProvider::class.java
-    ).provideMessageHistoryViewModelFactory()
-
-    return viewModel(
-        factory = MessageHistoryViewModel.provideFactory(
-            factory = factory,
-            conversationId = conversationId,
-            conversationType = conversationType,
-            accessToken = accessToken
-        )
-    )
-}
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 
 @ExperimentalPermissionsApi
 @ExperimentalFoundationApi
@@ -79,8 +54,10 @@ fun profileViewModel(accessToken: String): ProfileViewModel {
 @Composable
 fun accessToken(): String {
     val activity = (LocalContext.current as Activity)
-    val sharedPreferences = activity.getSharedPreferences(stringResource(R.string.pref_file_key), Context.MODE_PRIVATE)
-    val token = sharedPreferences.getString(activity.getString(R.string.access_token_pref_key), null)
+    val sharedPreferences =
+        activity.getSharedPreferences(stringResource(R.string.pref_file_key), Context.MODE_PRIVATE)
+    val token =
+        sharedPreferences.getString(activity.getString(R.string.access_token_pref_key), null)
     return if (token.isNullOrBlank()) "" else token
 }
 
@@ -102,7 +79,7 @@ fun NavGraph(startDestination: String) {
 
         composable(
             route = Destinations.LOGIN_SCREEN,
-            exitTransition = {_, _ ->
+            exitTransition = { _, _ ->
                 fadeOut(animationSpec = tween(400))
             }
         ) {
@@ -123,12 +100,7 @@ fun NavGraph(startDestination: String) {
         }
 
         composable(
-            route = "${Destinations.MESSAGE_HISTORY_SCREEN}/{conversationId}/{conversationType}",
-            arguments = listOf(
-                navArgument("conversationId") {
-                    type = NavType.IntType
-                }
-            ),
+            route = "${Destinations.MESSAGE_HISTORY_SCREEN}/{conversation}",
             enterTransition = { _, _ ->
                 slideInHorizontally(
                     initialOffsetX = { 200 },
@@ -142,18 +114,20 @@ fun NavGraph(startDestination: String) {
                 ) + fadeOut(animationSpec = tween(500))
             }
         ) { backStackEntry ->
-            backStackEntry.arguments?.let { args ->
-                val conversationId = args.getInt("conversationId")
-                val conversationType = args.getString("conversationType", "")
-                MessageHistoryScreen(
-                    navController = navController,
-                    messageHistoryViewModel(
-                        conversationId = conversationId,
-                        conversationType = conversationType,
-                        accessToken = accessToken()
+            val encodedConversation =
+                backStackEntry.arguments?.getString("conversation") ?: return@composable
+            val conversation = Json.decodeFromString<ConversationModel>(encodedConversation)
+            val viewModel: MessageHistoryViewModel = hiltViewModel()
+            MessageHistoryScreen(
+                conversation = conversation.copy(
+                    photo = URLDecoder.decode(
+                        conversation.photo,
+                        StandardCharsets.UTF_8.toString()
                     )
-                )
-            }
+                ),
+                navController = navController,
+                viewModel = viewModel
+            )
         }
 
         composable(

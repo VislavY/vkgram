@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.vyapps.vkgram.core.EventHandler
 import ru.vyapps.vkgram.vk_api.VkAccessToken
-import ru.vyapps.vkgram.core.repositories.ConversationRepo
+import ru.vyapps.vkgram.core.repositories.ConversationRepository
 import ru.vyapps.vkgram.core.repositories.FriendRepository
 import ru.vyapps.vkgram.home.models.HomeEvent
 import ru.vyapps.vkgram.home.models.HomeViewState
@@ -20,7 +20,7 @@ import kotlin.math.abs
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val vkAccessToken: VkAccessToken,
-    private val conversationRepo: ConversationRepo,
+    private val conversationRepository: ConversationRepository,
     private val friendRepository: FriendRepository,
     private val longPollServerManager: LongPollServerManager
 ) : ViewModel(), EventHandler<HomeEvent> {
@@ -101,7 +101,7 @@ class HomeViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
-                val conversationsResponse = conversationRepo.getConversations(
+                val conversationsResponse = conversationRepository.fetchConversationList(
                     accessToken = vkAccessToken.accessToken,
                     count = DefaultConversationCount,
                     offset = 0
@@ -122,14 +122,14 @@ class HomeViewModel @Inject constructor(
     private fun increaseConversationList(offset: Int, currentState: HomeViewState.Display) {
         viewModelScope.launch {
             try {
-                val conversations = conversationRepo.getConversations(
+                val conversations = conversationRepository.fetchConversationList(
                     accessToken = vkAccessToken.accessToken,
                     count = DefaultConversationCount,
                     offset = offset
                 )
-                val modifiedConversationList = currentState.conversations.toMutableList()
+                val modifiedConversationList = currentState.conversationModels.toMutableList()
                 modifiedConversationList.addAll(conversations)
-                _viewState.value = currentState.copy(conversations = modifiedConversationList)
+                _viewState.value = currentState.copy(conversationModels = modifiedConversationList)
             } catch (e: Exception) {
                 Log.e(Tag, e.toString())
                 _viewState.value = HomeViewState.Error
@@ -158,18 +158,18 @@ class HomeViewModel @Inject constructor(
     private fun updateConversation(conversationId: Int, currentState: HomeViewState.Display) {
         viewModelScope.launch {
             try {
-                val response = conversationRepo.getConversations(
+                val response = conversationRepository.fetchConversationList(
                     accessToken = vkAccessToken.accessToken,
                     count = 1,
                     offset = 0
                 ).first()
                 println(response)
-                val modifiedConversationList = currentState.conversations.toMutableList()
+                val modifiedConversationList = currentState.conversationModels.toMutableList()
                 modifiedConversationList.add(0, response)
                 val outdatedConversations =
-                    currentState.conversations.filter { it.id == conversationId }
+                    currentState.conversationModels.filter { it.id == conversationId }
                 modifiedConversationList.removeAll(outdatedConversations)
-                _viewState.value = currentState.copy(conversations = modifiedConversationList)
+                _viewState.value = currentState.copy(conversationModels = modifiedConversationList)
             } catch (e: Exception) {
                 Log.e(Tag, e.toString())
                 _viewState.value = HomeViewState.Error
@@ -182,22 +182,13 @@ class HomeViewModel @Inject constructor(
         isOnline: Boolean,
         currentState: HomeViewState.Display
     ) {
-        currentState.conversations.forEachIndexed lit@{ i, conversation ->
+        currentState.conversationModels.forEachIndexed lit@{ i, conversation ->
             if (conversationId != conversation.id) return@lit
 
-            val modifiedConversation = conversation.copy(
-                user = conversation.user?.copy(
-                    online = if (isOnline) {
-                        1
-                    } else {
-                        0
-                    }
-                )
-            )
-
-            val modifiedConversationList = currentState.conversations.toMutableList()
+            val modifiedConversation = conversation.copy(indicatorEnabled = isOnline)
+            val modifiedConversationList = currentState.conversationModels.toMutableList()
             modifiedConversationList[i] = modifiedConversation
-            _viewState.value = currentState.copy(conversations = modifiedConversationList)
+            _viewState.value = currentState.copy(conversationModels = modifiedConversationList)
 
             return
         }

@@ -88,8 +88,6 @@ class MainActivity : ComponentActivity() {
     @InstallIn(ActivityComponent::class)
     interface ViewModelFactoryProvider {
 
-        fun provideMessageHistoryViewModelFactory(): MessageHistoryViewModel.Factory
-
         fun provideProfileViewModelFactory(): ProfileViewModel.Factory
     }
 }
