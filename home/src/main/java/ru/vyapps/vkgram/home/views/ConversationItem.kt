@@ -72,7 +72,7 @@ fun ConversationItem(
                                 color = VKgramTheme.palette.background,
                                 shape = CircleShape
                             )
-                            .size(16.dp),
+                            .size(14.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Box(
@@ -81,7 +81,7 @@ fun ConversationItem(
                                     color = VKgramTheme.palette.secondary,
                                     shape = CircleShape
                                 )
-                                .size(12.dp)
+                                .size(10.dp)
                         )
                     }
                 }
