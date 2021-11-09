@@ -58,7 +58,7 @@ fun ConversationListContent(
                                 )
                             )
                             navController.navigate(
-                                route = Destinations.MESSAGE_HISTORY_SCREEN
+                                route = Destinations.MessageHistory
                                         + "/$encodedConversation"
                             )
                         }

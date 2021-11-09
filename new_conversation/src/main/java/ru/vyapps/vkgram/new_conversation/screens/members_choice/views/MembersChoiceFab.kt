@@ -46,7 +46,7 @@ fun MembersChoiceFab(
                     }
                 )
                 navController.navigate(
-                    route = NewConversationDestinations.CONVERSATION_CREATION
+                    route = NewConversationDestinations.ConversationCreation
                             + "/$encodedMembers"
                 )
             },

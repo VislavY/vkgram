@@ -78,8 +78,8 @@ fun NavGraph(startDestination: String) {
         newConversationGraph(navController)
 
         composable(
-            route = Destinations.LOGIN_SCREEN,
-            exitTransition = { _, _ ->
+            route = Destinations.Login,
+            exitTransition = {
                 fadeOut(animationSpec = tween(400))
             }
         ) {
@@ -87,11 +87,11 @@ fun NavGraph(startDestination: String) {
         }
 
         composable(
-            route = Destinations.HOME_SCREEN,
-            enterTransition = { _, _ ->
+            route = Destinations.Home,
+            enterTransition = {
                 null
             },
-            exitTransition = { _, _ ->
+            exitTransition = {
                 null
             }
         ) {
@@ -100,18 +100,18 @@ fun NavGraph(startDestination: String) {
         }
 
         composable(
-            route = "${Destinations.MESSAGE_HISTORY_SCREEN}/{conversation}",
-            enterTransition = { _, _ ->
+            route = "${Destinations.MessageHistory}/{conversation}",
+            enterTransition = {
                 slideInHorizontally(
                     initialOffsetX = { 200 },
                     animationSpec = tween(200)
-                ) + fadeIn(animationSpec = tween(500))
+                ) + fadeIn(animationSpec = tween(400))
             },
-            popExitTransition = { _, _ ->
+            popExitTransition = {
                 slideOutHorizontally(
                     targetOffsetX = { 200 },
                     animationSpec = tween(200)
-                ) + fadeOut(animationSpec = tween(500))
+                ) + fadeOut(animationSpec = tween(400))
             }
         ) { backStackEntry ->
             val encodedConversation =
@@ -131,12 +131,12 @@ fun NavGraph(startDestination: String) {
         }
 
         composable(
-            route = Destinations.PROFILE_SCREEN,
-            enterTransition = { _, _ ->
-                fadeIn(animationSpec = tween(500))
+            route = Destinations.Profile,
+            enterTransition = {
+                scaleIn(initialScale = 0.95f)
             },
-            popExitTransition = { _, _ ->
-                fadeOut(animationSpec = tween(500))
+            popExitTransition = {
+                scaleOut(targetScale = 0.95f)
             }
         ) {
             ProfileScreen(navController, profileViewModel(accessToken()))

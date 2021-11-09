@@ -22,8 +22,6 @@ import dagger.hilt.android.components.ActivityComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 import ru.vyapps.vkgram.core.Destinations
 import ru.vyapps.vkgram.core.theme.MainTheme
-import ru.vyapps.vkgram.home.HomeViewModel
-import ru.vyapps.vkgram.message_history.MessageHistoryViewModel
 import ru.vyapps.vkgram.profile.ProfileViewModel
 
 @ExperimentalPermissionsApi
@@ -42,7 +40,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MainTheme {
                 val startDestination = if (VK.isLoggedIn())
-                    Destinations.HOME_SCREEN else Destinations.LOGIN_SCREEN
+                    Destinations.Home else Destinations.Login
                 NavGraph(startDestination)
             }
         }

@@ -31,12 +31,12 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            HomeTopBar()
+            HomeTopBar(navController = navController)
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navController.navigate(Destinations.NEW_CONVERSATION_SCREEN)
+                    navController.navigate(Destinations.NewConversation)
                 },
                 modifier = Modifier.padding(bottom = 16.dp),
                 backgroundColor = VKgramTheme.palette.secondary

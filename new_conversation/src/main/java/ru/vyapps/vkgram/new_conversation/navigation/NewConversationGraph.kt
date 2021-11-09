@@ -30,14 +30,18 @@ import java.nio.charset.StandardCharsets
 @ExperimentalCoilApi
 @ExperimentalAnimationApi
 fun NavGraphBuilder.newConversationGraph(navController: NavController) {
-    navigation(NewConversationDestinations.MEMBERS_CHOICE, Destinations.NEW_CONVERSATION_SCREEN) {
+    navigation(NewConversationDestinations.MemberChoice, Destinations.NewConversation) {
         composable(
-            route = NewConversationDestinations.MEMBERS_CHOICE,
-            enterTransition = { _, _ ->
-                fadeIn(animationSpec = tween(500))
+            route = NewConversationDestinations.MemberChoice,
+            enterTransition = {
+                println(initialState.destination.route)
+                when (initialState.destination.route) {
+                    Destinations.Home -> scaleIn(initialScale = 0.95f)
+                    else -> null
+                }
             },
-            popExitTransition = { _, _ ->
-                fadeOut(animationSpec = tween(500))
+            popExitTransition = {
+                scaleOut(targetScale = 0.95f)
             }
         ) {
             val viewModel = hiltViewModel<MembersChoiceViewModel>()
@@ -45,18 +49,18 @@ fun NavGraphBuilder.newConversationGraph(navController: NavController) {
         }
 
         composable(
-            route = "${NewConversationDestinations.CONVERSATION_CREATION}/{members}",
-            enterTransition = { _, _ ->
+            route = "${NewConversationDestinations.ConversationCreation}/{members}",
+            enterTransition = {
                 slideInHorizontally(
                     initialOffsetX = { 200 },
                     animationSpec = tween(200)
-                ) + fadeIn(animationSpec = tween(500))
+                ) + fadeIn(animationSpec = tween(400))
             },
-            popExitTransition = { _, _ ->
+            popExitTransition = {
                 slideOutHorizontally(
                     targetOffsetX = { 200 },
                     animationSpec = tween(200)
-                ) + fadeOut(animationSpec = tween(500))
+                ) + fadeOut(animationSpec = tween(400))
             }
         ) { backStackEntry ->
             val encodedMembers = backStackEntry.arguments?.getString("members") ?: return@composable

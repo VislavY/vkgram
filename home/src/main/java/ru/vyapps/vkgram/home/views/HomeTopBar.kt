@@ -5,24 +5,35 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Menu
-import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import ru.vyapps.vkgram.core.Destinations
 import ru.vyapps.vkgram.core.theme.MainTheme
 import ru.vyapps.vkgram.core.theme.VKgramTheme
 
 @Composable
-fun HomeTopBar() {
+fun HomeTopBar(
+    modifier: Modifier = Modifier,
+    navController: NavController
+) {
     TopAppBar(
+        modifier = modifier,
         backgroundColor = VKgramTheme.palette.primary,
         elevation = 0.dp
     ) {
-        IconButton(onClick = { }) {
+        IconButton(
+            onClick = {
+                navController.navigate(Destinations.Profile)
+            }
+        ) {
             Icon(
-                imageVector = Icons.Rounded.Menu,
+                imageVector = Icons.Outlined.Person,
                 contentDescription = null,
                 tint = VKgramTheme.palette.onPrimary
             )
@@ -32,7 +43,7 @@ fun HomeTopBar() {
 
         IconButton(onClick = { }) {
             Icon(
-                imageVector = Icons.Rounded.Search,
+                imageVector = Icons.Outlined.Search,
                 contentDescription = null,
                 tint = VKgramTheme.palette.onPrimary
             )
@@ -44,7 +55,7 @@ fun HomeTopBar() {
 @Composable
 fun HomeTopBar_Preview() {
     MainTheme {
-        HomeTopBar()
+        HomeTopBar(navController = rememberNavController())
     }
 }
 
@@ -52,6 +63,6 @@ fun HomeTopBar_Preview() {
 @Composable
 fun DarkHomeTopBar_Preview() {
     MainTheme(darkThemeEnabled = true) {
-        HomeTopBar()
+        HomeTopBar(navController = rememberNavController())
     }
 }

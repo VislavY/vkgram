@@ -34,7 +34,7 @@ fun LoginScreen(
     LaunchedEffect(Unit) {
         while (true) {
             if (VK.isLoggedIn()) {
-                navController.navigate(Destinations.HOME_SCREEN)
+                navController.navigate(Destinations.Home)
             }
 
             delay(1000)
