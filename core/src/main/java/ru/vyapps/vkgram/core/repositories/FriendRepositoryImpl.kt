@@ -13,7 +13,7 @@ class FriendRepositoryImpl @Inject constructor(
         count: Int,
         offset: Int
     ): List<User> {
-        return vkService.fetchFriendList(
+        return vkService.getFriendList(
             accessToken = accessToken,
             count = count,
             offset = offset

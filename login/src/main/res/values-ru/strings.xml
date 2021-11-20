@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="login_button_text">Войти</string>
+    <string name="login_button_text">Войти через ВКонтакте</string>
     <string name="login_failed">Не удалось войти</string>
-    <string name="login_header_content_description">Шапка</string>
-    <string name="login_hello_headline">Привет!</string>
+    <string name="login_hello">Привет!</string>
     <string name="login_successful">Успешный вход</string>
-    <string name="login_thanks_body">Благодарим Вас за установку \nVKgram</string>
+    <string name="login_thank_you">Благодарю Вас за установку мессенджера VKgram &#128522;</string>
 </resources>

@@ -64,9 +64,8 @@ dependencies {
     implementation Libs.AndroidX.appcompat
 
     implementation Libs.AndroidX.Navigation.navigationCompose
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
     implementation Libs.Google.accompanistNavigationAnimation
-
-    api("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0-rc01")
 
     implementation Libs.AndroidX.Hilt.hiltAndroid
     implementation Libs.AndroidX.Hilt.hiltNavigationCompose

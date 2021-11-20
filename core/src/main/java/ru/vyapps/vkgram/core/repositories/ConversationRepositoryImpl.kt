@@ -28,7 +28,7 @@ import javax.inject.Inject
         count: Int,
         offset: Int
     ): List<ConversationModel> {
-        val conversationData = vkService.fetchConversationList(
+        val conversationData = vkService.getConversationList(
             accessToken = accessToken,
             count = count,
             offset = offset
@@ -40,6 +40,6 @@ import javax.inject.Inject
          accessToken: String,
          id: Int
      ): Chat {
-         return vkService.fetchChatById(accessToken, id).response
+         return vkService.getChatById(accessToken, id).response
      }
  }

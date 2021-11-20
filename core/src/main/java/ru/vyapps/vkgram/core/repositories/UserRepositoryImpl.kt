@@ -12,6 +12,6 @@ class UserRepositoryImpl @Inject constructor(
         accessToken: String,
         ids: List<Int>
     ): List<User> {
-        return vkService.fetchUserListByIds(accessToken, ids).response
+        return vkService.getUserListByIds(accessToken, ids).response
     }
 }

@@ -12,13 +12,13 @@ import ru.vyapps.vkgram.vk_api.data.*
 interface VkService {
 
     @GET("users.get?fields=domain,online,last_seen,photo_50,photo_100,photo_200,photo_400_orig&v=5.131")
-    suspend fun fetchUserListByIds(
+    suspend fun getUserListByIds(
         @Query("access_token") accessToken: String,
         @Query("user_ids") ids: List<Int>
     ): UserResponse
 
     @GET("messages.getConversations?extended=1&fields=photo_50,photo_100,photo_200,domain,online&v=5.131")
-    suspend fun fetchConversationList(
+    suspend fun getConversationList(
         @Query("access_token") accessToken: String,
         @Query("count") count: Int,
         @Query("offset") offset: Int
@@ -32,7 +32,7 @@ interface VkService {
     ): ConversationIdResponse
 
     @GET("messages.getHistory?v=5.131")
-    suspend fun fetchMessageListByConversationId(
+    suspend fun getMessageListByConversationId(
         @Query("access_token") accessToken: String,
         @Query("peer_id") conversationId: Int,
         @Query("count") count: Int,
@@ -46,7 +46,7 @@ interface VkService {
     ): LastActivityResponse
 
     @GET("messages.getChat?v=5.131")
-    suspend fun fetchChatById(
+    suspend fun getChatById(
         @Query("access_token") accessToken: String,
         @Query("chat_id") id: Int
     ): ChatResponse
@@ -64,7 +64,7 @@ interface VkService {
     ): LongPollServerResponse
 
     @GET("friends.get?fields=domain,photo_50,photo_100,photo_200,photo_400_orig&order=hints&v=5.131")
-    suspend fun fetchFriendList(
+    suspend fun getFriendList(
         @Query("access_token") accessToken: String,
         @Query("count") count: Int,
         @Query("offset") offset: Int
@@ -83,10 +83,13 @@ interface VkService {
     )
 
     @GET("groups.getById?v=5.131")
-    suspend fun fetchGroupById(
+    suspend fun getGroupById(
         @Query("access_token") accessToken: String,
         @Query("group_id") id: Int
     ): GroupResponse
+
+    @GET("account.getProfileInfo?v=5.131")
+    suspend fun getProfileInfo(@Query("access_token") accessToken: String): ProfileInfoResponse
 }
 
 @ExperimentalSerializationApi

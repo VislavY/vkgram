@@ -1,41 +1,69 @@
 package ru.vyapps.vkgram.profile
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.vk.api.sdk.VK
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.flow
-import ru.vyapps.vkgram.core.repositories.UserRepository
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import ru.vyapps.vkgram.core.EventHandler
+import ru.vyapps.vkgram.profile.models.ProfileEvent
+import ru.vyapps.vkgram.profile.models.ProfileViewState
+import ru.vyapps.vkgram.profile.repositories.AccountRepository
+import java.lang.Exception
+import javax.inject.Inject
 
-class ProfileViewModel @AssistedInject constructor(
-    @Assisted private val accessToken: String,
-    private val userRepository: UserRepository
-) : ViewModel() {
+@HiltViewModel
+class ProfileViewModel @Inject constructor(
+    private val accountRepository: AccountRepository
+) : ViewModel(), EventHandler<ProfileEvent> {
 
-    val user = flow {
-        val receivedUser = userRepository.fetchUserListByIds(accessToken, listOf(VK.getUserId())).first()
-        emit(receivedUser)
+    private val _viewState = MutableStateFlow<ProfileViewState>(ProfileViewState.Loading)
+    val viewState = _viewState.asStateFlow()
+
+    override fun onEvent(event: ProfileEvent) {
+        when (val currentState = _viewState.value) {
+            is ProfileViewState.Loading -> reduce(event, currentState)
+            is ProfileViewState.Error -> reduce(event, currentState)
+            is ProfileViewState.Display -> reduce(event, currentState)
+        }
     }
 
-    @AssistedFactory
-    interface Factory {
+    private fun reduce(event: ProfileEvent, currentState: ProfileViewState.Loading) {
+        when (event) {
+            is ProfileEvent.EnterScreen -> getProfileInfo()
+            else -> throw NotImplementedError("Invalid $event for state $currentState")
+        }
+    }
 
-        fun create(accessToken: String): ProfileViewModel
+    private fun reduce(event: ProfileEvent, currentState: ProfileViewState.Error) {
+        when (event) {
+            is ProfileEvent.Reload -> getProfileInfo()
+            else -> throw NotImplementedError("Invalid $event for state $currentState")
+        }
+    }
+
+    private fun reduce(event: ProfileEvent, currentState: ProfileViewState.Display) {
+        when (event) {
+            is ProfileEvent.EnterScreen -> getProfileInfo()
+            else -> throw NotImplementedError("Invalid $event for state $currentState")
+        }
+    }
+
+    private fun getProfileInfo() {
+        viewModelScope.launch {
+            try {
+                val response = accountRepository.getProfileInfo()
+                _viewState.value = ProfileViewState.Display(response)
+            } catch (e: Exception) {
+                Log.e(Tag, e.toString())
+                _viewState.value = ProfileViewState.Error
+            }
+        }
     }
 
     companion object {
-
-        fun provideFactory(
-            factory: Factory,
-            accessToken: String
-        ) = object: ViewModelProvider.Factory {
-
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return  factory.create(accessToken) as T
-            }
-        }
+        private const val Tag = "Profile"
     }
 }

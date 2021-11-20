@@ -15,7 +15,7 @@ class MessageRepositoryImpl @Inject constructor(
         count: Int,
         offset: Int
     ): List<Message> {
-        return vkService.fetchMessageListByConversationId(
+        return vkService.getMessageListByConversationId(
             accessToken = accessToken,
             conversationId = conversationId,
             count = count,

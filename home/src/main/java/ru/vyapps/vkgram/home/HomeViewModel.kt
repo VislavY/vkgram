@@ -10,6 +10,7 @@ import ru.vyapps.vkgram.core.EventHandler
 import ru.vyapps.vkgram.vk_api.VkAccessToken
 import ru.vyapps.vkgram.core.repositories.ConversationRepository
 import ru.vyapps.vkgram.core.repositories.FriendRepository
+import ru.vyapps.vkgram.core.repositories.UserRepository
 import ru.vyapps.vkgram.home.models.HomeEvent
 import ru.vyapps.vkgram.home.models.HomeViewState
 import ru.vyapps.vkgram.vk_api.EventFlag
