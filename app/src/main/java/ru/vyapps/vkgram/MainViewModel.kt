@@ -3,6 +3,7 @@ package ru.vyapps.vkgram
 import androidx.lifecycle.ViewModel
 import com.vk.api.sdk.VK
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import ru.vyapps.vkgram.core.repositories.UserRepository
 import ru.vyapps.vkgram.vk_api.VkAccessToken
@@ -17,10 +18,10 @@ class MainViewModel @Inject constructor(
 
 
     val profile = flow {
-//        val response =
-//            userRepository.fetchUserListByIds(vkAccessToken.accessToken, listOf(VK.getUserId()))
-//                .first()
-        val response = User(0, "", "", "")
+        val response =
+            userRepository.fetchUserListByIds(vkAccessToken.accessToken, listOf(VK.getUserId()))
+                .first()
+//            User(1, "", "", "")
         emit(response)
     }
 

@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import ru.vyapps.vkgram.core.Destinations
+import ru.vyapps.vkgram.core.LocalProfile
 import ru.vyapps.vkgram.core.theme.VKgramTheme
 import ru.vyapps.vkgram.core.views.ErrorContent
 import ru.vyapps.vkgram.core.views.LoadingContent
@@ -31,7 +32,10 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            HomeTopBar(navController = navController)
+            HomeTopBar(
+                userModel = LocalProfile.current,
+                navController = navController
+            )
         },
         floatingActionButton = {
             FloatingActionButton(
