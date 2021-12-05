@@ -149,7 +149,7 @@ fun ConversationItem(
                     }
 
                     if (!model.lastMessage?.attachments.isNullOrEmpty()) {
-                        val attachment =
+                        val attachmentType =
                             if (model.lastMessage!!.attachments.size > 1) {
                                 stringResource(R.string.album)
                             } else {
@@ -174,7 +174,7 @@ fun ConversationItem(
 
                         val suffix = if (model.lastMessage?.text.isNullOrBlank()) "" else ", "
                         Text(
-                            text = (attachment + suffix),
+                            text = (attachmentType + suffix),
                             color = VKgramTheme.palette.secondary,
                             style = VKgramTheme.typography.body1
                         )

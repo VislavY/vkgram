@@ -1,5 +1,8 @@
 package ru.vyapps.vkgram.profile.views
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.TopAppBar
@@ -7,17 +10,22 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberImagePainter
 import ru.vyapps.vkgram.core.theme.MainTheme
 import ru.vyapps.vkgram.core.theme.VKgramTheme
+import ru.vyapps.vkgram.profile.models.ProfileViewState
+import ru.vyapps.vkgram.vk_api.data.User
 
 @Composable
 fun ProfileTopBar(
     modifier: Modifier = Modifier,
-    navController: NavController
+    viewState: ProfileViewState.Display,
+    navController: NavController = rememberNavController()
 ) {
     TopAppBar(
         modifier = modifier,
@@ -35,6 +43,17 @@ fun ProfileTopBar(
                 tint = VKgramTheme.palette.onPrimary
             )
         }
+
+//        Image(
+//            modifier = Modifier
+//                .height(250.dp)
+//                .fillMaxWidth(),
+//            painter = rememberImagePainter(
+//                data = viewState.user.photoOrig
+//            ),
+//            contentDescription = null,
+//            contentScale = ContentScale.FillWidth,
+//        )
     }
 }
 
@@ -42,7 +61,16 @@ fun ProfileTopBar(
 @Composable
 fun ProfileTopBar_Preview() {
     MainTheme {
-        ProfileTopBar(navController = rememberNavController())
+        ProfileTopBar(
+            viewState = ProfileViewState.Display(
+                user = User(
+                    id = 1,
+                    domain = "Sample domain",
+                    firstName = "It's",
+                    lastName = "Sample"
+                )
+            )
+        )
     }
 }
 
@@ -50,6 +78,15 @@ fun ProfileTopBar_Preview() {
 @Composable
 fun DarkProfileTopBar_Preview() {
     MainTheme {
-        ProfileTopBar(navController = rememberNavController())
+        ProfileTopBar(
+            viewState = ProfileViewState.Display(
+                user = User(
+                    id = 1,
+                    domain = "Sample domain",
+                    firstName = "It's",
+                    lastName = "Sample"
+                )
+            )
+        )
     }
 }

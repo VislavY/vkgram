@@ -42,6 +42,7 @@ android {
         api(Libs.AndroidX.Compose.material)
         api(Libs.AndroidX.Lifecycle.lifecycleViewModelCompose)
         api(Libs.AndroidX.Navigation.navigationCompose)
+        api(Libs.Google.accompanistSystemUiController)
         api(Libs.Google.accompanistPager)
         api(Libs.Coil.coilCompose)
 

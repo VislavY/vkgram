@@ -35,7 +35,8 @@ fun HomeTopBar(
     val navDialogInOpenedState = remember { mutableStateOf(false) }
     NavigationDialog(
         isOpenedState = navDialogInOpenedState,
-        profileModel = userModel
+        profileModel = userModel,
+        navController = navController
     )
 
     TopAppBar(
@@ -58,11 +59,6 @@ fun HomeTopBar(
 
                 Image(
                     modifier = Modifier
-                        .clickable(
-                            onClick = {
-                                navController.navigate(Destinations.Profile)
-                            }
-                        )
                         .clip(CircleShape)
                         .size(24.dp),
                     painter = rememberImagePainter(

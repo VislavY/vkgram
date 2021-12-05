@@ -1,6 +1,7 @@
 package ru.vyapps.vkgram.home.views
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -14,8 +15,11 @@ import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
+import ru.vyapps.vkgram.core.Destinations
 import ru.vyapps.vkgram.core.theme.VKgramTheme
 import ru.vyapps.vkgram.home.R
 import ru.vyapps.vkgram.vk_api.data.User
@@ -23,7 +27,8 @@ import ru.vyapps.vkgram.vk_api.data.User
 @Composable
 fun NavigationDialog(
     isOpenedState: MutableState<Boolean> = remember { mutableStateOf(true) },
-    profileModel: User
+    profileModel: User,
+    navController: NavController = rememberNavController()
 ) {
     if (isOpenedState.value) {
         AlertDialog(
@@ -46,7 +51,12 @@ fun NavigationDialog(
                 }
 
                 Row(
-                    modifier = Modifier.padding(horizontal = 16.dp),
+                    modifier = Modifier
+                        .clickable(onClick = {
+                            navController.navigate("${Destinations.Profile}/${profileModel.id}")
+                            isOpenedState.value = false
+                        })
+                        .padding(horizontal = 16.dp),
                     verticalAlignment = CenterVertically
                 ) {
                     Image(

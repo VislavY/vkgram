@@ -16,34 +16,32 @@ import ru.vyapps.vkgram.profile.views.ProfileTopBar
 
 @Composable
 fun ProfileScreen(
+    userId: Int,
     navController: NavController,
     viewModel: ProfileViewModel
 ) {
     val viewState = viewModel.viewState.collectAsState()
 
-    Scaffold(
-        topBar = {
-            ProfileTopBar(navController = navController)
-        }
-    ) { paddingValues ->
+    Scaffold { paddingValues ->
         val modifier = Modifier.padding(paddingValues)
         when (val state = viewState.value) {
             is ProfileViewState.Loading -> LoadingContent(modifier)
             is ProfileViewState.Error -> ErrorContent(
                 modifier = modifier,
                 onReloadClick = {
-                    viewModel.onEvent(ProfileEvent.Reload)
+                    viewModel.onEvent(ProfileEvent.Reload(userId))
                 }
             )
             is ProfileViewState.Display -> ProfileContent(
                 modifier = modifier,
-                viewState = state
+                viewState = state,
+                navController = navController
             )
             else -> throw NotImplementedError("Unexpected profile state")
         }
     }
 
     LaunchedEffect(viewState) {
-        viewModel.onEvent(ProfileEvent.EnterScreen)
+        viewModel.onEvent(ProfileEvent.EnterScreen(userId))
     }
 }

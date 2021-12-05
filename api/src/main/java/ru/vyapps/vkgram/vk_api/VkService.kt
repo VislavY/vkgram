@@ -11,7 +11,27 @@ import ru.vyapps.vkgram.vk_api.data.*
 
 interface VkService {
 
-    @GET("users.get?fields=domain,online,last_seen,photo_50,photo_100,photo_200,photo_400_orig&v=5.131")
+    @GET(
+        value = "users.get?v=5.131&fields="
+            + "domain"
+            + ",online"
+            + ",last_seen"
+            + ",photo_50"
+            + ",photo_100"
+            + ",photo_200"
+            + ",photo_400_orig"
+            + ",bdate"
+            + ",status"
+            + ",city"
+            + ",about"
+            + ",interests"
+            + ",music"
+            + ",films"
+            + ",books"
+            + ",games"
+            + ",quotes"
+            + ",career"
+    )
     suspend fun getUserListByIds(
         @Query("access_token") accessToken: String,
         @Query("user_ids") ids: List<Int>

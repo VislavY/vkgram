@@ -6,6 +6,8 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -100,16 +102,22 @@ fun NavGraph(startDestination: String) {
         }
 
         composable(
-            route = Destinations.Profile,
+            route = "${Destinations.Profile}/{userId}",
+            arguments = listOf(navArgument("userId") { type = NavType.IntType }),
             enterTransition = {
                 scaleIn(initialScale = 0.95f)
             },
             popExitTransition = {
                 scaleOut(targetScale = 0.95f)
             }
-        ) {
+        ) { backStackEntry ->
+            val userId = backStackEntry.arguments!!.getInt("userId")
             val viewModel: ProfileViewModel = hiltViewModel()
-            ProfileScreen(navController, viewModel)
+            ProfileScreen(
+                userId = userId,
+                navController = navController,
+                viewModel = viewModel
+            )
         }
     }
 }

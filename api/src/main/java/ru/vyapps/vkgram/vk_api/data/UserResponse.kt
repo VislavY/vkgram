@@ -19,7 +19,18 @@ data class User(
     var online: Int = 0,
     @SerialName("last_seen") val lastSeen: LastSeen? = null,
     @SerialName("photo_200") val photo: String = "",
-    @SerialName("photo_400_orig") val photoOrig: String = ""
+    @SerialName("photo_400_orig") val photoOrig: String = "",
+    @SerialName("bdate") val brightDate: String = "",
+    val status: String = "",
+    val city: City? = null,
+    val about: String = "",
+    val interests: String = "",
+    val music: String = "",
+    val films: String = "",
+    val books: String = "",
+    val games: String = "",
+    val quotes: String = "",
+    val career: Career? = null
 )
 
 @Serializable
