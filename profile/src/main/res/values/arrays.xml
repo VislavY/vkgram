@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="relation_variants">
+        <item>@string/not_specified</item>
+        <item>@string/single</item>
+        <item>@string/in_a_relationship</item>
+        <item>@string/engaged</item>
+        <item>@string/married</item>
+        <item>@string/its_complicated</item>
+        <item>@string/actively_searching</item>
+        <item>@string/in_love</item>
+        <item>@string/in_a_civil_union</item>
+    </array>
+
+    <array name="political_views_variants">
+        <item>@string/not_specified</item>
+        <item>@string/communist</item>
+        <item>@string/socialist</item>
+        <item>@string/moderate</item>
+        <item>@string/liberal</item>
+        <item>@string/conservative</item>
+        <item>@string/monarchist</item>
+        <item>@string/ultraconservative</item>
+        <item>@string/apathetic</item>
+        <item>@string/libertarian</item>
+    </array>
+
+    <array name="personal_priority_variants">
+        <item>@string/not_specified</item>
+        <item>@string/family_and_children</item>
+        <item>@string/career_and_money</item>
+        <item>@string/entertainment_and_leisure</item>
+        <item>@string/science_and_research</item>
+        <item>@string/improving_the_world</item>
+        <item>@string/personal_development</item>
+        <item>@string/beauty_and_art</item>
+        <item>@string/fame_and_influence</item>
+    </array>
+
+    <array name="main_in_peoples_variants">
+        <item>@string/not_specified</item>
+        <item>@string/intellect_and_creativity</item>
+        <item>@string/kindness_and_honesty</item>
+        <item>@string/health_and_beauty</item>
+        <item>@string/wealth_and_power</item>
+        <item>@string/courage_and_persistence</item>
+        <item>@string/humor_and_love_for_life</item>
+    </array>
+
+    <array name="views_variants">
+        <item>@string/not_specified</item>
+        <item>@string/very_negative</item>
+        <item>@string/negative</item>
+        <item>@string/neutral</item>
+        <item>@string/compromise</item>
+        <item>@string/positive</item>
+    </array>
+</resources>
