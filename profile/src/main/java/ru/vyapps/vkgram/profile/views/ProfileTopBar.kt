@@ -1,15 +1,20 @@
 package ru.vyapps.vkgram.profile.views
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -20,6 +25,8 @@ import ru.vyapps.vkgram.core.theme.MainTheme
 import ru.vyapps.vkgram.core.theme.VKgramTheme
 import ru.vyapps.vkgram.profile.models.ProfileViewState
 import ru.vyapps.vkgram.vk_api.data.User
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Composable
 fun ProfileTopBar(
@@ -27,12 +34,33 @@ fun ProfileTopBar(
     viewState: ProfileViewState.Display,
     navController: NavController = rememberNavController()
 ) {
-    TopAppBar(
-        modifier = modifier,
-        backgroundColor = VKgramTheme.palette.background,
-        elevation = 0.dp
-    ) {
+    Box(modifier.height(250.dp)) {
+        Image(
+            modifier = Modifier.fillMaxWidth(),
+            painter = rememberImagePainter(
+                data = viewState.user.photoOrig
+            ),
+            contentDescription = null,
+            contentScale = ContentScale.FillWidth,
+            colorFilter = ColorFilter.tint(
+                color = Color.Black.copy(0.4F),
+                blendMode = BlendMode.Darken)
+        )
+
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(Color.Transparent, Color.Black.copy(0.6F))
+                    )
+                )
+                .fillMaxWidth()
+                .height(20.dp)
+        )
+
         IconButton(
+            modifier = Modifier.padding(top = 32.dp),
             onClick = {
                 navController.popBackStack()
             }
@@ -40,20 +68,53 @@ fun ProfileTopBar(
             Icon(
                 imageVector = Icons.Default.Close,
                 contentDescription = null,
-                tint = VKgramTheme.palette.onPrimary
+                tint = Color.White
             )
         }
 
-//        Image(
-//            modifier = Modifier
-//                .height(250.dp)
-//                .fillMaxWidth(),
-//            painter = rememberImagePainter(
-//                data = viewState.user.photoOrig
-//            ),
-//            contentDescription = null,
-//            contentScale = ContentScale.FillWidth,
-//        )
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(16.dp),
+        ) {
+            Text(
+                text = "${viewState.user.firstName} ${viewState.user.lastName}",
+                color = Color.White,
+                style = VKgramTheme.typography.title
+            )
+
+            val subtitle = if (viewState.user.online == 1) {
+                "онлайн"
+            } else {
+                val currentDate = Calendar.getInstance()
+                val currentDay = currentDate.get(Calendar.DAY_OF_MONTH)
+                val currentMount = currentDate.get(Calendar.MONTH)
+                val currentYear = currentDate.get(Calendar.YEAR)
+
+                val lastActivityDate = Calendar.getInstance()
+                lastActivityDate.time = viewState.user.lastSeen!!.time
+                val lastActivityDay = lastActivityDate.get(Calendar.DAY_OF_MONTH)
+                val lastActivityMount = lastActivityDate.get(Calendar.MONTH)
+                val lastActivityYear = lastActivityDate.get(Calendar.YEAR)
+
+                val dateFormat = SimpleDateFormat("k:mm", Locale.getDefault())
+                if (
+                    currentDay == lastActivityDay
+                    && currentMount == lastActivityMount
+                    && currentYear == lastActivityYear
+                ) {
+                    "был(а) в ${dateFormat.format(lastActivityDate.time)}"
+                } else {
+                    val dayOfMouthDateFormat = SimpleDateFormat("d MMM", Locale.getDefault())
+                    "был(а) ${dayOfMouthDateFormat.format(lastActivityDate.time)} в ${dateFormat.format(lastActivityDate.time)}"
+                }
+            }
+            Text(
+                text = subtitle,
+                color = Color.White,
+                style = VKgramTheme.typography.body2
+            )
+        }
     }
 }
 

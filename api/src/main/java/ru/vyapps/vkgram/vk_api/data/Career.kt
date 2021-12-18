@@ -5,9 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Career(
-    @SerialName("group_id") val companyGroupId: Int,
-    val company: String,
-    val position: String,
-    val from: Int,
-    val until: Int
+    @SerialName("group_id") val companyGroupId: Int = 0,
+    val company: String = "",
+    val position: String = "",
+    val from: Int = 0,
+    val until: Int = 0
 )

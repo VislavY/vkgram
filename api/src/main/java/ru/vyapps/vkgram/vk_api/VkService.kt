@@ -21,6 +21,8 @@ interface VkService {
             + ",photo_200"
             + ",photo_400_orig"
             + ",bdate"
+            + ",personal"
+            + ",relatives"
             + ",status"
             + ",city"
             + ",about"
@@ -31,6 +33,9 @@ interface VkService {
             + ",games"
             + ",quotes"
             + ",career"
+            + ",home_town"
+            + ",relation"
+            + ",counters"
     )
     suspend fun getUserListByIds(
         @Query("access_token") accessToken: String,

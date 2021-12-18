@@ -54,7 +54,7 @@ class ProfileViewModel @Inject constructor(
     private fun getUserById(id: Int) {
         viewModelScope.launch {
             try {
-                val response = userRepository.getUserListById(listOf(id)).first()
+                val response = userRepository.getUserListById(listOf(6335999)).first()
                 _viewState.value = ProfileViewState.Display(response)
             } catch (e: Exception) {
                 Log.e(Tag, e.toString())

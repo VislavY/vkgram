@@ -20,9 +20,13 @@ data class User(
     @SerialName("last_seen") val lastSeen: LastSeen? = null,
     @SerialName("photo_200") val photo: String = "",
     @SerialName("photo_400_orig") val photoOrig: String = "",
-    @SerialName("bdate") val brightDate: String = "",
+    @SerialName("bdate") val birthDay: String = "",
     val status: String = "",
+    val relation: Int = 0,
     val city: City? = null,
+    @SerialName("home_town") val homeTown: String = "",
+    @SerialName("personal") val personalInformation: PersonalInformation? = null,
+    val relatives: List<Relative> = emptyList(),
     val about: String = "",
     val interests: String = "",
     val music: String = "",
@@ -30,7 +34,7 @@ data class User(
     val books: String = "",
     val games: String = "",
     val quotes: String = "",
-    val career: Career? = null
+    val counters: Counters? = null
 )
 
 @Serializable
