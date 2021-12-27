@@ -30,11 +30,11 @@ fun LoginScreen(
         systemUiController.setNavigationBarColor(Color(0xFF81d4fa))
     }
 
-    val activity = (LocalContext.current as Activity)
+    val currentActivity = (LocalContext.current as Activity)
     when (viewState.value) {
         is LoginViewState.Loading -> LoginLoadingContent()
         is LoginViewState.Display -> LoginContent(onLoginClick = {
-            viewModel.onEvent(LoginEvent.OnLoginButtonClick(activity))
+            viewModel.onEvent(LoginEvent.OnLoginButtonClick(currentActivity))
         })
     }
 

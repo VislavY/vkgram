@@ -7,6 +7,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -24,7 +25,9 @@ fun LoginContent(
     Surface(
         modifier = modifier
             .background(
-                brush = Brush.verticalGradient(
+                brush = Brush.linearGradient(
+                    start = Offset(0.0F, 0.0F),
+                    end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY),
                     colors = listOf(
                         Color(0xFF01a9f4),
                         Color(0xFF81d4fa)
@@ -41,7 +44,7 @@ fun LoginContent(
             shape = RoundedCornerShape(16.dp),
             elevation = 8.dp
         ) {
-            Column(modifier = Modifier.padding(16.dp)) {
+            Column(Modifier.padding(16.dp)) {
                 Text(
                     modifier = Modifier.align(CenterHorizontally),
                     text = stringResource(R.string.login_hello),
