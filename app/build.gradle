@@ -1,4 +1,4 @@
-import ru.vyapps.vkgram.buildsrc.Libs
+import me.vislavy.vkgram.build_src.Libs
 
 plugins {
     id 'com.android.application'
@@ -12,7 +12,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "ru.vyapps.vkgram"
+        applicationId "me.vislavy.vkgram"
         minSdk 21
         targetSdk 31
         versionCode 1

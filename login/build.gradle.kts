@@ -1,5 +1,3 @@
-import ru.vyapps.vkgram.buildsrc.Libs
-
 plugins {
     id("com.android.library")
     id("kotlin-android")
@@ -30,18 +28,18 @@ android {
     dependencies {
         api(project(":core"))
 
-        api(Libs.AndroidX.coreKtx)
-        api(Libs.AndroidX.appcompat)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.coreKtx)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.appcompat)
 
-        api(Libs.AndroidX.Compose.material)
-        api(Libs.AndroidX.Lifecycle.lifecycleViewModelCompose)
-        api(Libs.AndroidX.Navigation.navigationCompose)
-        api(Libs.Google.accompanistSystemUiController)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.material)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Lifecycle.lifecycleViewModelCompose)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Navigation.navigationCompose)
+        api(me.vislavy.vkgram.build_src.Libs.Google.accompanistSystemUiController)
 
-        api(Libs.VK.androidSdkApi)
+        api(me.vislavy.vkgram.build_src.Libs.VK.androidSdkApi)
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Libs.AndroidX.Compose.version
+        kotlinCompilerExtensionVersion = me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.version
     }
 }
