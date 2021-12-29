@@ -53,7 +53,7 @@ fun FriendListContent_Preview() {
     MainTheme {
         FriendListContent(
             viewState = HomeViewState.Display(
-                conversationModels = emptyList(),
+                conversations = emptyList(),
                 friends = emptyList()
             ),
             navController = rememberNavController(),
@@ -68,7 +68,7 @@ fun DarkFriendListContent_Preview() {
     MainTheme(darkThemeEnabled = true) {
         FriendListContent(
             viewState = HomeViewState.Display(
-                conversationModels = emptyList(),
+                conversations = emptyList(),
                 friends = emptyList()
             ),
             navController = rememberNavController(),

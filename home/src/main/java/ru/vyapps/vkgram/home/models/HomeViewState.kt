@@ -7,7 +7,8 @@ sealed class HomeViewState {
     object Loading : HomeViewState()
     object Error : HomeViewState()
     data class Display(
-        val conversationModels: List<ConversationModel>,
-        val friends: List<User>
+        val conversations: List<ConversationModel>,
+        val friends: List<User>,
+        val profile: User? = null
     ) : HomeViewState()
 }

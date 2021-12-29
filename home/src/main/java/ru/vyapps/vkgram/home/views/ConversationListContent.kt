@@ -44,7 +44,7 @@ fun ConversationListContent(
             Spacer(Modifier.height(16.dp))
 
             LazyColumn {
-                itemsIndexed(viewState.conversationModels) { i, conversation ->
+                itemsIndexed(viewState.conversations) { i, conversation ->
                     ConversationItem(
                         model = conversation,
                         onClick = {
@@ -64,8 +64,8 @@ fun ConversationListContent(
                         }
                     )
 
-                    if (i == (viewState.conversationModels.size - 1)) {
-                        onListEnd(viewState.conversationModels.size)
+                    if (i == (viewState.conversations.size - 1)) {
+                        onListEnd(viewState.conversations.size)
                     }
                 }
             }
@@ -81,7 +81,7 @@ fun ConversationListContent_Preview() {
     MainTheme {
         ConversationListContent(
             viewState = HomeViewState.Display(
-                conversationModels = listOf(
+                conversations = listOf(
                     ConversationModel(
                         id = 1,
                         type = "user",
@@ -131,7 +131,7 @@ fun DarkConversationListContent_Preview() {
     MainTheme(darkThemeEnabled = true) {
         ConversationListContent(
             viewState = HomeViewState.Display(
-                conversationModels = listOf(
+                conversations = listOf(
                     ConversationModel(
                         id = 1,
                         type = "user",

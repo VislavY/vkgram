@@ -5,4 +5,5 @@ sealed class HomeEvent {
     object ReloadScreen : HomeEvent()
     data class ConversationListEnd(val count: Int) : HomeEvent()
     data class FriendListEnd(val count: Int) : HomeEvent()
+    object UpdateProfile : HomeEvent()
 }

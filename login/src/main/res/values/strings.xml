@@ -4,5 +4,5 @@
     <string name="login_failed">Failed login</string>
     <string name="login_hello">Hello!</string>
     <string name="login_successful">Successful login</string>
-    <string name="login_thank_you">Thank you for installing the VKgram messenger &#128522;</string>
+    <string name="login_thank_you">Thank you for installing the VKgram messenger</string>
 </resources>

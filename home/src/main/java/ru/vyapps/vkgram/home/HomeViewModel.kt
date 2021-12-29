@@ -3,6 +3,7 @@ package ru.vyapps.vkgram.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vk.api.sdk.VK
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -23,7 +24,8 @@ class HomeViewModel @Inject constructor(
     private val vkAccessToken: VkAccessToken,
     private val conversationRepository: ConversationRepository,
     private val friendRepository: FriendRepository,
-    private val longPollServerManager: LongPollServerManager
+    private val longPollServerManager: LongPollServerManager,
+    private val userRepository: UserRepository
 ) : ViewModel(), EventHandler<HomeEvent> {
 
     private val _viewState = MutableStateFlow<HomeViewState>(HomeViewState.Loading)
@@ -71,37 +73,39 @@ class HomeViewModel @Inject constructor(
 
     private fun reduce(event: HomeEvent, currentState: HomeViewState.Loading) {
         when (event) {
-            is HomeEvent.EnterScreen -> performScreenEnter()
+            is HomeEvent.EnterScreen -> enterScreen()
             else -> throw NotImplementedError("Invalid $event for state $currentState")
         }
     }
 
     private fun reduce(event: HomeEvent, currentState: HomeViewState.Error) {
         when (event) {
-            is HomeEvent.ReloadScreen -> performScreenEnter(true)
+            is HomeEvent.ReloadScreen -> enterScreen(true)
             else -> throw NotImplementedError("Invalid $event for state $currentState")
         }
     }
 
     private fun reduce(event: HomeEvent, currentState: HomeViewState.Display) {
         when (event) {
-            is HomeEvent.EnterScreen -> performScreenEnter()
+            is HomeEvent.EnterScreen -> enterScreen()
             is HomeEvent.ConversationListEnd -> increaseConversationList(
                 offset = event.count,
                 currentState = currentState
             )
             is HomeEvent.FriendListEnd -> increaseFriendList(event.count, currentState)
+            is HomeEvent.UpdateProfile -> updateProfile(currentState)
             else -> throw NotImplementedError("Invalid $event for state $currentState")
         }
     }
 
-    private fun performScreenEnter(needsToRefresh: Boolean = false) {
+    private fun enterScreen(needsToRefresh: Boolean = false) {
         if (needsToRefresh) {
             _viewState.value = HomeViewState.Loading
         }
 
         viewModelScope.launch {
             try {
+                val profileResponse = userRepository.getUserListById(listOf(VK.getUserId()))[0]
                 val conversationsResponse = conversationRepository.fetchConversationList(
                     accessToken = vkAccessToken.accessToken,
                     count = DefaultConversationCount,
@@ -112,7 +116,11 @@ class HomeViewModel @Inject constructor(
                     count = DefaultFriendCount,
                     offset = 0
                 )
-                _viewState.value = HomeViewState.Display(conversationsResponse, friendsResponse)
+                _viewState.value = HomeViewState.Display(
+                    profile = profileResponse,
+                    conversations =  conversationsResponse,
+                    friends =  friendsResponse
+                )
             } catch (e: Exception) {
                 Log.e(Tag, e.toString())
                 _viewState.value = HomeViewState.Error
@@ -128,9 +136,9 @@ class HomeViewModel @Inject constructor(
                     count = DefaultConversationCount,
                     offset = offset
                 )
-                val modifiedConversationList = currentState.conversationModels.toMutableList()
+                val modifiedConversationList = currentState.conversations.toMutableList()
                 modifiedConversationList.addAll(conversations)
-                _viewState.value = currentState.copy(conversationModels = modifiedConversationList)
+                _viewState.value = currentState.copy(conversations = modifiedConversationList)
             } catch (e: Exception) {
                 Log.e(Tag, e.toString())
                 _viewState.value = HomeViewState.Error
@@ -165,12 +173,12 @@ class HomeViewModel @Inject constructor(
                     offset = 0
                 ).first()
                 println(response)
-                val modifiedConversationList = currentState.conversationModels.toMutableList()
+                val modifiedConversationList = currentState.conversations.toMutableList()
                 modifiedConversationList.add(0, response)
                 val outdatedConversations =
-                    currentState.conversationModels.filter { it.id == conversationId }
+                    currentState.conversations.filter { it.id == conversationId }
                 modifiedConversationList.removeAll(outdatedConversations)
-                _viewState.value = currentState.copy(conversationModels = modifiedConversationList)
+                _viewState.value = currentState.copy(conversations = modifiedConversationList)
             } catch (e: Exception) {
                 Log.e(Tag, e.toString())
                 _viewState.value = HomeViewState.Error
@@ -183,21 +191,35 @@ class HomeViewModel @Inject constructor(
         isOnline: Boolean,
         currentState: HomeViewState.Display
     ) {
-        currentState.conversationModels.forEachIndexed lit@{ i, conversation ->
+        currentState.conversations.forEachIndexed lit@{ i, conversation ->
             if (conversationId != conversation.id) return@lit
 
             val modifiedConversation = conversation.copy(indicatorEnabled = isOnline)
-            val modifiedConversationList = currentState.conversationModels.toMutableList()
+            val modifiedConversationList = currentState.conversations.toMutableList()
             modifiedConversationList[i] = modifiedConversation
-            _viewState.value = currentState.copy(conversationModels = modifiedConversationList)
+            _viewState.value = currentState.copy(conversations = modifiedConversationList)
 
             return
         }
     }
 
+    private fun updateProfile(currentState: HomeViewState.Display) {
+        viewModelScope.launch {
+            try {
+                val response = userRepository.getUserListById(listOf(VK.getUserId()))[0]
+                _viewState.value = currentState.copy(profile = response)
+            } catch (e: Exception) {
+                Log.e(Tag, e.toString())
+                _viewState.value = HomeViewState.Error
+            }
+        }
+    }
+
     companion object {
         private const val Tag = "home"
+        // Max - 100
         private const val DefaultConversationCount = 20
+        // Max - 100
         private const val DefaultFriendCount = 20
     }
 }

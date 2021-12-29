@@ -15,8 +15,8 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.serialization.ExperimentalSerializationApi
 import ru.vyapps.vkgram.core.Destinations
-import ru.vyapps.vkgram.core.LocalProfile
 import ru.vyapps.vkgram.core.theme.VKgramTheme
 import ru.vyapps.vkgram.core.views.ErrorContent
 import ru.vyapps.vkgram.core.views.LoadingContent
@@ -25,6 +25,7 @@ import ru.vyapps.vkgram.home.models.HomeViewState
 import ru.vyapps.vkgram.home.views.HomeContent
 import ru.vyapps.vkgram.home.views.HomeTopBar
 
+@ExperimentalSerializationApi
 @ExperimentalAnimationApi
 @ExperimentalPagerApi
 @Composable
@@ -32,46 +33,42 @@ fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel
 ) {
-    val context = (LocalContext.current as Activity)
-    WindowCompat.setDecorFitsSystemWindows(context.window, true)
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(VKgramTheme.palette.background)
-
     val viewState = viewModel.viewState.collectAsState()
 
-    Scaffold(
-        topBar = {
-            HomeTopBar(
-                userModel = LocalProfile.current,
-                navController = navController
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    navController.navigate(Destinations.NewConversation)
-                },
-                modifier = Modifier.padding(bottom = 16.dp),
-                backgroundColor = VKgramTheme.palette.secondary
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Create,
-                    contentDescription = null,
-                    tint = Color.White
-                )
+    when (val state = viewState.value) {
+        is HomeViewState.Loading -> LoadingContent()
+        is HomeViewState.Error -> ErrorContent(
+            onReloadClick = {
+                viewModel.onEvent(HomeEvent.ReloadScreen)
             }
-        }
-    ) { padding ->
-        val modifier = Modifier.padding(padding)
-        when (val state = viewState.value) {
-            is HomeViewState.Loading -> LoadingContent(modifier)
-            is HomeViewState.Error -> ErrorContent(
-                modifier = modifier,
-                onReloadClick = {
-                    viewModel.onEvent(HomeEvent.ReloadScreen)
+        )
+        is HomeViewState.Display -> Scaffold(
+            topBar = {
+                state.profile?.let {
+                    HomeTopBar(
+                        userModel = it,
+                        navController = navController
+                    )
                 }
-            )
-            is HomeViewState.Display -> HomeContent(
+            },
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = {
+                        navController.navigate(Destinations.NewConversation)
+                    },
+                    modifier = Modifier.padding(bottom = 16.dp),
+                    backgroundColor = VKgramTheme.palette.secondary
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Create,
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                }
+            }
+        ) { paddingValues ->
+            val modifier = Modifier.padding(paddingValues)
+            HomeContent(
                 modifier = modifier,
                 viewState = state,
                 navController = navController,
@@ -82,13 +79,14 @@ fun HomeScreen(
                     viewModel.onEvent(HomeEvent.FriendListEnd(friendCount))
                 }
             )
-            else -> throw NotImplementedError("Unexpected home state")
         }
     }
 
     LaunchedEffect(viewState) {
-        if (viewModel.viewState.value !is HomeViewState.Display) {
+        if (viewState.value !is HomeViewState.Display) {
             viewModel.onEvent(HomeEvent.EnterScreen)
+        } else {
+            viewModel.onEvent(HomeEvent.UpdateProfile)
         }
     }
 }
