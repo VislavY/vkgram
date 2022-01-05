@@ -49,6 +49,19 @@ interface VkService {
         @Query("offset") offset: Int
     ): ConversationResponse
 
+    @GET("messages.getConversationsById?extended=1&fields=photo_50,photo_100,photo_200,domain,online&v=5.131")
+    suspend fun getConversationListById(
+        @Query("access_token") accessToken: String,
+        @Query("peer_ids") ids: String
+    ): ConversationByIdData
+
+    @GET("messages.searchConversations?extended=1&fields=photo_50,photo_100,photo_200,domain,online&v=5.131")
+    suspend fun findConversation(
+        @Query("access_token") accessToken: String,
+        @Query("q") name: String,
+        @Query("count") count: Int
+    ): ConversationByIdData
+
     @GET("messages.createChat?v=5.131")
     suspend fun createChat(
         @Query("access_token") accessToken: String,
@@ -106,6 +119,13 @@ interface VkService {
         @Query("access_token") accessToken: String,
         @Query("user_id") id: Int
     )
+
+    @GET("friends.search?fields=domain,photo_50,photo_100,photo_200,photo_400_orig&order=hints&v=5.131")
+    suspend fun findFriendsByName(
+        @Query("access_token") accessToken: String,
+        @Query("q") name: String,
+        @Query("count") count: Int
+    ): FriendResponse
 
     @GET("groups.getById?v=5.131")
     suspend fun getGroupById(

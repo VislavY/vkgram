@@ -1,5 +1,7 @@
 package me.vislavy.vkgram.home.models
 
+import me.vislavy.vkgram.core.ConversationModel
+
 sealed class HomeEvent {
     object EnterScreen : HomeEvent()
     object ReloadScreen : HomeEvent()

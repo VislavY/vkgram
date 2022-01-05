@@ -1,4 +1,4 @@
-package me.vislavy.vkgram.api.utils
+package me.vislavy.vkgram.core.utils
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind

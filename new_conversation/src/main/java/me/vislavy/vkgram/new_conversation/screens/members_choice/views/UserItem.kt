@@ -108,7 +108,7 @@ fun UserItem(
 @Preview
 @Composable
 fun UserItem_Preview() {
-    MainTheme() {
+    MainTheme {
         UserItem(
             model = UserModel(
                 id = 1,

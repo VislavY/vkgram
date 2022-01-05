@@ -28,6 +28,8 @@ import me.vislavy.vkgram.message_history.MessageHistoryViewModel
 import me.vislavy.vkgram.new_conversation.navigation.newConversationGraph
 import me.vislavy.vkgram.profile.ProfileScreen
 import me.vislavy.vkgram.profile.ProfileViewModel
+import me.vislavy.vkgram.search.SearchScreen
+import me.vislavy.vkgram.search.SearchViewModel
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
@@ -118,6 +120,11 @@ fun NavGraph(startDestination: String) {
                 navController = navController,
                 viewModel = viewModel
             )
+        }
+
+        composable(Destinations.Search) {
+            val viewModel: SearchViewModel = hiltViewModel()
+            SearchScreen(navController, viewModel)
         }
     }
 }

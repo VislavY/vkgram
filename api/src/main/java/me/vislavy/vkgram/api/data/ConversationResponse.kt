@@ -40,7 +40,7 @@ data class ConversationItem(
 
 @Serializable
 data class ConversationData(
-    val items: List<ConversationItem>,
+    val items: List<ConversationItem> = emptyList(),
     val profiles: List<User> = emptyList(),
     val groups: List<Group> = emptyList()
 )

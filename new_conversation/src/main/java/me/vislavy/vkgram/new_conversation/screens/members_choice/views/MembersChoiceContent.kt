@@ -32,7 +32,7 @@ fun MembersChoiceContent(
         modifier = modifier.fillMaxSize(),
         color = VKgramTheme.palette.background
     ) {
-        Column() {
+        Column {
 
             Spacer(Modifier.height(16.dp))
 
@@ -107,7 +107,7 @@ fun MembersChoiceContent(
 @Preview
 @Composable
 fun MembersChoiceContent_Preview() {
-    MainTheme() {
+    MainTheme {
         MembersChoiceContent(
             viewState = MembersChoiceViewState.Display(
                 items = listOf(

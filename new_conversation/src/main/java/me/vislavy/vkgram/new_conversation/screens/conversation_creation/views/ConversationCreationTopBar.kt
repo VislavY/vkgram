@@ -46,7 +46,7 @@ fun ConversationCreationTopBar(navController: NavController) {
 @Preview
 @Composable
 fun ConversationCreationTopBar_Preview() {
-    MainTheme() {
+    MainTheme {
         ConversationCreationTopBar(rememberNavController())
     }
 }

@@ -90,7 +90,7 @@ fun HorizontalMemberItem(
 @Preview
 @Composable
 fun HorizontalMemberItem_Preview() {
-    MainTheme() {
+    MainTheme {
         HorizontalMemberItem(
             model = UserModel(
                 id = 1,

@@ -33,8 +33,8 @@ import java.util.*
 fun ConversationListContent(
     modifier: Modifier = Modifier,
     viewState: HomeViewState.Display,
-    navController: NavController,
-    onListEnd: (Int) -> Unit
+    onListEnd: (Int) -> Unit,
+    navController: NavController
 ) {
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -47,11 +47,11 @@ fun ConversationListContent(
                 itemsIndexed(viewState.conversations) { i, conversation ->
                     ConversationItem(
                         model = conversation,
-                        onClick = {
+                        onClick = { conversationModel ->
                             val encodedConversation = Json.encodeToString(
-                                value = conversation.copy(
+                                value = conversationModel.copy(
                                     photo = URLEncoder.encode(
-                                        conversation.photo,
+                                        conversationModel.photo,
                                         StandardCharsets.UTF_8.toString()
                                     ),
                                     lastMessage = null

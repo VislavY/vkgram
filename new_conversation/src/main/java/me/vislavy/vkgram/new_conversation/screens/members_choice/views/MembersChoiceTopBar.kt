@@ -56,7 +56,7 @@ fun MembersChoiceTopBar(navController: NavController) {
 @Preview
 @Composable
 fun MembersChoiceTopBar_Preview() {
-    MainTheme() {
+    MainTheme {
         MembersChoiceTopBar(rememberNavController())
     }
 }

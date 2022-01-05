@@ -10,6 +10,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import me.vislavy.vkgram.api.LongPollServerManager
 import me.vislavy.vkgram.api.VkAccessToken
 import me.vislavy.vkgram.api.VkService
+import me.vislavy.vkgram.api.local.database.AppDatabase
 import javax.inject.Singleton
 
 @Module
@@ -17,22 +18,24 @@ import javax.inject.Singleton
 object AppModule {
 
     @Provides
-    fun provideVkAccessToken(@ApplicationContext context: Context): VkAccessToken {
-        return VkAccessToken(context)
-    }
+    fun provideVkAccessToken(@ApplicationContext context: Context) = VkAccessToken(context)
 
     @ExperimentalSerializationApi
     @Provides
-    fun provideVkService(): VkService {
-        return VkService()
-    }
+    fun provideVkService() = VkService()
 
     @Singleton
     @Provides
     fun provideLogPollServer(
         vkAccessToken: VkAccessToken,
         vkService: VkService
-    ): LongPollServerManager {
-        return LongPollServerManager(vkAccessToken, vkService)
-    }
+    ) = LongPollServerManager(vkAccessToken, vkService)
+
+    @Singleton
+    @Provides
+    fun provideAppDatabase(@ApplicationContext context: Context) = AppDatabase(context)
+
+    @Provides
+    fun provideLastConversationDatabase(appDatabase: AppDatabase) =
+        appDatabase.getLastConversationDao()
 }

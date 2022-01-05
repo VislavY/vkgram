@@ -14,5 +14,5 @@ data class ConversationModel(
     val lastReadMessageId: Int = 0,
     val lastMessage: Message? = null,
     val lastMessageAuthor: String = "",
-    val indicatorEnabled: Boolean = false,
+    val indicatorEnabled: Boolean = false
 )

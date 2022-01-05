@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_clear_history">Очистить историю поиска</string>
+    <string name="search_are_you_sure">Вы точно хотите очистить историю поиска?</string>
+    <string name="search_no">Нет</string>
+    <string name="search_clear">Очистить</string>
+    <string name="search_last">Последние</string>
+    <string name="search">Поиск</string>
+</resources>

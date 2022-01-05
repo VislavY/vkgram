@@ -7,7 +7,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import me.vislavy.vkgram.api.VkAccessToken
 import me.vislavy.vkgram.core.repositories.FriendRepository
 import me.vislavy.vkgram.core.EventHandler
 import me.vislavy.vkgram.new_conversation.UserModel
@@ -18,7 +17,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MembersChoiceViewModel @Inject constructor(
-    private val vkAccessToken: VkAccessToken,
     private val friendRepository: FriendRepository
 ) : ViewModel(), EventHandler<MembersChoiceEvent> {
 
@@ -76,8 +74,7 @@ class MembersChoiceViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
-                val response = friendRepository.fetchFriendList(
-                    accessToken = vkAccessToken.accessToken,
+                val response = friendRepository.getFriendList(
                     count = DEFAULT_FRIEND_COUNT,
                     offset = offset
                 )

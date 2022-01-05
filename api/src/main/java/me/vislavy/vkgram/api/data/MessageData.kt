@@ -2,7 +2,7 @@ package me.vislavy.vkgram.api.data
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import me.vislavy.vkgram.api.utils.DateSerializer
+import me.vislavy.vkgram.core.utils.DateSerializer
 import java.util.*
 
 @Serializable

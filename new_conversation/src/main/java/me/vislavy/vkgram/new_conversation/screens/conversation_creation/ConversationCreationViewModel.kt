@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import me.vislavy.vkgram.core.EventHandler
-import me.vislavy.vkgram.api.VkAccessToken
 import me.vislavy.vkgram.core.repositories.ConversationRepository
 import me.vislavy.vkgram.new_conversation.UserModel
 import me.vislavy.vkgram.new_conversation.screens.conversation_creation.models.ConversationCreationEvent
@@ -18,7 +17,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ConversationCreationViewModel @Inject constructor(
-    private val vkAccessToken: VkAccessToken,
     private val conversationRepository: ConversationRepository
 ) : ViewModel(), EventHandler<ConversationCreationEvent> {
 
@@ -85,8 +83,7 @@ class ConversationCreationViewModel @Inject constructor(
     private fun performConversationCreation(currentState: ConversationCreationViewState.Display) {
         viewModelScope.launch {
             try {
-                conversationRepository.createChat(
-                    accessToken = vkAccessToken.accessToken,
+                conversationRepository.getChat(
                     userIds = currentState.items.map { user ->
                         user.id
                     },

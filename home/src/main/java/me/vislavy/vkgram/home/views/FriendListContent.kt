@@ -31,7 +31,7 @@ fun FriendListContent(
         Column {
             Spacer(Modifier.height(16.dp))
 
-            LazyColumn() {
+            LazyColumn {
                 itemsIndexed(viewState.friends) { i, friend ->
                     FriendItem(
                         model = friend,

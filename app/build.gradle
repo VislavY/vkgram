@@ -42,7 +42,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
+        kotlinCompilerExtensionVersion Libs.AndroidX.Compose.Version
         kotlinCompilerVersion '1.5.10'
     }
     packagingOptions {
@@ -59,17 +59,18 @@ dependencies {
     implementation project(":message_history")
     implementation project(":new_conversation")
     implementation project(":profile")
+    implementation project(":search")
 
-    implementation Libs.AndroidX.coreKtx
-    implementation Libs.AndroidX.appcompat
+    implementation Libs.AndroidX.CoreKtx
+    implementation Libs.AndroidX.Appcompat
 
-    implementation Libs.AndroidX.Navigation.navigationCompose
+    implementation Libs.AndroidX.Navigation.NavigationCompose
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
-    implementation Libs.Google.accompanistNavigationAnimation
+    implementation Libs.Accompanist.AccompanistNavigationAnimation
 
-    implementation Libs.AndroidX.Hilt.hiltAndroid
-    implementation Libs.AndroidX.Hilt.hiltNavigationCompose
-    kapt Libs.AndroidX.Hilt.hiltCompiler
+    implementation Libs.AndroidX.Hilt.HiltAndroid
+    implementation Libs.AndroidX.Hilt.HiltNavigationCompose
+    kapt Libs.AndroidX.Hilt.HiltCompiler
 
-    implementation Libs.VK.androidSdkApi
+    implementation Libs.VK.AndroidSdkApi
 }

@@ -63,7 +63,7 @@ fun CameraOpenButton() {
 @Preview
 @Composable
 fun CameraOpenButton_Preview() {
-    MainTheme() {
+    MainTheme {
         CameraOpenButton()
     }
 }

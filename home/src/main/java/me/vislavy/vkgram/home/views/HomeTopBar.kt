@@ -23,6 +23,7 @@ import coil.transform.CircleCropTransformation
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.api.data.User
+import me.vislavy.vkgram.core.Destinations
 import me.vislavy.vkgram.home.R
 
 @Composable
@@ -85,7 +86,9 @@ fun HomeTopBar(
 
         Spacer(Modifier.weight(1f))
 
-        IconButton(onClick = { }) {
+        IconButton(onClick = {
+            navController.navigate(Destinations.Search)
+        }) {
             Icon(
                 imageVector = Icons.Outlined.Search,
                 contentDescription = null,

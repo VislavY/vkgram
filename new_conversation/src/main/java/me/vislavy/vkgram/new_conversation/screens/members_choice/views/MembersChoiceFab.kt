@@ -66,7 +66,7 @@ fun MembersChoiceFab(
 @Preview
 @Composable
 fun MembersChoiceFab_Preview() {
-    MainTheme() {
+    MainTheme {
         MembersChoiceFab(
             viewState = MembersChoiceViewState.Display(
                 items = emptyList(),

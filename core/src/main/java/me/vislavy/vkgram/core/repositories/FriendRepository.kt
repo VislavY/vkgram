@@ -4,13 +4,17 @@ import me.vislavy.vkgram.api.data.User
 
 interface FriendRepository {
 
-    suspend fun fetchFriendList(
-        accessToken: String,
+    suspend fun getFriendList(
         count: Int,
         offset: Int
     ): List<User>
 
-    suspend fun acceptFriendById(accessToken: String, id: Int)
+    suspend fun findFriendsByName(
+        name: String,
+        count: Int
+    ): List<User>
 
-    suspend fun deleteFriendById(accessToken: String, id: Int)
+    suspend fun acceptFriendById(id: Int)
+
+    suspend fun deleteFriendById(id: Int)
 }

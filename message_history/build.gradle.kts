@@ -32,25 +32,25 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.version
+        kotlinCompilerExtensionVersion = me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.Version
     }
 
     dependencies {
         api(project(":core"))
         api(project(":api"))
 
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.coreKtx)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.appcompat)
-        api(me.vislavy.vkgram.build_src.Libs.KotlinX.kotlinXCoroutinesCore)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.CoreKtx)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Appcompat)
+        api(me.vislavy.vkgram.build_src.Libs.KotlinX.KotlinXCoroutinesCore)
 
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.material)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.materialIconsExtended)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Lifecycle.lifecycleViewModelCompose)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Navigation.navigationCompose)
-        api(me.vislavy.vkgram.build_src.Libs.Google.accompanistSystemUiController)
-        api(me.vislavy.vkgram.build_src.Libs.Coil.coilCompose)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.Material)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.MaterialIconsExtended)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Lifecycle.LifecycleViewModelCompose)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Navigation.NavigationCompose)
+        api(me.vislavy.vkgram.build_src.Libs.Accompanist.AccompanistSystemUiController)
+        api(me.vislavy.vkgram.build_src.Libs.Coil.CoilCompose)
 
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Hilt.hiltAndroid)
-        kapt(me.vislavy.vkgram.build_src.Libs.AndroidX.Hilt.hiltCompiler)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Hilt.HiltAndroid)
+        kapt(me.vislavy.vkgram.build_src.Libs.AndroidX.Hilt.HiltCompiler)
     }
 }

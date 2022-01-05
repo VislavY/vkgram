@@ -95,7 +95,7 @@ fun GallerySheetContent(
 @Preview
 @Composable
 fun GallerySheetContent_Preview() {
-    MainTheme() {
+    MainTheme {
         GallerySheetContent(
             state = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden),
             onMediaFileSelect = { }

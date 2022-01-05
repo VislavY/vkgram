@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_clear_history">Clear search history</string>
+    <string name="search_are_you_sure">Are you sure you want to clear your search history?</string>
+    <string name="search_no">No</string>
+    <string name="search_clear">Clear</string>
+    <string name="search_last">Last</string>
+    <string name="search">Search</string>
+</resources>

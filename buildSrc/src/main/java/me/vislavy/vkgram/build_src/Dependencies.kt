@@ -3,58 +3,66 @@ package me.vislavy.vkgram.build_src
 @Suppress("UNUSED")
 object Libs {
     object AndroidX {
-        const val appcompat = "androidx.appcompat:appcompat:1.3.0"
-        const val coreKtx = "androidx.core:core-ktx:1.6.0"
+        const val Appcompat = "androidx.appcompat:appcompat:1.3.0"
+        const val CoreKtx = "androidx.core:core-ktx:1.6.0"
 
         object Compose {
-            const val version = "1.1.0-beta03"
-            const val material = "androidx.compose.material:material:$version"
-            const val materialIconsExtended = "androidx.compose.material:material-icons-extended:$version"
-            const val animation = "androidx.compose.animation:animation:$version"
-            const val uiTooling = "androidx.compose.ui:ui-tooling:$version"
+            const val Version = "1.1.0-beta03"
+            const val Material = "androidx.compose.material:material:$Version"
+            const val MaterialIconsExtended = "androidx.compose.material:material-icons-extended:$Version"
+            const val Animation = "androidx.compose.animation:animation:$Version"
+            const val UiTooling = "androidx.compose.ui:ui-tooling:$Version"
         }
 
         object Hilt {
-            private const val version = "2.38.1"
-            const val hiltAndroid = "com.google.dagger:hilt-android:$version"
-            const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha03"
-            const val hiltCompiler = "com.google.dagger:hilt-compiler:$version"
+            private const val Version = "2.38.1"
+            const val HiltAndroid = "com.google.dagger:hilt-android:$Version"
+            const val HiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha03"
+            const val HiltCompiler = "com.google.dagger:hilt-compiler:$Version"
         }
 
         object Lifecycle {
-            const val lifecycleViewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0"
+            const val LifecycleViewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0"
 
         }
 
         object Navigation {
-            const val navigationCompose = "androidx.navigation:navigation-compose:2.4.0-beta02"
+            const val NavigationCompose = "androidx.navigation:navigation-compose:2.4.0-beta02"
+        }
+
+        object Room {
+            const val Version = "2.4.0"
+            const val RoomRuntime = "androidx.room:room-runtime:$Version"
+            const val RoomKtx = "androidx.room:room-ktx:$Version"
+            const val RoomCompiler = "androidx.room:room-compiler:$Version"
         }
     }
 
-    object Google {
-        private const val version = "0.21.3-beta"
-        const val accompanistNavigationAnimation = "com.google.accompanist:accompanist-navigation-animation:$version"
-        const val accompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:$version"
-        const val accompanistPermissions = "com.google.accompanist:accompanist-permissions:$version"
-        const val accompanistPager = "com.google.accompanist:accompanist-pager:$version"
+    object Accompanist {
+        private const val Version = "0.21.3-beta"
+        const val AccompanistNavigationAnimation = "com.google.accompanist:accompanist-navigation-animation:$Version"
+        const val AccompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:$Version"
+        const val AccompanistPlaceholder = "com.google.accompanist:accompanist-placeholder-material:$Version"
+        const val AccompanistPermissions = "com.google.accompanist:accompanist-permissions:$Version"
+        const val AccompanistPager = "com.google.accompanist:accompanist-pager:$Version"
     }
 
     object Coil {
-        const val coilCompose = "io.coil-kt:coil-compose:1.4.0"
+        const val CoilCompose = "io.coil-kt:coil-compose:1.4.0"
     }
 
     object KotlinX {
-        const val kotlinXCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"
-        const val kotlinXSerializationJson = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
+        const val KotlinXCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"
+        const val KotlinXSerializationJson = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
     }
 
     object Retrofit {
-        const val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
-        const val retrofitKotlinXSerializationConverter = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+        const val Retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
+        const val RetrofitKotlinXSerializationConverter = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
     }
 
     object VK {
-        private const val version = "3.2.0"
-        const val androidSdkApi = "com.vk:android-sdk-api:$version"
+        private const val Version = "3.2.0"
+        const val AndroidSdkApi = "com.vk:android-sdk-api:$Version"
     }
 }

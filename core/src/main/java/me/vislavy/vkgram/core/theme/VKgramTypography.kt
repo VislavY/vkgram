@@ -7,6 +7,7 @@ import androidx.compose.ui.unit.sp
 data class VKgramTypography(
     val topBarTitle: TextStyle,
     val title: TextStyle,
+    val searchText: TextStyle,
     val subtitle1: TextStyle,
     val subtitle2: TextStyle,
     val body1: TextStyle,
@@ -26,6 +27,12 @@ data class VKgramTypography(
                 fontFamily = RobotoFontFamily,
                 fontWeight = FontWeight.Medium,
                 fontSize = 20.sp
+            ),
+
+            searchText = TextStyle(
+                fontFamily = RobotoFontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 18.sp
             ),
 
             subtitle1 = TextStyle(

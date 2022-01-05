@@ -68,7 +68,7 @@ fun ErrorContent(
 @Preview
 @Composable
 fun ErrorContent_Preview() {
-    MainTheme() {
+    MainTheme {
         ErrorContent(onReloadClick = { })
     }
 }

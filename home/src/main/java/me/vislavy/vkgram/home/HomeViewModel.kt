@@ -8,7 +8,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import me.vislavy.vkgram.core.EventHandler
-import me.vislavy.vkgram.api.VkAccessToken
 import me.vislavy.vkgram.core.repositories.ConversationRepository
 import me.vislavy.vkgram.core.repositories.FriendRepository
 import me.vislavy.vkgram.core.repositories.UserRepository
@@ -21,11 +20,10 @@ import kotlin.math.abs
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val vkAccessToken: VkAccessToken,
     private val conversationRepository: ConversationRepository,
     private val friendRepository: FriendRepository,
     private val longPollServerManager: LongPollServerManager,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) : ViewModel(), EventHandler<HomeEvent> {
 
     private val _viewState = MutableStateFlow<HomeViewState>(HomeViewState.Loading)
@@ -106,13 +104,11 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val profileResponse = userRepository.getUserListById(listOf(VK.getUserId()))[0]
-                val conversationsResponse = conversationRepository.fetchConversationList(
-                    accessToken = vkAccessToken.accessToken,
+                val conversationsResponse = conversationRepository.getConversationList(
                     count = DefaultConversationCount,
                     offset = 0
                 )
-                val friendsResponse = friendRepository.fetchFriendList(
-                    accessToken = vkAccessToken.accessToken,
+                val friendsResponse = friendRepository.getFriendList(
                     count = DefaultFriendCount,
                     offset = 0
                 )
@@ -131,8 +127,7 @@ class HomeViewModel @Inject constructor(
     private fun increaseConversationList(offset: Int, currentState: HomeViewState.Display) {
         viewModelScope.launch {
             try {
-                val conversations = conversationRepository.fetchConversationList(
-                    accessToken = vkAccessToken.accessToken,
+                val conversations = conversationRepository.getConversationList(
                     count = DefaultConversationCount,
                     offset = offset
                 )
@@ -149,8 +144,7 @@ class HomeViewModel @Inject constructor(
     private fun increaseFriendList(offset: Int, currentState: HomeViewState.Display) {
         viewModelScope.launch {
             try {
-                val friends = friendRepository.fetchFriendList(
-                    accessToken = vkAccessToken.accessToken,
+                val friends = friendRepository.getFriendList(
                     count = DefaultFriendCount,
                     offset = offset
                 )
@@ -167,8 +161,7 @@ class HomeViewModel @Inject constructor(
     private fun updateConversation(conversationId: Int, currentState: HomeViewState.Display) {
         viewModelScope.launch {
             try {
-                val response = conversationRepository.fetchConversationList(
-                    accessToken = vkAccessToken.accessToken,
+                val response = conversationRepository.getConversationList(
                     count = 1,
                     offset = 0
                 ).first()

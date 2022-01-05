@@ -28,18 +28,18 @@ android {
     dependencies {
         api(project(":core"))
 
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.coreKtx)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.appcompat)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.CoreKtx)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Appcompat)
 
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.material)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Lifecycle.lifecycleViewModelCompose)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Navigation.navigationCompose)
-        api(me.vislavy.vkgram.build_src.Libs.Google.accompanistSystemUiController)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.Material)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Lifecycle.LifecycleViewModelCompose)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Navigation.NavigationCompose)
+        api(me.vislavy.vkgram.build_src.Libs.Accompanist.AccompanistSystemUiController)
 
-        api(me.vislavy.vkgram.build_src.Libs.VK.androidSdkApi)
+        api(me.vislavy.vkgram.build_src.Libs.VK.AndroidSdkApi)
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.version
+        kotlinCompilerExtensionVersion = me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.Version
     }
 }

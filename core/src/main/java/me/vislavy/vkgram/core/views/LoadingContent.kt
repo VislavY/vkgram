@@ -33,7 +33,7 @@ fun LoadingContent(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun LoadingContent_Preview() {
-    MainTheme() {
+    MainTheme {
         LoadingContent()
     }
 }

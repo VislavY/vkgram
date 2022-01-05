@@ -28,21 +28,21 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.version
+        kotlinCompilerExtensionVersion = me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.Version
     }
 
     dependencies {
         api(project(":api"))
 
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.coreKtx)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.appcompat)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.CoreKtx)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Appcompat)
 
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.material)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.uiTooling)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.Material)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.UiTooling)
 
-        api(me.vislavy.vkgram.build_src.Libs.KotlinX.kotlinXSerializationJson)
+        api(me.vislavy.vkgram.build_src.Libs.KotlinX.KotlinXSerializationJson)
 
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Hilt.hiltAndroid)
-        kapt(me.vislavy.vkgram.build_src.Libs.AndroidX.Hilt.hiltCompiler)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Hilt.HiltAndroid)
+        kapt(me.vislavy.vkgram.build_src.Libs.AndroidX.Hilt.HiltCompiler)
     }
 }
