@@ -12,15 +12,16 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/api" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/appSettings" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/core" />
-            <option value="$PROJECT_DIR$/home" />
-            <option value="$PROJECT_DIR$/login" />
-            <option value="$PROJECT_DIR$/message_history" />
-            <option value="$PROJECT_DIR$/new_conversation" />
-            <option value="$PROJECT_DIR$/profile" />
-            <option value="$PROJECT_DIR$/search" />
+            <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/appSettings" />
+            <option value="$PROJECT_DIR$/features/home" />
+            <option value="$PROJECT_DIR$/features/login" />
+            <option value="$PROJECT_DIR$/features/messageHistory" />
+            <option value="$PROJECT_DIR$/features/newConversation" />
+            <option value="$PROJECT_DIR$/features/profile" />
+            <option value="$PROJECT_DIR$/features/search" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

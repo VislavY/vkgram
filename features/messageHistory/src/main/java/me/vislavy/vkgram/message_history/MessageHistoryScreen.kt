@@ -55,7 +55,7 @@ fun MessageHistoryScreen(
                 modifier = modifier,
                 viewState = state
             )
-            else -> throw NotImplementedError("Unexpected message_history state")
+            else -> throw NotImplementedError("Unexpected messageHistory state")
         }
     }
 

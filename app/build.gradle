@@ -54,13 +54,13 @@ android {
 
 dependencies {
     implementation project(":api")
-    implementation project(":login")
-    implementation project(':home')
-    implementation project(":message_history")
-    implementation project(":new_conversation")
-    implementation project(":profile")
-    implementation project(":search")
-    implementation project(":appSettings")
+    implementation project(":features:login")
+    implementation project(':features:home')
+    implementation project(":features:messageHistory")
+    implementation project(":features:newConversation")
+    implementation project(":features:profile")
+    implementation project(":features:search")
+    implementation project(":features:appSettings")
 
     implementation Libs.AndroidX.CoreKtx
     implementation Libs.AndroidX.Appcompat

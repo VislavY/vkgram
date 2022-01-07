@@ -58,7 +58,7 @@ fun MembersChoiceScreen(
             is MembersChoiceViewState.Error -> ErrorContent(onReloadClick = {
                 viewModel.onEvent(MembersChoiceEvent.ReloadScreen)
             })
-            else -> throw NotImplementedError("Unexpected new_conversation state")
+            else -> throw NotImplementedError("Unexpected newConversation state")
         }
 
         LaunchedEffect(viewState) {

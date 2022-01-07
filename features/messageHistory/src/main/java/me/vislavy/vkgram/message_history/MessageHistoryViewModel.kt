@@ -198,7 +198,7 @@ class MessageHistoryViewModel @Inject constructor(
     }
 
     companion object {
-        private const val Tag = "message_history"
+        private const val Tag = "messageHistory"
         // Max - 100
         private const val DefaultMessageCount = 40
     }

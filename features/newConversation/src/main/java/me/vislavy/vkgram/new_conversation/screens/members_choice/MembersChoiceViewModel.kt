@@ -104,7 +104,7 @@ class MembersChoiceViewModel @Inject constructor(
     }
 
     companion object {
-        private const val TAG = "new_conversation"
+        private const val TAG = "newConversation"
         private const val DEFAULT_FRIEND_COUNT = 20
     }
 }
