@@ -19,9 +19,6 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary true
-        }
     }
 
     buildTypes {
@@ -30,25 +27,22 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
-        useIR = true
     }
+
     buildFeatures {
         compose true
     }
+
     composeOptions {
         kotlinCompilerExtensionVersion Libs.AndroidX.Compose.Version
-        kotlinCompilerVersion '1.5.10'
-    }
-    packagingOptions {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
-        }
     }
 }
 
@@ -66,7 +60,6 @@ dependencies {
     implementation Libs.AndroidX.Appcompat
 
     implementation Libs.AndroidX.Navigation.NavigationCompose
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
     implementation Libs.Accompanist.AccompanistNavigationAnimation
 
     implementation Libs.AndroidX.Hilt.HiltAndroid
