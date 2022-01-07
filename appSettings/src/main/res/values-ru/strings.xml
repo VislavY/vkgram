@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_settings_appearance">Внешний вид</string>
+    <string name="app_settings_themes">Темы</string>
+    <string name="app_settings_font_size">Размер шрифта</string>
+    <string name="app_settings_small">Маленький</string>
+    <string name="app_settings_normal">Обычный</string>
+    <string name="app_settings_medium">Средний</string>
+    <string name="app_settings_big">Большой</string>
+    <string name="app_settings_input_indicator">Индикатор набора текста</string>
+    <string name="app_settings_mark_messages_as_read">Отмечать сообщения прочитанными</string>
+    <string name="app_settings_invisible">Невидимка</string>
+    <string name="app_settings">Настройки</string>
+</resources>

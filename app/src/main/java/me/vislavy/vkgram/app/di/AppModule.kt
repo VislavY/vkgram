@@ -11,6 +11,7 @@ import me.vislavy.vkgram.api.LongPollServerManager
 import me.vislavy.vkgram.api.VkAccessToken
 import me.vislavy.vkgram.api.VkService
 import me.vislavy.vkgram.api.local.database.AppDatabase
+import me.vislavy.vkgram.core.extensions.dataStore
 import javax.inject.Singleton
 
 @Module

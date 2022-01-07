@@ -17,6 +17,8 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import me.vislavy.vkgram.app_settings.AppSettingsScreen
+import me.vislavy.vkgram.app_settings.AppSettingsViewModel
 import me.vislavy.vkgram.core.ConversationModel
 import me.vislavy.vkgram.core.Destinations
 import me.vislavy.vkgram.home.HomeScreen
@@ -125,6 +127,11 @@ fun NavGraph(startDestination: String) {
         composable(Destinations.Search) {
             val viewModel: SearchViewModel = hiltViewModel()
             SearchScreen(navController, viewModel)
+        }
+
+        composable(Destinations.AppSettings) {
+            val viewModel: AppSettingsViewModel = hiltViewModel()
+            AppSettingsScreen(viewModel, navController)
         }
     }
 }

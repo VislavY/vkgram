@@ -36,6 +36,10 @@ object Libs {
             const val RoomKtx = "androidx.room:room-ktx:$Version"
             const val RoomCompiler = "androidx.room:room-compiler:$Version"
         }
+
+        object Datastore {
+            const val DatastorePreferences = "androidx.datastore:datastore-preferences:1.0.0"
+        }
     }
 
     object Accompanist {

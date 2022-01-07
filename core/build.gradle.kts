@@ -1,3 +1,5 @@
+import me.vislavy.vkgram.build_src.Libs
+
 plugins {
     id("com.android.library")
     id("kotlinx-serialization")
@@ -28,21 +30,23 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.Version
+        kotlinCompilerExtensionVersion = Libs.AndroidX.Compose.Version
     }
 
     dependencies {
         api(project(":api"))
 
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.CoreKtx)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Appcompat)
+        api(Libs.AndroidX.CoreKtx)
+        api(Libs.AndroidX.Appcompat)
 
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.Material)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.UiTooling)
+        api(Libs.AndroidX.Compose.Material)
+        api(Libs.AndroidX.Compose.UiTooling)
 
-        api(me.vislavy.vkgram.build_src.Libs.KotlinX.KotlinXSerializationJson)
+        api(Libs.KotlinX.KotlinXSerializationJson)
 
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Hilt.HiltAndroid)
-        kapt(me.vislavy.vkgram.build_src.Libs.AndroidX.Hilt.HiltCompiler)
+        api(Libs.AndroidX.Hilt.HiltAndroid)
+        kapt(Libs.AndroidX.Hilt.HiltCompiler)
+
+        api(Libs.AndroidX.Datastore.DatastorePreferences)
     }
 }

@@ -60,6 +60,7 @@ dependencies {
     implementation project(":new_conversation")
     implementation project(":profile")
     implementation project(":search")
+    implementation project(":appSettings")
 
     implementation Libs.AndroidX.CoreKtx
     implementation Libs.AndroidX.Appcompat
@@ -71,6 +72,8 @@ dependencies {
     implementation Libs.AndroidX.Hilt.HiltAndroid
     implementation Libs.AndroidX.Hilt.HiltNavigationCompose
     kapt Libs.AndroidX.Hilt.HiltCompiler
+
+    implementation Libs.AndroidX.Datastore.DatastorePreferences
 
     implementation Libs.VK.AndroidSdkApi
 }

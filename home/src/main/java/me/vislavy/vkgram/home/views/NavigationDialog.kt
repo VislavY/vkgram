@@ -114,7 +114,9 @@ fun NavigationDialog(
                 }
 
                 NavigationItemButton(
-                    onClick = { },
+                    onClick = {
+                        navController.navigate(Destinations.AppSettings)
+                    },
                     icon = {
                         Icon(
                             imageVector = Icons.Default.Settings,
