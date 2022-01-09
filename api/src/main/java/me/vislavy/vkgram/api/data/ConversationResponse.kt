@@ -2,7 +2,7 @@ package me.vislavy.vkgram.api.data
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-
+import me.vislavy.vkgram.api.serializers.BooleanSerializer
 
 
 @Serializable
@@ -29,7 +29,7 @@ data class Conversation(
     val peer: ConversationPeer,
     @SerialName("out_read") val lastReadMessageId: Int,
     @SerialName("unread_count") val unreadMessageCount: Int = 0,
-    @SerialName("chat_settings") val chatSettings: ChatSettings? = null,
+    @SerialName("chat_settings") val chatSettings: ChatSettings? = null
 )
 
 @Serializable

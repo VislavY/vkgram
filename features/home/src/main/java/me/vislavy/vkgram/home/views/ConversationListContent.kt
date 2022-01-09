@@ -94,7 +94,7 @@ fun ConversationListContent_Preview() {
                             text = "Sample message",
                             attachments = emptyList(),
                             date = Date(),
-                            out = 1
+                            out = true
                         ),
                         lastReadMessageId = 0,
                     ),
@@ -110,7 +110,7 @@ fun ConversationListContent_Preview() {
                             text = "Sample message 2",
                             attachments = emptyList(),
                             date = Date(),
-                            out = 1
+                            out = true
                         ),
                         lastReadMessageId = 0,
                     ),
@@ -144,7 +144,7 @@ fun DarkConversationListContent_Preview() {
                             text = "Sample message",
                             attachments = emptyList(),
                             date = Date(),
-                            out = 1
+                            out = true
                         ),
                         lastReadMessageId = 0,
                     ),
@@ -160,7 +160,7 @@ fun DarkConversationListContent_Preview() {
                             text = "Sample message 2",
                             attachments = emptyList(),
                             date = Date(),
-                            out = 1
+                            out = true
                         ),
                         lastReadMessageId = 0,
                     ),

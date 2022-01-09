@@ -2,7 +2,8 @@ package me.vislavy.vkgram.api.data
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import me.vislavy.vkgram.core.utils.DateSerializer
+import me.vislavy.vkgram.api.serializers.BooleanSerializer
+import me.vislavy.vkgram.api.serializers.DateSerializer
 import java.util.*
 
 @Serializable
@@ -16,7 +17,7 @@ data class User(
     val domain: String,
     @SerialName("first_name") val firstName: String,
     @SerialName("last_name") val lastName: String,
-    var online: Int = 0,
+    @Serializable(BooleanSerializer::class) var online: Boolean = false,
     @SerialName("last_seen") val lastSeen: LastSeen? = null,
     @SerialName("photo_200") val photo: String = "",
     @SerialName("photo_400_orig") val photoOrig: String = "",

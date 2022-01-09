@@ -56,7 +56,7 @@ fun MessageHistoryContent_Preview() {
                         text = "Sample text",
                         attachments = emptyList(),
                         date = Date(),
-                        out = 0
+                        out = false
                     ),
                     Message(
                         id = 2,
@@ -65,7 +65,7 @@ fun MessageHistoryContent_Preview() {
                         text = "Sample text 2",
                         attachments = emptyList(),
                         date = Date(),
-                        out = 1
+                        out = true
                     )
                 )
             ),
@@ -88,7 +88,7 @@ fun DarkMessageHistoryContent_Preview() {
                         text = "Sample text",
                         attachments = emptyList(),
                         date = Date(),
-                        out = 0
+                        out = false
                     ),
                     Message(
                         id = 2,
@@ -97,7 +97,7 @@ fun DarkMessageHistoryContent_Preview() {
                         text = "Sample text 2",
                         attachments = emptyList(),
                         date = Date(),
-                        out = 1
+                        out = true
                     )
                 )
             ),

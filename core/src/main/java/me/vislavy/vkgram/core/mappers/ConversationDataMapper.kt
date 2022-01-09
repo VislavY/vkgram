@@ -34,7 +34,7 @@ class ConversationDataMapper @Inject constructor() {
                         conversation = conversation.copy(
                             title = "${user.firstName} ${user.lastName}",
                             photo = user.photo,
-                            indicatorEnabled = (user.online == 1)
+                            indicatorEnabled = user.online
                         )
                         break
                     }
@@ -91,7 +91,7 @@ class ConversationDataMapper @Inject constructor() {
                         conversation = conversation.copy(
                             title = "${user.firstName} ${user.lastName}",
                             photo = user.photo,
-                            indicatorEnabled = (user.online == 1)
+                            indicatorEnabled = user.online
                         )
                         break
                     }

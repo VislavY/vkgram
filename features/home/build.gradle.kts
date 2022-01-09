@@ -45,6 +45,7 @@ android {
         api(me.vislavy.vkgram.build_src.Libs.KotlinX.KotlinXCoroutinesCore)
 
         api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.Material)
+        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.MaterialIconsExtended)
         api(me.vislavy.vkgram.build_src.Libs.AndroidX.Lifecycle.LifecycleViewModelCompose)
         api(me.vislavy.vkgram.build_src.Libs.AndroidX.Navigation.NavigationCompose)
         api(me.vislavy.vkgram.build_src.Libs.Accompanist.AccompanistSystemUiController)

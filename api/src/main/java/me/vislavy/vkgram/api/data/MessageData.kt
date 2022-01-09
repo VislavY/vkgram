@@ -2,7 +2,8 @@ package me.vislavy.vkgram.api.data
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import me.vislavy.vkgram.core.utils.DateSerializer
+import me.vislavy.vkgram.api.serializers.BooleanSerializer
+import me.vislavy.vkgram.api.serializers.DateSerializer
 import java.util.*
 
 @Serializable
@@ -13,7 +14,7 @@ data class Message(
     val text: String,
     val attachments: List<Attachment>,
     @Serializable(DateSerializer::class) val date: Date,
-    val out: Int,
+    @Serializable(BooleanSerializer::class) val out: Boolean,
 )
 
 @Serializable

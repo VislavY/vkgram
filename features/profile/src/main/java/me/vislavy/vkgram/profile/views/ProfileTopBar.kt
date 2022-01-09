@@ -83,7 +83,7 @@ fun ProfileTopBar(
                 style = VKgramTheme.typography.title
             )
 
-            val subtitle = if (viewState.user.online == 1) {
+            val subtitle = if (viewState.user.online) {
                 "онлайн"
             } else {
                 val currentDate = Calendar.getInstance()

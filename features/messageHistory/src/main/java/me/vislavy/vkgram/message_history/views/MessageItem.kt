@@ -27,7 +27,7 @@ fun MessageItem(
         Box(
             modifier = Modifier
                 .align(
-                    alignment = if (model.out == 0) {
+                    alignment = if (!model.out) {
                         Alignment.CenterStart
                     } else {
                         Alignment.CenterEnd
@@ -37,14 +37,14 @@ fun MessageItem(
         ) {
             Surface(
                 modifier = modifier.align(
-                    alignment = if (model.out == 0) {
+                    alignment = if (!model.out) {
                         Alignment.CenterStart
                     } else {
                         Alignment.CenterEnd
                     }
                 ),
                 shape = RoundedCornerShape(12.dp),
-                color = if (model.out == 0) {
+                color = if (!model.out) {
                     VKgramTheme.palette.surface
                 } else {
                     VKgramTheme.palette.secondary
@@ -56,7 +56,7 @@ fun MessageItem(
                         horizontal = 10.dp,
                         vertical = 8.dp
                     ),
-                    color = if (model.out == 0) {
+                    color = if (!model.out) {
                         VKgramTheme.palette.primaryText
                     } else {
                         Color.White
@@ -80,7 +80,7 @@ fun MessageItem_Preview() {
                 text = "Sample text",
                 attachments = emptyList(),
                 date = Date(),
-                out = 0
+                out = false
             )
         )
     }
@@ -98,7 +98,7 @@ fun DarkMessageItem_Preview() {
                 text = "Sample text",
                 attachments = emptyList(),
                 date = Date(),
-                out = 0
+                out = false
             )
         )
     }
