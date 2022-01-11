@@ -79,7 +79,7 @@ fun ConversationItem(
 
                 androidx.compose.animation.AnimatedVisibility(
                     modifier = Modifier.align(Alignment.BottomEnd),
-                    visible = model.indicatorEnabled,
+                    visible = model.onlineIndicatorEnabled,
                     enter = scaleIn(tween(200)),
                     exit = scaleOut(tween(200))
                 ) {
@@ -117,7 +117,7 @@ fun ConversationItem(
                     if (model.lastMessage!!.out) {
                         Icon(
                             modifier = Modifier.size(17.dp),
-                            imageVector = if (model.lastReadMessageId != model.lastMessage!!.id)
+                            imageVector = if (model.lastReadMessageLocalId != model.lastMessage!!.id)
                                 Icons.Default.Done else Icons.Default.DoneAll,
                             contentDescription = null,
                             tint = VKgramTheme.palette.secondary
@@ -207,8 +207,6 @@ fun PreviewConversationItem() {
     MainTheme {
         ConversationItem(
             model = ConversationModel(
-                id = 1,
-                type = "user",
                 title = "Sample title",
                 unreadMessageCount = 2,
                 lastMessage = Message(
@@ -220,8 +218,7 @@ fun PreviewConversationItem() {
                     date = Date(),
                     out = true
                 ),
-                lastReadMessageId = 0,
-                indicatorEnabled = true
+                onlineIndicatorEnabled = true
             ),
             onClick = { }
         )

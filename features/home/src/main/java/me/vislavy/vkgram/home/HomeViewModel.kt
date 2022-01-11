@@ -169,7 +169,7 @@ class HomeViewModel @Inject constructor(
                 val modifiedConversationList = currentState.conversations.toMutableList()
                 modifiedConversationList.add(0, response)
                 val outdatedConversations =
-                    currentState.conversations.filter { it.id == conversationId }
+                    currentState.conversations.filter { it.properties.id == conversationId }
                 modifiedConversationList.removeAll(outdatedConversations)
                 _viewState.value = currentState.copy(conversations = modifiedConversationList)
             } catch (e: Exception) {
@@ -185,9 +185,9 @@ class HomeViewModel @Inject constructor(
         currentState: HomeViewState.Display
     ) {
         currentState.conversations.forEachIndexed lit@{ i, conversation ->
-            if (conversationId != conversation.id) return@lit
+            if (conversationId != conversation.properties.id) return@lit
 
-            val modifiedConversation = conversation.copy(indicatorEnabled = isOnline)
+            val modifiedConversation = conversation.copy(onlineIndicatorEnabled = isOnline)
             val modifiedConversationList = currentState.conversations.toMutableList()
             modifiedConversationList[i] = modifiedConversation
             _viewState.value = currentState.copy(conversations = modifiedConversationList)

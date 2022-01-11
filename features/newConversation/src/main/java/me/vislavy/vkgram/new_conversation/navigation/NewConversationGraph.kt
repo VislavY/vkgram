@@ -34,7 +34,6 @@ fun NavGraphBuilder.newConversationGraph(navController: NavController) {
         composable(
             route = NewConversationDestinations.MemberChoice,
             enterTransition = {
-                println(initialState.destination.route)
                 when (initialState.destination.route) {
                     Destinations.Home -> scaleIn(initialScale = 0.95f)
                     else -> null

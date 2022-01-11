@@ -1,6 +1,7 @@
 package me.vislavy.vkgram.api.data
 
 import kotlinx.serialization.Serializable
+import me.vislavy.vkgram.api.data.conversation.Conversation
 
 @Serializable
 data class ConversationByIdData(

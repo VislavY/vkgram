@@ -108,13 +108,9 @@ fun PreviewSearchContent() {
             viewState = SearchViewState.Display(
                 conversationModels = listOf(
                     ConversationModel(
-                        id = 1,
-                        type = "user",
                         title = "Sample title"
                     ),
                     ConversationModel(
-                        id = 1,
-                        type = "user",
                         title = "Sample title"
                     )
                 )

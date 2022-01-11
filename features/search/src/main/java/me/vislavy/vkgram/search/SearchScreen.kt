@@ -58,7 +58,7 @@ fun SearchScreen(
                     viewModel.onEvent(SearchIntent.ClearSearchHistory)
                 },
                 onConversationClick = { conversationModel ->
-                    viewModel.onEvent(SearchIntent.AddToSearchHistory(conversationModel.id))
+                    viewModel.onEvent(SearchIntent.AddToSearchHistory(conversationModel.properties.id))
                 }
             )
         }

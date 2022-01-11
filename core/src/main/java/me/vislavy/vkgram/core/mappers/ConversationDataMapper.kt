@@ -1,8 +1,9 @@
 package me.vislavy.vkgram.core.mappers
 
 import me.vislavy.vkgram.api.data.ConversationByIdResponse
+import me.vislavy.vkgram.api.data.conversation.ConversationData
+import me.vislavy.vkgram.api.data.conversation.ConversationType
 import me.vislavy.vkgram.core.ConversationModel
-import me.vislavy.vkgram.api.data.ConversationData
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -11,50 +12,43 @@ class ConversationDataMapper @Inject constructor() {
     fun map(input: ConversationData): List<ConversationModel> {
         val conversations = mutableListOf<ConversationModel>()
 
-        input.items.forEach { conversationData ->
+        input.conversations.forEach { conversationData ->
             var conversation = with(conversationData) {
                 ConversationModel(
-                    id = conversation.peer.id,
-                    type = conversation.peer.type,
-                    unreadMessageCount = conversation.unreadMessageCount,
-                    lastReadMessageId = conversation.lastReadMessageId,
-                    lastMessage = lastMessage
+                    properties = conversation.properties,
+                    lastMessage = lastMessage,
+                    lastMessageLocalId = conversation.lastMessageLocalId,
+                    lastReadMessageLocalId = conversation.lastReadMessageLocalId,
+                    unreadMessageCount = conversation.unreadMessageCount
                 )
             }
 
-            when (conversation.type) {
-                "user" -> {
-                    for (user in input.profiles) {
-                        if (user.id == conversation.lastMessage?.userId) {
-                            conversation = conversation.copy(lastMessageAuthor = user.firstName)
-                        }
-
-                        if (user.id != conversation.id) continue
-
-                        conversation = conversation.copy(
-                            title = "${user.firstName} ${user.lastName}",
-                            photo = user.photo,
-                            indicatorEnabled = user.online
-                        )
-                        break
+            when (conversation.properties.type) {
+                ConversationType.User -> {
+                    val userIndex = input.users.binarySearch {
+                        it.id.compareTo(conversation.properties.id)
                     }
-                }
-                "group" -> {
-                    for (group in input.groups) {
-                        if (group.id != abs(conversation.id)) continue
-
-                        conversation = conversation.copy(
-                            title = group.name,
-                            photo = group.photo
-                        )
-                        break
-                    }
-                }
-                "chat" -> {
+                    val user = input.users[userIndex]
                     conversation = conversation.copy(
-                        title = conversationData.conversation.chatSettings?.title ?: "",
-                        photo = conversationData.conversation.chatSettings?.photo?.photo ?: "",
-                        userCount = conversationData.conversation.chatSettings?.activeIds?.size ?: 0
+                        title = "${user.firstName} ${user.lastName}",
+                        photo = user.photo
+                    )
+                }
+                ConversationType.Group -> {
+                    val groupIndex = input.groups.binarySearch {
+                        it.id.compareTo(abs(conversation.properties.id))
+                    }
+                    val group = input.groups[groupIndex]
+                    conversation = conversation.copy(
+                        title = group.name,
+                        photo = group.photo
+                    )
+                }
+                ConversationType.Chat -> {
+                    conversation = conversation.copy(
+                        title = conversationData.conversation.chatProperties?.title.toString(),
+                        photo = conversationData.conversation.chatProperties?.photo?.photo200.toString(),
+                        memberCount = conversationData.conversation.chatProperties?.memberCount ?: 0
                     )
                 }
             }
@@ -62,63 +56,54 @@ class ConversationDataMapper @Inject constructor() {
             conversations.add(conversation)
         }
 
-
         return conversations
     }
 
     fun map(input: ConversationByIdResponse): List<ConversationModel> {
-        val conversationModels = mutableListOf<ConversationModel>()
+        val conversations = mutableListOf<ConversationModel>()
 
         input.items.forEach { conversationModel ->
             var conversation = with(conversationModel) {
                 ConversationModel(
-                    id = peer.id,
-                    type = peer.type,
-                    unreadMessageCount = unreadMessageCount,
-                    lastReadMessageId = lastReadMessageId,
+                    properties = properties,
+                    lastMessageLocalId = lastMessageLocalId,
+                    lastReadMessageLocalId = lastReadMessageLocalId,
+                    unreadMessageCount = unreadMessageCount
                 )
             }
 
-            when (conversation.type) {
-                "user" -> {
-                    for (user in input.profiles) {
-                        if (user.id == conversation.lastMessage?.userId) {
-                            conversation = conversation.copy(lastMessageAuthor = user.firstName)
-                        }
-
-                        if (user.id != conversation.id) continue
-
-                        conversation = conversation.copy(
-                            title = "${user.firstName} ${user.lastName}",
-                            photo = user.photo,
-                            indicatorEnabled = user.online
-                        )
-                        break
+            when (conversation.properties.type) {
+                ConversationType.User -> {
+                    val userIndex = input.profiles.binarySearch {
+                        it.id.compareTo(conversation.properties.id)
                     }
-                }
-                "group" -> {
-                    for (group in input.groups) {
-                        if (group.id != abs(conversation.id)) continue
-
-                        conversation = conversation.copy(
-                            title = group.name,
-                            photo = group.photo
-                        )
-                        break
-                    }
-                }
-                "chat" -> {
+                    val user = input.profiles[userIndex]
                     conversation = conversation.copy(
-                        title = conversationModel.chatSettings?.title ?: "",
-                        photo = conversationModel.chatSettings?.photo?.photo ?: "",
-                        userCount = conversationModel.chatSettings?.activeIds?.size ?: 0
+                        title = "${user.firstName} ${user.lastName}",
+                        photo = user.photo
+                    )
+                }
+                ConversationType.Group -> {
+                    val groupIndex = input.groups.binarySearch {
+                        it.id.compareTo(conversation.properties.id)
+                    }
+                    val group = input.groups[groupIndex]
+                    conversation = conversation.copy(
+                        title = group.name,
+                        photo = group.photo
+                    )
+                }
+                ConversationType.Chat -> {
+                    conversation = conversation.copy(
+                        title = conversationModel.chatProperties?.title.toString(),
+                        photo = conversationModel.chatProperties?.photo.toString()
                     )
                 }
             }
 
-            conversationModels.add(conversation)
+            conversations.add(conversation)
         }
 
-        return conversationModels
+        return conversations
     }
 }

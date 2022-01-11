@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
+import me.vislavy.vkgram.api.data.conversation.ConversationType
 import me.vislavy.vkgram.core.ConversationModel
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
@@ -56,14 +57,14 @@ fun FoundConversation(
                     Spacer(Modifier.height(4.dp))
 
                     Text(
-                        text = when (model.type) {
-                            "chat" -> when {
-                                (model.userCount == 1) -> "${model.userCount} участник"
-                                (model.userCount < 5) -> "${model.userCount} участника"
-                                else -> "${model.userCount} участников"
+                        text = when (model.properties.type) {
+                           ConversationType.Chat -> when {
+                                (model.memberCount == 1) -> "${model.memberCount} участник"
+                                (model.memberCount < 5) -> "${model.memberCount} участника"
+                                else -> "${model.memberCount} участников"
                             }
-                            "group" -> "группа"
-                            else -> "пользователь"
+                            ConversationType.Group -> "группа"
+                            ConversationType.User -> "пользователь"
                         },
                         color = VKgramTheme.palette.secondaryText,
                         style = VKgramTheme.typography.body2
@@ -80,8 +81,6 @@ fun PreviewFoundConversation() {
     MainTheme {
         FoundConversation(
             model = ConversationModel(
-                id = 1,
-                type = "user",
                 title = "Sample title"
             ),
             onClick = { }

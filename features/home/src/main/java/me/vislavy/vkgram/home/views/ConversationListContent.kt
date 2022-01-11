@@ -83,8 +83,6 @@ fun ConversationListContent_Preview() {
             viewState = HomeViewState.Display(
                 conversations = listOf(
                     ConversationModel(
-                        id = 1,
-                        type = "user",
                         title = "It's Sample",
                         unreadMessageCount = 2,
                         lastMessage = Message(
@@ -96,11 +94,8 @@ fun ConversationListContent_Preview() {
                             date = Date(),
                             out = true
                         ),
-                        lastReadMessageId = 0,
                     ),
                     ConversationModel(
-                        id = 1,
-                        type = "user",
                         title = "It's Sample 2",
                         unreadMessageCount = 2,
                         lastMessage = Message(
@@ -112,57 +107,6 @@ fun ConversationListContent_Preview() {
                             date = Date(),
                             out = true
                         ),
-                        lastReadMessageId = 0,
-                    ),
-                ),
-                friends = emptyList()
-            ),
-            navController = rememberNavController(),
-            onListEnd = { }
-        )
-    }
-}
-
-@ExperimentalSerializationApi
-@ExperimentalAnimationApi
-@Preview
-@Composable
-fun DarkConversationListContent_Preview() {
-    MainTheme(darkThemeEnabled = true) {
-        ConversationListContent(
-            viewState = HomeViewState.Display(
-                conversations = listOf(
-                    ConversationModel(
-                        id = 1,
-                        type = "user",
-                        title = "It's Sample",
-                        unreadMessageCount = 2,
-                        lastMessage = Message(
-                            id = 1,
-                            userId = 1,
-                            ConversationId = 1,
-                            text = "Sample message",
-                            attachments = emptyList(),
-                            date = Date(),
-                            out = true
-                        ),
-                        lastReadMessageId = 0,
-                    ),
-                    ConversationModel(
-                        id = 1,
-                        type = "user",
-                        title = "It's Sample 2",
-                        unreadMessageCount = 2,
-                        lastMessage = Message(
-                            id = 1,
-                            userId = 1,
-                            ConversationId = 1,
-                            text = "Sample message 2",
-                            attachments = emptyList(),
-                            date = Date(),
-                            out = true
-                        ),
-                        lastReadMessageId = 0,
                     ),
                 ),
                 friends = emptyList()

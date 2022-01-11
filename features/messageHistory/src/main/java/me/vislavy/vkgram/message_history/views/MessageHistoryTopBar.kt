@@ -87,24 +87,6 @@ fun MessageHistoryTopBar_Preview() {
     MainTheme {
         MessageHistoryTopBar(
             conversation = ConversationModel(
-                id = 0,
-                type = "chat",
-                title = "Sample title",
-            ),
-            state = MessageHistoryTopBarState("Updating..."),
-            navController = rememberNavController()
-        )
-    }
-}
-
-@Preview
-@Composable
-fun DarkMessageHistoryTopBar_Preview() {
-    MainTheme(darkThemeEnabled = true) {
-        MessageHistoryTopBar(
-            conversation = ConversationModel(
-                id = 0,
-                type = "chat",
                 title = "Sample title",
             ),
             state = MessageHistoryTopBarState("Updating..."),

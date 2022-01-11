@@ -2,17 +2,17 @@ package me.vislavy.vkgram.core
 
 import kotlinx.serialization.Serializable
 import me.vislavy.vkgram.api.data.Message
+import me.vislavy.vkgram.api.data.conversation.ConversationProperties
 
 @Serializable
 data class ConversationModel(
-    val id: Int,
-    val type: String,
+    val properties: ConversationProperties = ConversationProperties(),
     val title: String = "",
     val photo: String = "",
-    val userCount: Int = 0,
-    val unreadMessageCount: Int = 0,
-    val lastReadMessageId: Int = 0,
     val lastMessage: Message? = null,
-    val lastMessageAuthor: String = "",
-    val indicatorEnabled: Boolean = false
+    val lastMessageLocalId: Int = 0,
+    val lastReadMessageLocalId: Int = 0,
+    val unreadMessageCount: Int = 0,
+    val onlineIndicatorEnabled: Boolean = false,
+    val memberCount: Int = 0
 )

@@ -14,6 +14,7 @@ import me.vislavy.vkgram.message_history.models.MessageHistoryEvent
 import me.vislavy.vkgram.message_history.models.MessageHistoryTopBarState
 import me.vislavy.vkgram.message_history.repositories.MessageRepository
 import me.vislavy.vkgram.api.VkAccessToken
+import me.vislavy.vkgram.api.data.conversation.ConversationType
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -87,17 +88,17 @@ class MessageHistoryViewModel @Inject constructor(
 
     private fun getTopBarSubtitle() {
         viewModelScope.launch {
-            when (conversation.type) {
-                "user" -> getUserLastActivity()
-                "group" -> _topBarState.value = MessageHistoryTopBarState("группа")
-                "chat" -> {
+            when (conversation.properties.type) {
+                ConversationType.User -> getUserLastActivity()
+                ConversationType.Group -> _topBarState.value = MessageHistoryTopBarState("группа")
+                ConversationType.Chat -> {
                     val wordEnding = when {
-                        conversation.userCount == 1 -> ""
-                        conversation.userCount <= 4 -> "а"
+                        conversation.memberCount == 1 -> ""
+                        conversation.memberCount <= 4 -> "а"
                         else -> "ов"
                     }
 
-                    _topBarState.value = MessageHistoryTopBarState("${conversation.userCount} участник$wordEnding")
+                    _topBarState.value = MessageHistoryTopBarState("${conversation.memberCount} участник$wordEnding")
                 }
             }
         }
@@ -108,7 +109,7 @@ class MessageHistoryViewModel @Inject constructor(
             try {
                 val response = messageRepository.getLastActivity(
                     accessToken = vkAccessToken.accessToken,
-                    userId = conversation.id
+                    userId = conversation.properties.id
                 )
                 val subtitle = if (response.online == 1) {
                     "онлайн"
@@ -149,7 +150,7 @@ class MessageHistoryViewModel @Inject constructor(
             try {
                 val response = messageRepository.fetchMessageList(
                     accessToken = vkAccessToken.accessToken,
-                    conversationId = conversation.id,
+                    conversationId = conversation.properties.id,
                     count = DefaultMessageCount,
                     offset = 0
                 )
@@ -169,7 +170,7 @@ class MessageHistoryViewModel @Inject constructor(
             try {
                 val response = messageRepository.fetchMessageList(
                     accessToken = vkAccessToken.accessToken,
-                    conversationId = conversation.id,
+                    conversationId = conversation.properties.id,
                     count = DefaultMessageCount,
                     offset = offset
                 )
@@ -188,7 +189,7 @@ class MessageHistoryViewModel @Inject constructor(
             try {
                 messageRepository.sendMessage(
                     accessToken = vkAccessToken.accessToken,
-                    conversationId = conversation.id,
+                    conversationId = conversation.properties.id,
                     text = text
                 )
             } catch (e: Exception) {
