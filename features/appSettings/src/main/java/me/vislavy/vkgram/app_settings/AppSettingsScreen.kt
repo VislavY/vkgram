@@ -24,7 +24,7 @@ fun AppSettingsScreen(
     when (val state = viewState.value) {
         is AppSettingsViewState.Loading -> LoadingContent()
         is AppSettingsViewState.Error -> ErrorContent(onReloadClick = {
-            viewModel.onEvent(AppSettingsIntent.ReloadScreen)
+            viewModel.onIntent(AppSettingsIntent.ReloadScreen)
         })
         is AppSettingsViewState.Display -> Scaffold(topBar = {
             AppSettingsTopBar(navController = navController)
@@ -35,6 +35,6 @@ fun AppSettingsScreen(
     }
 
     LaunchedEffect(viewState) {
-        viewModel.onEvent(AppSettingsIntent.EnterScreen)
+        viewModel.onIntent(AppSettingsIntent.EnterScreen)
     }
 }

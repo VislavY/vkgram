@@ -7,7 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import me.vislavy.vkgram.core.EventHandler
+import me.vislavy.vkgram.core.IntentHandler
 import me.vislavy.vkgram.core.repositories.ConversationRepository
 import me.vislavy.vkgram.new_conversation.UserModel
 import me.vislavy.vkgram.new_conversation.screens.conversation_creation.models.ConversationCreationEvent
@@ -18,16 +18,16 @@ import javax.inject.Inject
 @HiltViewModel
 class ConversationCreationViewModel @Inject constructor(
     private val conversationRepository: ConversationRepository
-) : ViewModel(), EventHandler<ConversationCreationEvent> {
+) : ViewModel(), IntentHandler<ConversationCreationEvent> {
 
     private val _viewState =
         MutableStateFlow<ConversationCreationViewState>(ConversationCreationViewState.Loading)
     val viewState = _viewState.asStateFlow()
 
-    override fun onEvent(event: ConversationCreationEvent) {
+    override fun onIntent(intent: ConversationCreationEvent) {
         when (val currentState = _viewState.value) {
-            is ConversationCreationViewState.Loading -> reduce(event, currentState)
-            is ConversationCreationViewState.Display -> reduce(event, currentState)
+            is ConversationCreationViewState.Loading -> reduce(intent, currentState)
+            is ConversationCreationViewState.Display -> reduce(intent, currentState)
         }
     }
 

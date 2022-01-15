@@ -48,22 +48,22 @@ fun MembersChoiceScreen(
                     modifier = modifier,
                     viewState = state,
                     onItemClick = { clickedFriend ->
-                        viewModel.onEvent(MembersChoiceEvent.OnFriendClick(clickedFriend))
+                        viewModel.onIntent(MembersChoiceEvent.OnFriendClick(clickedFriend))
                     },
                     onItemListEnd = { itemCount ->
-                        viewModel.onEvent(MembersChoiceEvent.OnItemListEnd(itemCount))
+                        viewModel.onIntent(MembersChoiceEvent.OnItemListEnd(itemCount))
                     }
                 )
             }
             is MembersChoiceViewState.Error -> ErrorContent(onReloadClick = {
-                viewModel.onEvent(MembersChoiceEvent.ReloadScreen)
+                viewModel.onIntent(MembersChoiceEvent.ReloadScreen)
             })
             else -> throw NotImplementedError("Unexpected newConversation state")
         }
 
         LaunchedEffect(viewState) {
             if (viewState.value !is MembersChoiceViewState.Display) {
-                viewModel.onEvent(MembersChoiceEvent.EnterScreen)
+                viewModel.onIntent(MembersChoiceEvent.EnterScreen)
             }
         }
     }

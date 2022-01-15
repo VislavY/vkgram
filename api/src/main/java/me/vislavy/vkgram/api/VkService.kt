@@ -4,7 +4,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import me.vislavy.vkgram.api.data.*
-import me.vislavy.vkgram.api.data.conversation.ConversationResponse
+import me.vislavy.vkgram.api.data.ConversationResponse
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import retrofit2.http.GET
@@ -101,6 +101,12 @@ interface VkService {
     suspend fun getLongPollServer(
         @Query("access_token") accessToken: String
     ): LongPollServerResponse
+
+    @GET("messages.deleteConversation?v=5.131")
+    suspend fun deleteConversation(
+        @Query("access_token") accessToken: String,
+        @Query("peer_id") id: Int
+    )
 
     @GET("friends.get?fields=domain,photo_50,photo_100,photo_200,photo_400_orig&order=hints&v=5.131")
     suspend fun getFriendList(

@@ -55,4 +55,8 @@ class ConversationRepositoryImpl @Inject constructor(
 
     override suspend fun getChatById(id: Int) =
         vkService.getChatById(vkAccessToken.accessToken, id).response
+
+    override suspend fun deleteConversation(id: Int) {
+        vkService.deleteConversation(vkAccessToken.accessToken, id)
+    }
 }

@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
-import me.vislavy.vkgram.api.data.conversation.ConversationType
+import me.vislavy.vkgram.api.data.ConversationType
 import me.vislavy.vkgram.core.ConversationModel
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme

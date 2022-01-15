@@ -1,6 +1,7 @@
 package me.vislavy.vkgram.home
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -16,11 +17,12 @@ import me.vislavy.vkgram.core.Destinations
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.core.views.ErrorContent
 import me.vislavy.vkgram.core.views.LoadingContent
-import me.vislavy.vkgram.home.models.HomeEvent
+import me.vislavy.vkgram.home.models.HomeIntent
 import me.vislavy.vkgram.home.models.HomeViewState
 import me.vislavy.vkgram.home.views.HomeContent
 import me.vislavy.vkgram.home.views.HomeTopBar
 
+@ExperimentalFoundationApi
 @ExperimentalSerializationApi
 @ExperimentalAnimationApi
 @ExperimentalPagerApi
@@ -35,24 +37,25 @@ fun HomeScreen(
         is HomeViewState.Loading -> LoadingContent()
         is HomeViewState.Error -> ErrorContent(
             onReloadClick = {
-                viewModel.onEvent(HomeEvent.ReloadScreen)
+                viewModel.onIntent(HomeIntent.ReloadScreen)
             }
         )
         is HomeViewState.Display -> Scaffold(
             topBar = {
                 state.profile?.let {
                     HomeTopBar(
+                        viewState = state,
                         userModel = it,
+                        onClearSelectedConvListClick = { viewModel.onIntent(HomeIntent.ClearSelectedConvList) },
+                        onDeleteConvClick = { viewModel.onIntent(HomeIntent.DeleteSelectedConvs) },
                         navController = navController
                     )
                 }
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = {
-                        navController.navigate(Destinations.NewConversation)
-                    },
                     modifier = Modifier.padding(bottom = 16.dp),
+                    onClick = { navController.navigate(Destinations.NewConversation) },
                     backgroundColor = VKgramTheme.palette.secondary
                 ) {
                     Icon(
@@ -68,11 +71,23 @@ fun HomeScreen(
                 modifier = modifier,
                 viewState = state,
                 navController = navController,
+                onConversationClick = { model ->
+                    if (!state.selectModeEnabled) {
+                        navController.navigate(
+                            route = Destinations.MessageHistory
+                        )
+                    } else {
+                        viewModel.onIntent(HomeIntent.AddToSelectedConvList(model))
+                    }
+                },
+                onConversationLongClick = { model ->
+                    viewModel.onIntent(HomeIntent.AddToSelectedConvList(model))
+                },
                 onConversationListEnd = { conversationCount ->
-                    viewModel.onEvent(HomeEvent.ConversationListEnd(conversationCount))
+                    viewModel.onIntent(HomeIntent.IncreaseConvList(conversationCount))
                 },
                 onFriendListEnd = { friendCount ->
-                    viewModel.onEvent(HomeEvent.FriendListEnd(friendCount))
+                    viewModel.onIntent(HomeIntent.IncreaseFriendList(friendCount))
                 }
             )
         }
@@ -80,9 +95,9 @@ fun HomeScreen(
 
     LaunchedEffect(viewState) {
         if (viewState.value !is HomeViewState.Display) {
-            viewModel.onEvent(HomeEvent.EnterScreen)
+            viewModel.onIntent(HomeIntent.EnterScreen)
         } else {
-            viewModel.onEvent(HomeEvent.UpdateProfile)
+            viewModel.onIntent(HomeIntent.UpdateProfile)
         }
     }
 }

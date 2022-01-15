@@ -1,10 +1,7 @@
-package me.vislavy.vkgram.api.data.conversation
+package me.vislavy.vkgram.api.data
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import me.vislavy.vkgram.api.data.Group
-import me.vislavy.vkgram.api.data.Message
-import me.vislavy.vkgram.api.data.User
 
 @Serializable
 data class ConversationResponse(
@@ -27,10 +24,12 @@ data class ConversationItem(
 @Serializable
 data class Conversation(
     @SerialName("peer") val properties: ConversationProperties = ConversationProperties(),
-    @SerialName("out_read") val lastMessageLocalId: Int = 0,
-    @SerialName("in_read") val lastReadMessageLocalId: Int = 0,
+    @SerialName("in_read_cmid") val lastMessageLocalId: Int = 0,
+    @SerialName("out_read_cmid") val lastReadMessageLocalId: Int = 0,
     @SerialName("unread_count") val unreadMessageCount: Int = 0,
     @SerialName("chat_settings") val chatProperties: ChatProperties? = null,
+    @SerialName("push_settings") val pushSettings: PushSettings = PushSettings(),
+    @SerialName("sort_id") val sortId: SortId = SortId()
 )
 
 @Serializable
@@ -62,4 +61,15 @@ data class ChatPhoto(
     @SerialName("photo_100") val photo100: String = "",
     @SerialName("photo_200") val photo200: String = "",
     @SerialName("is_default_photo") val isDefaultPhoto: Boolean = false
+)
+
+@Serializable
+data class PushSettings(
+    @SerialName("no_sound") val soundDisabled: Boolean = false
+)
+
+@Serializable
+data class SortId(
+    @SerialName("major_id") val majorId: Int = 0,
+    @SerialName("minor_id") val minorId: Int = 0
 )

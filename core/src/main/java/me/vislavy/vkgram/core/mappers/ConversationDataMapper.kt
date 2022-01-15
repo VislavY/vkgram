@@ -1,8 +1,8 @@
 package me.vislavy.vkgram.core.mappers
 
 import me.vislavy.vkgram.api.data.ConversationByIdResponse
-import me.vislavy.vkgram.api.data.conversation.ConversationData
-import me.vislavy.vkgram.api.data.conversation.ConversationType
+import me.vislavy.vkgram.api.data.ConversationData
+import me.vislavy.vkgram.api.data.ConversationType
 import me.vislavy.vkgram.core.ConversationModel
 import javax.inject.Inject
 import kotlin.math.abs
@@ -19,7 +19,9 @@ class ConversationDataMapper @Inject constructor() {
                     lastMessage = lastMessage,
                     lastMessageLocalId = conversation.lastMessageLocalId,
                     lastReadMessageLocalId = conversation.lastReadMessageLocalId,
-                    unreadMessageCount = conversation.unreadMessageCount
+                    unreadMessageCount = conversation.unreadMessageCount,
+                    pushSettings = conversation.pushSettings,
+                    sortId = conversation.sortId
                 )
             }
 
@@ -45,10 +47,18 @@ class ConversationDataMapper @Inject constructor() {
                     )
                 }
                 ConversationType.Chat -> {
+                    var lastMessageAuthor = ""
+                    conversationData.lastMessage?.let { lastMessage ->
+                        val lastMessageAuthorIndex = input.users.binarySearch { user ->
+                            user.id.compareTo(lastMessage.userId)
+                        }
+                        lastMessageAuthor = "${input.users[lastMessageAuthorIndex].firstName}: "
+                    }
                     conversation = conversation.copy(
                         title = conversationData.conversation.chatProperties?.title.toString(),
                         photo = conversationData.conversation.chatProperties?.photo?.photo200.toString(),
-                        memberCount = conversationData.conversation.chatProperties?.memberCount ?: 0
+                        memberCount = conversationData.conversation.chatProperties?.memberCount ?: 0,
+                        lastMessageAuthor = lastMessageAuthor
                     )
                 }
             }
@@ -68,7 +78,9 @@ class ConversationDataMapper @Inject constructor() {
                     properties = properties,
                     lastMessageLocalId = lastMessageLocalId,
                     lastReadMessageLocalId = lastReadMessageLocalId,
-                    unreadMessageCount = unreadMessageCount
+                    unreadMessageCount = unreadMessageCount,
+                    pushSettings = pushSettings,
+                    sortId = sortId
                 )
             }
 

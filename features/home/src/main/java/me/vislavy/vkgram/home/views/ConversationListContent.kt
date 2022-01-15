@@ -1,6 +1,7 @@
 package me.vislavy.vkgram.home.views
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,29 +13,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import me.vislavy.vkgram.core.ConversationModel
-import me.vislavy.vkgram.core.Destinations
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.home.models.HomeViewState
 import me.vislavy.vkgram.api.data.Message
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 import java.util.*
 
+@ExperimentalFoundationApi
 @ExperimentalSerializationApi
 @ExperimentalAnimationApi
 @Composable
 fun ConversationListContent(
     modifier: Modifier = Modifier,
     viewState: HomeViewState.Display,
-    onListEnd: (Int) -> Unit,
-    navController: NavController
+    onConversationClick: (ConversationModel) -> Unit,
+    onConversationLongClick: (ConversationModel) -> Unit,
+    onListEnd: (Int) -> Unit
 ) {
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -44,27 +40,19 @@ fun ConversationListContent(
             Spacer(Modifier.height(16.dp))
 
             LazyColumn {
-                itemsIndexed(viewState.conversations) { i, conversation ->
+                itemsIndexed(viewState.conversations) { index, conversation ->
                     ConversationItem(
                         model = conversation,
-                        onClick = { conversationModel ->
-                            val encodedConversation = Json.encodeToString(
-                                value = conversationModel.copy(
-                                    photo = URLEncoder.encode(
-                                        conversationModel.photo,
-                                        StandardCharsets.UTF_8.toString()
-                                    ),
-                                    lastMessage = null
-                                )
-                            )
-                            navController.navigate(
-                                route = Destinations.MessageHistory
-                                        + "/$encodedConversation"
-                            )
-                        }
+                        onClick = { model ->
+                            onConversationClick(model)
+                        },
+                        onLongClick = { model ->
+                            onConversationLongClick(model)
+                        },
+                        isSelect = viewState.selectedConversations.contains(conversation)
                     )
 
-                    if (i == (viewState.conversations.size - 1)) {
+                    if (index == (viewState.conversations.size - 1)) {
                         onListEnd(viewState.conversations.size)
                     }
                 }
@@ -73,6 +61,7 @@ fun ConversationListContent(
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalSerializationApi
 @ExperimentalAnimationApi
 @Preview
@@ -111,8 +100,9 @@ fun ConversationListContent_Preview() {
                 ),
                 friends = emptyList()
             ),
-            navController = rememberNavController(),
-            onListEnd = { }
+            onListEnd = { },
+            onConversationClick = { },
+            onConversationLongClick = { }
         )
     }
 }

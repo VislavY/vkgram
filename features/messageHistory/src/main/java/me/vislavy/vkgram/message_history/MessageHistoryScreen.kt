@@ -34,7 +34,7 @@ fun MessageHistoryScreen(
         bottomBar = {
             MessageHistoryBottomBar(
                 onSendClick = { text ->
-                    viewModel.onEvent(MessageHistoryEvent.SendMessage(text))
+                    viewModel.onIntent(MessageHistoryEvent.SendMessage(text))
                 }
             )
         }
@@ -45,12 +45,12 @@ fun MessageHistoryScreen(
             is MessageHistoryContentState.Error -> ErrorContent(
                 modifier = modifier,
                 onReloadClick = {
-                    viewModel.onEvent(MessageHistoryEvent.ReloadScreen)
+                    viewModel.onIntent(MessageHistoryEvent.ReloadScreen)
                 }
             )
             is MessageHistoryContentState.Display -> MessageHistoryContent(
                 onMessageListEnd = { size ->
-                    viewModel.onEvent(MessageHistoryEvent.MessageListEnd(size))
+                    viewModel.onIntent(MessageHistoryEvent.MessageListEnd(size))
                 },
                 modifier = modifier,
                 viewState = state
@@ -61,7 +61,7 @@ fun MessageHistoryScreen(
 
     LaunchedEffect(contentState, topBarState) {
         if (contentState.value !is MessageHistoryContentState.Display) {
-            viewModel.onEvent(MessageHistoryEvent.EnterScreen(conversation))
+            viewModel.onIntent(MessageHistoryEvent.EnterScreen(conversation))
         }
     }
 }

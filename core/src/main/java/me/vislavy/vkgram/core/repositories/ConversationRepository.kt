@@ -24,4 +24,6 @@ interface ConversationRepository {
     ): List<ConversationModel>
 
     suspend fun getChatById(id: Int): Chat
+
+    suspend fun deleteConversation(id: Int)
 }

@@ -34,7 +34,7 @@ fun LoginScreen(
     when (viewState.value) {
         is LoginViewState.Loading -> LoginLoadingContent()
         is LoginViewState.Display -> LoginContent(onLoginClick = {
-            viewModel.onEvent(LoginEvent.OnLoginButtonClick(currentActivity))
+            viewModel.onIntent(LoginEvent.OnLoginButtonClick(currentActivity))
         })
     }
 

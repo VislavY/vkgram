@@ -16,4 +16,5 @@ object VKgramColor {
     val Green500 = Color(0xFF8BC34A)
     val Orange500 = Color(0xFFFF9800)
     val Red500 = Color(0xFFf44336)
+    val LightGreen500 = Color(0xFF8bc34a)
 }

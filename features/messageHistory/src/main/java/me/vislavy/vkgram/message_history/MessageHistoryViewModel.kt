@@ -8,13 +8,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import me.vislavy.vkgram.core.ConversationModel
-import me.vislavy.vkgram.core.EventHandler
+import me.vislavy.vkgram.core.IntentHandler
 import me.vislavy.vkgram.message_history.models.MessageHistoryContentState
 import me.vislavy.vkgram.message_history.models.MessageHistoryEvent
 import me.vislavy.vkgram.message_history.models.MessageHistoryTopBarState
 import me.vislavy.vkgram.message_history.repositories.MessageRepository
 import me.vislavy.vkgram.api.VkAccessToken
-import me.vislavy.vkgram.api.data.conversation.ConversationType
+import me.vislavy.vkgram.api.data.ConversationType
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class MessageHistoryViewModel @Inject constructor(
     private val vkAccessToken: VkAccessToken,
     private val messageRepository: MessageRepository
-) : ViewModel(), EventHandler<MessageHistoryEvent> {
+) : ViewModel(), IntentHandler<MessageHistoryEvent> {
 
     private val _topBarState = MutableStateFlow(MessageHistoryTopBarState("Обновление..."))
     val topBarState = _topBarState.asStateFlow()
@@ -34,11 +34,11 @@ class MessageHistoryViewModel @Inject constructor(
 
     private lateinit var conversation: ConversationModel
 
-    override fun onEvent(event: MessageHistoryEvent) {
+    override fun onIntent(intent: MessageHistoryEvent) {
         when (val currentContentState = _contentState.value) {
-            is MessageHistoryContentState.Loading -> reduce(event, currentContentState)
-            is MessageHistoryContentState.Error -> reduce(event, currentContentState)
-            is MessageHistoryContentState.Display -> reduce(event, currentContentState)
+            is MessageHistoryContentState.Loading -> reduce(intent, currentContentState)
+            is MessageHistoryContentState.Error -> reduce(intent, currentContentState)
+            is MessageHistoryContentState.Display -> reduce(intent, currentContentState)
         }
     }
 

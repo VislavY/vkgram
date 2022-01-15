@@ -7,7 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import me.vislavy.vkgram.core.EventHandler
+import me.vislavy.vkgram.core.IntentHandler
 import me.vislavy.vkgram.core.repositories.UserRepository
 import me.vislavy.vkgram.profile.models.ProfileEvent
 import me.vislavy.vkgram.profile.models.ProfileViewState
@@ -17,16 +17,16 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val userRepository: UserRepository
-) : ViewModel(), EventHandler<ProfileEvent> {
+) : ViewModel(), IntentHandler<ProfileEvent> {
 
     private val _viewState = MutableStateFlow<ProfileViewState>(ProfileViewState.Loading)
     val viewState = _viewState.asStateFlow()
 
-    override fun onEvent(event: ProfileEvent) {
+    override fun onIntent(intent: ProfileEvent) {
         when (val currentState = _viewState.value) {
-            is ProfileViewState.Loading -> reduce(event, currentState)
-            is ProfileViewState.Error -> reduce(event, currentState)
-            is ProfileViewState.Display -> reduce(event, currentState)
+            is ProfileViewState.Loading -> reduce(intent, currentState)
+            is ProfileViewState.Error -> reduce(intent, currentState)
+            is ProfileViewState.Display -> reduce(intent, currentState)
         }
     }
 

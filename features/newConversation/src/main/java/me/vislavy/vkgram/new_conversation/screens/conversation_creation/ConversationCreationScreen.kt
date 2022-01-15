@@ -42,7 +42,7 @@ fun ConversationCreationScreen(
             GallerySheetContent(
                 state = gallerySheetState,
                 onMediaFileSelect = { mediaFile ->
-                    viewModel.onEvent(ConversationCreationEvent.ConversationPhotoSelected(mediaFile))
+                    viewModel.onIntent(ConversationCreationEvent.ConversationPhotoSelected(mediaFile))
                 }
             )
         },
@@ -56,7 +56,7 @@ fun ConversationCreationScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        viewModel.onEvent(ConversationCreationEvent.CreateConversation)
+                        viewModel.onIntent(ConversationCreationEvent.CreateConversation)
                     },
                     modifier = Modifier.padding(bottom = 16.dp),
                     backgroundColor = VKgramTheme.palette.secondary
@@ -82,14 +82,14 @@ fun ConversationCreationScreen(
                     viewState = state,
                     gallerySheetState = gallerySheetState,
                     onMemberRemoveClick = {
-                        viewModel.onEvent(ConversationCreationEvent.RemoveMember(it))
+                        viewModel.onIntent(ConversationCreationEvent.RemoveMember(it))
                     }
                 )
                 else -> throw NotImplementedError("Unexpected conversation_creation state")
             }
 
             LaunchedEffect(viewState) {
-                viewModel.onEvent(ConversationCreationEvent.EnterScreen(members))
+                viewModel.onIntent(ConversationCreationEvent.EnterScreen(members))
             }
         }
     }

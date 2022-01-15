@@ -15,7 +15,8 @@ data class VKgramPalette(
     val background: Color,
     val friendCard: Color,
     val commonFriendCard: Color,
-    val subscribesCard: Color
+    val subscribesCard: Color,
+    val indicator: Color
 ) {
     companion object {
         val LightPalette = VKgramPalette(
@@ -31,7 +32,8 @@ data class VKgramPalette(
             background = VKgramColor.White,
             friendCard = VKgramColor.Green500,
             commonFriendCard = VKgramColor.Orange500,
-            subscribesCard = VKgramColor.Red500
+            subscribesCard = VKgramColor.Red500,
+            indicator = VKgramColor.LightGreen500
         )
 
         val DarkPalette = VKgramPalette(
@@ -47,7 +49,8 @@ data class VKgramPalette(
             background = VKgramColor.DarkGrey,
             friendCard = VKgramColor.Green500,
             commonFriendCard = VKgramColor.Orange500,
-            subscribesCard = VKgramColor.Red500
+            subscribesCard = VKgramColor.Red500,
+            indicator = VKgramColor.LightGreen500
         )
     }
 }

@@ -5,16 +5,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vk.api.sdk.VK
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import me.vislavy.vkgram.core.EventHandler
+import me.vislavy.vkgram.core.IntentHandler
 import me.vislavy.vkgram.core.repositories.ConversationRepository
 import me.vislavy.vkgram.core.repositories.FriendRepository
 import me.vislavy.vkgram.core.repositories.UserRepository
-import me.vislavy.vkgram.home.models.HomeEvent
+import me.vislavy.vkgram.home.models.HomeIntent
 import me.vislavy.vkgram.home.models.HomeViewState
 import me.vislavy.vkgram.api.EventFlag
 import me.vislavy.vkgram.api.LongPollServerManager
+import me.vislavy.vkgram.core.ConversationModel
+import java.util.*
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -24,7 +27,7 @@ class HomeViewModel @Inject constructor(
     private val friendRepository: FriendRepository,
     private val longPollServerManager: LongPollServerManager,
     private val userRepository: UserRepository,
-) : ViewModel(), EventHandler<HomeEvent> {
+) : ViewModel(), IntentHandler<HomeIntent> {
 
     private val _viewState = MutableStateFlow<HomeViewState>(HomeViewState.Loading)
     val viewState = _viewState.asStateFlow()
@@ -37,19 +40,16 @@ class HomeViewModel @Inject constructor(
                     if (currentState !is HomeViewState.Display) return@apply
 
                     when (eventFlag) {
-                        EventFlag.NewMessage -> updateConversation(
-                            conversationId = conversationId,
-                            currentState = currentState
-                        )
+                        EventFlag.NewMessage -> updateConversation(currentState = currentState)
                         EventFlag.FriendBecameOnline -> {
-                            changeOnlineIndicator(
+                            updateOnlineIndicator(
                                 conversationId = abs(conversationId),
                                 isOnline = true,
                                 currentState = currentState
                             )
                         }
                         EventFlag.FriendBecameOffline -> {
-                            changeOnlineIndicator(
+                            updateOnlineIndicator(
                                 conversationId = abs(conversationId),
                                 isOnline = false,
                                 currentState = currentState
@@ -61,61 +61,64 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    override fun onEvent(event: HomeEvent) {
+    override fun onIntent(intent: HomeIntent) {
         when (val currentState = _viewState.value) {
-            is HomeViewState.Loading -> reduce(event, currentState)
-            is HomeViewState.Error -> reduce(event, currentState)
-            is HomeViewState.Display -> reduce(event, currentState)
+            is HomeViewState.Loading -> reduce(intent, currentState)
+            is HomeViewState.Error -> reduce(intent, currentState)
+            is HomeViewState.Display -> reduce(intent, currentState)
         }
     }
 
-    private fun reduce(event: HomeEvent, currentState: HomeViewState.Loading) {
-        when (event) {
-            is HomeEvent.EnterScreen -> enterScreen()
-            else -> throw NotImplementedError("Invalid $event for state $currentState")
+    private fun reduce(intent: HomeIntent, currentState: HomeViewState.Loading) {
+        when (intent) {
+            is HomeIntent.EnterScreen -> enterScreen()
+            else -> throw NotImplementedError("Invalid $intent for state $currentState")
         }
     }
 
-    private fun reduce(event: HomeEvent, currentState: HomeViewState.Error) {
-        when (event) {
-            is HomeEvent.ReloadScreen -> enterScreen(true)
-            else -> throw NotImplementedError("Invalid $event for state $currentState")
+    private fun reduce(intent: HomeIntent, currentState: HomeViewState.Error) {
+        when (intent) {
+            is HomeIntent.ReloadScreen -> enterScreen(true)
+            else -> throw NotImplementedError("Invalid $intent for state $currentState")
         }
     }
 
-    private fun reduce(event: HomeEvent, currentState: HomeViewState.Display) {
-        when (event) {
-            is HomeEvent.EnterScreen -> enterScreen()
-            is HomeEvent.ConversationListEnd -> increaseConversationList(
-                offset = event.count,
+    private fun reduce(intent: HomeIntent, currentState: HomeViewState.Display) {
+        when (intent) {
+            is HomeIntent.EnterScreen -> enterScreen()
+            is HomeIntent.IncreaseConvList -> increaseConversationList(
+                offset = intent.currentSize,
                 currentState = currentState
             )
-            is HomeEvent.FriendListEnd -> increaseFriendList(event.count, currentState)
-            is HomeEvent.UpdateProfile -> updateProfile(currentState)
-            else -> throw NotImplementedError("Invalid $event for state $currentState")
+            is HomeIntent.IncreaseFriendList -> increaseFriendList(intent.currentSize, currentState)
+            is HomeIntent.UpdateProfile -> updateProfile(currentState)
+            is HomeIntent.AddToSelectedConvList -> addConvToSelectedList(intent.conversation, currentState)
+            is HomeIntent.ClearSelectedConvList -> clearSelectedConvList(currentState)
+            is HomeIntent.DeleteSelectedConvs -> deleteSelectedConvs(currentState)
+            else -> throw NotImplementedError("Invalid $intent for state $currentState")
         }
     }
 
-    private fun enterScreen(needsToRefresh: Boolean = false) {
-        if (needsToRefresh) {
+    private fun enterScreen(withLoadingScreen: Boolean = false) {
+        if (withLoadingScreen) {
             _viewState.value = HomeViewState.Loading
         }
 
         viewModelScope.launch {
             try {
-                val profileResponse = userRepository.getUserListById(listOf(VK.getUserId()))[0]
-                val conversationsResponse = conversationRepository.getConversationList(
+                val profile = userRepository.getUserListById(listOf(VK.getUserId()))[0]
+                val conversations = conversationRepository.getConversationList(
                     count = DefaultConversationCount,
                     offset = 0
                 )
-                val friendsResponse = friendRepository.getFriendList(
+                val friends = friendRepository.getFriendList(
                     count = DefaultFriendCount,
                     offset = 0
                 )
                 _viewState.value = HomeViewState.Display(
-                    profile = profileResponse,
-                    conversations =  conversationsResponse,
-                    friends =  friendsResponse
+                    profile = profile,
+                    conversations =  conversations,
+                    friends =  friends
                 )
             } catch (e: Exception) {
                 Log.e(Tag, e.toString())
@@ -158,20 +161,15 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun updateConversation(conversationId: Int, currentState: HomeViewState.Display) {
+    private fun updateConversation(currentState: HomeViewState.Display) {
         viewModelScope.launch {
             try {
-                val response = conversationRepository.getConversationList(
-                    count = 1,
-                    offset = 0
-                ).first()
-                println(response)
-                val modifiedConversationList = currentState.conversations.toMutableList()
-                modifiedConversationList.add(0, response)
-                val outdatedConversations =
-                    currentState.conversations.filter { it.properties.id == conversationId }
-                modifiedConversationList.removeAll(outdatedConversations)
-                _viewState.value = currentState.copy(conversations = modifiedConversationList)
+                val conversations = currentState.conversations.toMutableList()
+                val updatedConversation = conversationRepository.getConversationList(1, 0)[0]
+                conversations.remove(updatedConversation)
+                conversations.add(0, updatedConversation)
+                conversations.removeLast()
+                _viewState.value = currentState.copy(conversations = conversations)
             } catch (e: Exception) {
                 Log.e(Tag, e.toString())
                 _viewState.value = HomeViewState.Error
@@ -179,17 +177,17 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun changeOnlineIndicator(
+    private fun updateOnlineIndicator(
         conversationId: Int,
         isOnline: Boolean,
         currentState: HomeViewState.Display
     ) {
-        currentState.conversations.forEachIndexed lit@{ i, conversation ->
+        currentState.conversations.forEachIndexed lit@{ index, conversation ->
             if (conversationId != conversation.properties.id) return@lit
 
             val modifiedConversation = conversation.copy(onlineIndicatorEnabled = isOnline)
             val modifiedConversationList = currentState.conversations.toMutableList()
-            modifiedConversationList[i] = modifiedConversation
+            modifiedConversationList[index] = modifiedConversation
             _viewState.value = currentState.copy(conversations = modifiedConversationList)
 
             return
@@ -208,11 +206,55 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun addConvToSelectedList(conversation: ConversationModel, currentState: HomeViewState.Display) {
+        val selectedConversations = currentState.selectedConversations.toMutableList()
+        if (selectedConversations.contains(conversation)) {
+            selectedConversations.remove(conversation)
+        } else {
+            selectedConversations.add(conversation)
+        }
+        _viewState.value = currentState.copy(
+            selectedConversations = selectedConversations,
+            selectModeEnabled = selectedConversations.isNotEmpty()
+        )
+    }
+
+    private fun clearSelectedConvList(currentState: HomeViewState.Display) {
+        _viewState.value = currentState.copy(
+            selectedConversations = emptyList(),
+            selectModeEnabled = false
+        )
+    }
+
+    private fun deleteSelectedConvs(currentState: HomeViewState.Display) {
+        try {
+            viewModelScope.launch {
+                currentState.selectedConversations.forEach { conversation ->
+                    conversationRepository.deleteConversation(conversation.properties.id)
+                    delay(350)
+                }
+
+                val conversations = currentState.conversations.toMutableList()
+                conversations.removeAll(currentState.selectedConversations)
+                _viewState.value = currentState.copy(
+                    conversations = conversations,
+                    selectedConversations = emptyList(),
+                    selectModeEnabled = false
+                )
+            }
+        } catch (e: java.lang.Exception) {
+            Log.e(Tag, e.toString())
+            _viewState.value = HomeViewState.Error
+        }
+    }
+
     companion object {
-        private const val Tag = "home"
-        // Max - 100
+        private const val Tag = "Home"
+
+        // Max = 100
         private const val DefaultConversationCount = 20
-        // Max - 100
+
+        // Max = 100
         private const val DefaultFriendCount = 20
     }
 }

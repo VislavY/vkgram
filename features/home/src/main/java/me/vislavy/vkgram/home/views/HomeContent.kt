@@ -1,6 +1,7 @@
 package me.vislavy.vkgram.home.views
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
@@ -21,8 +22,10 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import me.vislavy.vkgram.core.ConversationModel
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
+import me.vislavy.vkgram.core.views.VKgramDivider
 import me.vislavy.vkgram.home.models.HomeViewState
 
+@ExperimentalFoundationApi
 @ExperimentalSerializationApi
 @ExperimentalAnimationApi
 @ExperimentalPagerApi
@@ -31,6 +34,8 @@ fun HomeContent(
     modifier: Modifier = Modifier,
     viewState: HomeViewState.Display,
     navController: NavController,
+    onConversationClick: (ConversationModel) -> Unit,
+    onConversationLongClick: (ConversationModel) -> Unit,
     onConversationListEnd: (Int) -> Unit,
     onFriendListEnd: (Int) -> Unit
 ) {
@@ -43,10 +48,7 @@ fun HomeContent(
         val pagerState = rememberPagerState()
         val tabTitles = listOf("Беседы", "Друзья")
         Column {
-            Divider(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                color = VKgramTheme.palette.surface
-            )
+            VKgramDivider()
 
             TabRow(
                 selectedTabIndex = pagerState.currentPage,
@@ -64,10 +66,7 @@ fun HomeContent(
                     )
                 },
                 divider = {
-                    Divider(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        color = VKgramTheme.palette.surface
-                    )
+                    VKgramDivider()
                 }
             ) {
                 tabTitles.forEachIndexed { index, title ->
@@ -101,7 +100,12 @@ fun HomeContent(
                 if (page == 0) {
                     ConversationListContent(
                         viewState = viewState,
-                        navController = navController,
+                        onConversationClick = { model ->
+                            onConversationClick(model)
+                        },
+                        onConversationLongClick = { model ->
+                            onConversationLongClick(model)
+                        },
                         onListEnd = onConversationListEnd
                     )
                 } else {
@@ -116,40 +120,21 @@ fun HomeContent(
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalSerializationApi
 @ExperimentalAnimationApi
 @ExperimentalPagerApi
 @Preview
 @Composable
-fun HomeContent_Preview() {
+fun PreviewHomeContent() {
     MainTheme {
         HomeContent(
-            viewState = HomeViewState.Display(
-                conversations = emptyList(),
-                friends = emptyList()
-            ),
+            viewState = HomeViewState.Display(),
             navController = rememberNavController(),
             onConversationListEnd = { },
-            onFriendListEnd = { }
-        )
-    }
-}
-
-@ExperimentalSerializationApi
-@ExperimentalAnimationApi
-@ExperimentalPagerApi
-@Preview
-@Composable
-fun DarkHomeContent_Preview() {
-    MainTheme(darkThemeEnabled = true) {
-        HomeContent(
-            viewState = HomeViewState.Display(
-                conversations = emptyList(),
-                friends = emptyList()
-            ),
-            navController = rememberNavController(),
-            onConversationListEnd = { },
-            onFriendListEnd = { }
+            onFriendListEnd = { },
+            onConversationClick = { },
+            onConversationLongClick = { }
         )
     }
 }

@@ -4,10 +4,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -17,6 +14,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.DoneAll
+import androidx.compose.material.icons.filled.PushPin
+import androidx.compose.material.icons.filled.VolumeMute
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -27,7 +26,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.UiMode
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
@@ -38,22 +36,28 @@ import me.vislavy.vkgram.home.utils.LastMessageDate
 import me.vislavy.vkgram.home.R
 import me.vislavy.vkgram.api.AttachmentType
 import me.vislavy.vkgram.api.data.Message
+import me.vislavy.vkgram.api.data.PushSettings
+import me.vislavy.vkgram.api.data.SortId
 import java.util.*
 
+@ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
 fun ConversationItem(
     modifier: Modifier = Modifier,
     model: ConversationModel,
     onClick: (ConversationModel) -> Unit,
+    onLongClick: (ConversationModel) -> Unit,
     color: Color = VKgramTheme.palette.surface,
-    contentPadding: PaddingValues = PaddingValues(16.dp, 8.dp)
+    contentPadding: PaddingValues = PaddingValues(16.dp, 8.dp),
+    isSelect: Boolean = false,
 ) {
     Surface(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(
+            .combinedClickable(
                 onClick = { onClick(model) },
+                onLongClick = { onLongClick(model) },
                 interactionSource = remember { MutableInteractionSource() },
                 indication = rememberRipple()
             ),
@@ -63,7 +67,7 @@ fun ConversationItem(
             modifier = Modifier.padding(contentPadding),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box {
+            Box() {
                 Image(
                     modifier = Modifier.size(56.dp),
                     painter = rememberImagePainter(
@@ -77,6 +81,25 @@ fun ConversationItem(
                     contentDescription = stringResource(R.string.conversation_photo_content_desc)
                 )
 
+                if (model.sortId.majorId > 0) {
+                    Box(
+                        modifier = Modifier
+                            .size(22.dp)
+                            .background(
+                                color = VKgramTheme.palette.surface,
+                                shape = CircleShape
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(16.dp),
+                            imageVector = Icons.Default.PushPin,
+                            contentDescription = null,
+                            tint = VKgramTheme.palette.secondary
+                        )
+                    }
+                }
+
                 androidx.compose.animation.AnimatedVisibility(
                     modifier = Modifier.align(Alignment.BottomEnd),
                     visible = model.onlineIndicatorEnabled,
@@ -86,7 +109,7 @@ fun ConversationItem(
                     Box(
                         modifier = Modifier
                             .background(
-                                color = VKgramTheme.palette.secondary,
+                                color = VKgramTheme.palette.indicator,
                                 shape = CircleShape
                             )
                             .size(16.dp)
@@ -97,37 +120,84 @@ fun ConversationItem(
                             )
                     )
                 }
+
+                androidx.compose.animation.AnimatedVisibility(
+                    modifier = Modifier.align(Alignment.BottomEnd),
+                    visible = isSelect,
+                    enter = scaleIn(tween(100)),
+                    exit = scaleOut(tween(100))
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                color = VKgramTheme.palette.indicator,
+                                shape = CircleShape
+                            )
+                            .size(20.dp)
+                            .border(
+                                width = 2.dp,
+                                color = VKgramTheme.palette.surface,
+                                shape = CircleShape
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(16.dp),
+                            imageVector = Icons.Default.Done,
+                            contentDescription = null,
+                            tint = VKgramTheme.palette.onSecondary
+                        )
+                    }
+                }
             }
 
             Spacer(Modifier.width(16.dp))
 
             Column {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
+                    Row(
                         modifier = Modifier.weight(1F),
-                        text = model.title,
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 1,
-                        color = VKgramTheme.palette.primaryText,
-                        style = VKgramTheme.typography.subtitle1
-                    )
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            modifier = Modifier.weight(1F, false),
+                            text = model.title,
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1,
+                            color = VKgramTheme.palette.primaryText,
+                            style = VKgramTheme.typography.subtitle1
+                        )
+
+                        Spacer(Modifier.width(4.dp))
+
+                        if (model.pushSettings.soundDisabled) {
+                            Icon(
+                                modifier = Modifier.size(16.dp),
+                                imageVector = Icons.Default.VolumeMute,
+                                contentDescription = null,
+                                tint = VKgramTheme.palette.onSurface
+                            )
+                        }
+                    }
 
                     Spacer(Modifier.width(16.dp))
 
-                    if (model.lastMessage!!.out) {
-                        Icon(
-                            modifier = Modifier.size(17.dp),
-                            imageVector = if (model.lastReadMessageLocalId != model.lastMessage!!.id)
-                                Icons.Default.Done else Icons.Default.DoneAll,
-                            contentDescription = null,
-                            tint = VKgramTheme.palette.secondary
-                        )
+                    model.lastMessage?.out?.let {
+                        if (it) {
+                            Icon(
+                                modifier = Modifier.size(18.dp),
+                                imageVector = if (model.lastMessageLocalId != model.lastReadMessageLocalId)
+                                    Icons.Default.Done else Icons.Default.DoneAll,
+                                contentDescription = null,
+                                tint = VKgramTheme.palette.secondary
+                            )
+                        }
                     }
 
                     Spacer(Modifier.width(8.dp))
 
                     Text(
-                        text = LastMessageDate.timeDifference(model.lastMessage!!.date),
+                        text = LastMessageDate.timeDifference(model.lastMessage?.date),
                         color = VKgramTheme.palette.secondaryText,
                         style = VKgramTheme.typography.caption
                     )
@@ -136,45 +206,54 @@ fun ConversationItem(
                 Spacer(Modifier.height(4.dp))
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    if (model.lastMessage!!.attachments.isNotEmpty()) {
-                        val attachmentType =
-                            if (model.lastMessage!!.attachments.size > 1) {
-                                stringResource(R.string.album)
-                            } else {
-                                when (model.lastMessage!!.attachments[0].type) {
-                                    AttachmentType.PHOTO -> stringResource(R.string.photo)
-                                    AttachmentType.VIDEO -> stringResource(R.string.video)
-                                    AttachmentType.AUDIO -> stringResource(R.string.audio)
-                                    AttachmentType.AUDIO_MESSAGE -> stringResource(R.string.audio_message)
-                                    AttachmentType.CALL -> stringResource(R.string.call)
-                                    AttachmentType.DOCUMENT -> stringResource(R.string.document)
-                                    AttachmentType.LINK -> stringResource(R.string.link)
-                                    AttachmentType.MARKET -> stringResource(R.string.market)
-                                    AttachmentType.MARKET_ALBUM -> stringResource(R.string.market_album)
-                                    AttachmentType.VKPAY -> stringResource(R.string.vk_pay)
-                                    AttachmentType.WALL -> stringResource(R.string.wall)
-                                    AttachmentType.WALL_REPLY -> stringResource(R.string.wall_reply)
-                                    AttachmentType.STICKER -> stringResource(R.string.sticker)
-                                    AttachmentType.GIFT -> stringResource(R.string.gift)
-                                }
-                            }
-                        val suffix = if (model.lastMessage!!.text.isBlank()) "" else ", "
+                    model.lastMessage?.out?.let {
                         Text(
-                            text = (attachmentType + suffix),
-                            color = VKgramTheme.palette.secondary,
+                            text = if (it) "Вы: " else model.lastMessageAuthor,
+                            color = VKgramTheme.palette.secondaryText,
                             style = VKgramTheme.typography.body1
                         )
                     }
 
-                    val prefix = if (model.lastMessage!!.out) "Вы: " else ""
-                    Text(
-                        modifier = Modifier.weight(1F),
-                        text = (prefix + model.lastMessage!!.text),
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 1,
-                        color = VKgramTheme.palette.secondaryText,
-                        style = VKgramTheme.typography.body1
-                    )
+                    model.lastMessage?.let {
+                        if (it.attachments.isNotEmpty()) {
+                            val attachmentType =
+                                if (it.attachments.size > 1) {
+                                    stringResource(R.string.album)
+                                } else {
+                                    when (model.lastMessage!!.attachments[0].type) {
+                                        AttachmentType.PHOTO -> stringResource(R.string.photo)
+                                        AttachmentType.VIDEO -> stringResource(R.string.video)
+                                        AttachmentType.AUDIO -> stringResource(R.string.audio)
+                                        AttachmentType.AUDIO_MESSAGE -> stringResource(R.string.audio_message)
+                                        AttachmentType.CALL -> stringResource(R.string.call)
+                                        AttachmentType.DOCUMENT -> stringResource(R.string.document)
+                                        AttachmentType.LINK -> stringResource(R.string.link)
+                                        AttachmentType.MARKET -> stringResource(R.string.market)
+                                        AttachmentType.MARKET_ALBUM -> stringResource(R.string.market_album)
+                                        AttachmentType.VKPAY -> stringResource(R.string.vk_pay)
+                                        AttachmentType.WALL -> stringResource(R.string.wall)
+                                        AttachmentType.WALL_REPLY -> stringResource(R.string.wall_reply)
+                                        AttachmentType.STICKER -> stringResource(R.string.sticker)
+                                        AttachmentType.GIFT -> stringResource(R.string.gift)
+                                    }
+                                }
+                            val suffix = if (it.text.isBlank()) "" else ", "
+                            Text(
+                                text = (attachmentType + suffix),
+                                color = VKgramTheme.palette.secondary,
+                                style = VKgramTheme.typography.body1
+                            )
+                        }
+
+                        Text(
+                            modifier = Modifier.weight(1F),
+                            text = (it.text),
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1,
+                            color = VKgramTheme.palette.secondaryText,
+                            style = VKgramTheme.typography.body1
+                        )
+                    }
 
                     Spacer(Modifier.width(16.dp))
 
@@ -182,7 +261,8 @@ fun ConversationItem(
                         Box(
                             modifier = Modifier
                                 .background(
-                                    color = VKgramTheme.palette.secondary,
+                                    color = if (!model.pushSettings.soundDisabled)
+                                        VKgramTheme.palette.secondary else VKgramTheme.palette.onSurface,
                                     shape = CircleShape
                                 )
                         ) {
@@ -200,8 +280,9 @@ fun ConversationItem(
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalAnimationApi
-@Preview()
+@Preview
 @Composable
 fun PreviewConversationItem() {
     MainTheme {
@@ -218,9 +299,12 @@ fun PreviewConversationItem() {
                     date = Date(),
                     out = true
                 ),
-                onlineIndicatorEnabled = true
+                onlineIndicatorEnabled = true,
+                pushSettings = PushSettings(true),
+                sortId = SortId(majorId = 32)
             ),
-            onClick = { }
+            onClick = { },
+            onLongClick = { }
         )
     }
 }

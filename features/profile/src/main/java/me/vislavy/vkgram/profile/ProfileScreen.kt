@@ -38,7 +38,7 @@ fun ProfileScreen(
         is ProfileViewState.Loading -> LoadingContent()
         is ProfileViewState.Error -> ErrorContent(
             onReloadClick = {
-                viewModel.onEvent(ProfileEvent.Reload(userId))
+                viewModel.onIntent(ProfileEvent.Reload(userId))
             }
         )
         is ProfileViewState.Display -> Scaffold(
@@ -59,7 +59,7 @@ fun ProfileScreen(
     }
 
     LaunchedEffect(viewState) {
-        viewModel.onEvent(ProfileEvent.EnterScreen(userId))
+        viewModel.onIntent(ProfileEvent.EnterScreen(userId))
     }
 
     DisposableEffect(viewState) {

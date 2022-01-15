@@ -5,7 +5,9 @@ import java.util.*
 
 object LastMessageDate {
 
-    fun timeDifference(date: Date): String {
+    fun timeDifference(date: Date?): String {
+        if (date == null) return "null"
+
         val receivedCalendar = GregorianCalendar()
         receivedCalendar.time = date
         val currentCalendar = GregorianCalendar()

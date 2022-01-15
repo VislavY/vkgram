@@ -29,13 +29,13 @@ fun SearchScreen(
 
     when (val state = viewState.value) {
         is SearchViewState.Error -> ErrorContent(onReloadClick = {
-            viewModel.onEvent(SearchIntent.Reload)
+            viewModel.onIntent(SearchIntent.Reload)
         })
         is SearchViewState.Display -> Scaffold(topBar = {
             SearchTopBar(
                 viewState = state,
                 onSearchTextChange = { searchText ->
-                    viewModel.onEvent(SearchIntent.StartSearch(searchText))
+                    viewModel.onIntent(SearchIntent.StartSearch(searchText))
                 },
                 navController = navController
             )
@@ -55,16 +55,16 @@ fun SearchScreen(
                 modifier = modifier,
                 viewState = state,
                 onClearClick = {
-                    viewModel.onEvent(SearchIntent.ClearSearchHistory)
+                    viewModel.onIntent(SearchIntent.ClearSearchHistory)
                 },
                 onConversationClick = { conversationModel ->
-                    viewModel.onEvent(SearchIntent.AddToSearchHistory(conversationModel.properties.id))
+                    viewModel.onIntent(SearchIntent.AddToSearchHistory(conversationModel.properties.id))
                 }
             )
         }
     }
 
     LaunchedEffect(viewState) {
-        viewModel.onEvent(SearchIntent.LoadConversationList)
+        viewModel.onIntent(SearchIntent.LoadConversationList)
     }
 }
