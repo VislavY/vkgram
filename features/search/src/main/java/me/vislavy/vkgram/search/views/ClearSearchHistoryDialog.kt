@@ -43,7 +43,7 @@ fun ClearSearchHistoryDialog(
             TextButton(onConfirmButtonClick) {
                 Text(
                     text = stringResource(R.string.search_clear).uppercase(),
-                    color = VKgramTheme.palette.warningText,
+                    color = VKgramTheme.palette.error,
                     style = VKgramTheme.typography.button
                 )
             }

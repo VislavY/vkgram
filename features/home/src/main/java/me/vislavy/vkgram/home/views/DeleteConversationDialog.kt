@@ -114,7 +114,7 @@ fun DeleteConversationDialog(
                 Text(
                     text = (if (selectedConversations[0].properties.type == ConversationType.Chat)
                         "Покинуть" else "Удалить").uppercase(),
-                    color = VKgramTheme.palette.warningText,
+                    color = VKgramTheme.palette.error,
                     style = VKgramTheme.typography.button
                 )
             }
