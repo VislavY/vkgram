@@ -5,21 +5,13 @@ import me.vislavy.vkgram.api.data.Message
 
 interface MessageRepository {
 
-    suspend fun fetchMessageList(
-        accessToken: String,
+    suspend fun getMessageList(
         conversationId: Int,
         count: Int,
-        offset: Int
+        offset: Int = 0
     ): List<Message>
 
-    suspend fun sendMessage(
-        accessToken: String,
-        conversationId: Int,
-        text: String
-    )
+    suspend fun sendMessage(conversationId: Int, text: String)
 
-    suspend fun getLastActivity(
-        accessToken: String,
-        userId: Int
-    ): LastActivity
+    suspend fun getLastActivity(userId: Int): LastActivity
 }

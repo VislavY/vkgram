@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
-import me.vislavy.vkgram.message_history.models.MessageHistoryContentState
+import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
 import me.vislavy.vkgram.api.data.Message
 import java.util.*
 
@@ -20,7 +20,7 @@ import java.util.*
 fun MessageHistoryContent(
     onMessageListEnd: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    viewState: MessageHistoryContentState.Display
+    viewState: MessageHistoryViewState.Display
 ) {
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -47,7 +47,7 @@ fun MessageHistoryContent(
 fun MessageHistoryContent_Preview() {
     MainTheme {
         MessageHistoryContent(
-            viewState = MessageHistoryContentState.Display(
+            viewState = MessageHistoryViewState.Display(
                 messages = listOf(
                     Message(
                         id = 1,
@@ -79,7 +79,7 @@ fun MessageHistoryContent_Preview() {
 fun DarkMessageHistoryContent_Preview() {
     MainTheme(darkThemeEnabled = true) {
         MessageHistoryContent(
-            viewState = MessageHistoryContentState.Display(
+            viewState = MessageHistoryViewState.Display(
                 messages = listOf(
                     Message(
                         id = 1,

@@ -1,67 +1,62 @@
 package me.vislavy.vkgram.message_history
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import me.vislavy.vkgram.core.ConversationModel
 import me.vislavy.vkgram.core.views.ErrorContent
 import me.vislavy.vkgram.core.views.LoadingContent
-import me.vislavy.vkgram.message_history.models.MessageHistoryContentState
-import me.vislavy.vkgram.message_history.models.MessageHistoryEvent
+import me.vislavy.vkgram.message_history.models.MessageHistoryIntent
+import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
 import me.vislavy.vkgram.message_history.views.MessageHistoryBottomBar
 import me.vislavy.vkgram.message_history.views.MessageHistoryContent
 import me.vislavy.vkgram.message_history.views.MessageHistoryTopBar
 
 @Composable
 fun MessageHistoryScreen(
-    conversation: ConversationModel,
+    conversationId: Int,
     navController: NavController,
     viewModel: MessageHistoryViewModel
 ) {
-    val topBarState = viewModel.topBarState.collectAsState()
-    val contentState = viewModel.contentState.collectAsState()
+    val viewState = viewModel.viewState.collectAsState()
 
-    Scaffold(
-        topBar = {
-            MessageHistoryTopBar(
-                conversation = conversation,
-                state = topBarState.value,
-                navController = navController
-            )
-        },
-        bottomBar = {
-            MessageHistoryBottomBar(
-                onSendClick = { text ->
-                    viewModel.onIntent(MessageHistoryEvent.SendMessage(text))
-                }
-            )
-        }
-    ) { paddingValues ->
-        val modifier = Modifier.padding(paddingValues)
-        when (val state = contentState.value) {
-            is MessageHistoryContentState.Loading -> LoadingContent(modifier)
-            is MessageHistoryContentState.Error -> ErrorContent(
+    when (val state = viewState.value) {
+        is MessageHistoryViewState.Loading -> LoadingContent()
+        is MessageHistoryViewState.Error -> ErrorContent(onReloadClick = {
+            viewModel.onIntent(MessageHistoryIntent.ReloadScreen)
+        })
+        is MessageHistoryViewState.Display -> Scaffold(
+            topBar = {
+                MessageHistoryTopBar(
+                    viewState = state,
+                    navController = navController
+                )
+            },
+            bottomBar = {
+                MessageHistoryBottomBar(
+                    viewState = state,
+                    onTextChange = { text ->
+                        viewModel.onIntent(MessageHistoryIntent.UpdateYourMessageText(text))
+                    },
+                    onSendClick = { viewModel.onIntent(MessageHistoryIntent.SendMessage) }
+                )
+            }
+        ) { paddingValues ->
+            val modifier = Modifier.padding(paddingValues)
+            MessageHistoryContent(
                 modifier = modifier,
-                onReloadClick = {
-                    viewModel.onIntent(MessageHistoryEvent.ReloadScreen)
-                }
-            )
-            is MessageHistoryContentState.Display -> MessageHistoryContent(
-                onMessageListEnd = { size ->
-                    viewModel.onIntent(MessageHistoryEvent.MessageListEnd(size))
+                viewState = state,
+                onMessageListEnd = { currentListSize ->
+                    viewModel.onIntent(MessageHistoryIntent.IncreaseMessageList(currentListSize))
                 },
-                modifier = modifier,
-                viewState = state
             )
-            else -> throw NotImplementedError("Unexpected messageHistory state")
         }
     }
 
-    LaunchedEffect(contentState, topBarState) {
-        if (contentState.value !is MessageHistoryContentState.Display) {
-            viewModel.onIntent(MessageHistoryEvent.EnterScreen(conversation))
+    LaunchedEffect(viewState) {
+        if (viewState.value !is MessageHistoryViewState.Display) {
+            viewModel.onIntent(MessageHistoryIntent.EnterScreen(conversationId))
         }
     }
 }

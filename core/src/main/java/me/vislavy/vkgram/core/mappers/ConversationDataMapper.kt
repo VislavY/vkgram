@@ -52,7 +52,7 @@ class ConversationDataMapper @Inject constructor() {
                         val lastMessageAuthorIndex = input.users.binarySearch { user ->
                             user.id.compareTo(lastMessage.userId)
                         }
-                        lastMessageAuthor = "${input.users[lastMessageAuthorIndex].firstName}: "
+                        lastMessageAuthor = "${input.users[abs(lastMessageAuthorIndex)].firstName}: "
                     }
                     conversation = conversation.copy(
                         title = conversationData.conversation.chatProperties?.title.toString(),
@@ -97,7 +97,7 @@ class ConversationDataMapper @Inject constructor() {
                 }
                 ConversationType.Group -> {
                     val groupIndex = input.groups.binarySearch {
-                        it.id.compareTo(conversation.properties.id)
+                        it.id.compareTo(abs(conversation.properties.id))
                     }
                     val group = input.groups[groupIndex]
                     conversation = conversation.copy(
@@ -108,7 +108,7 @@ class ConversationDataMapper @Inject constructor() {
                 ConversationType.Chat -> {
                     conversation = conversation.copy(
                         title = conversationModel.chatProperties?.title.toString(),
-                        photo = conversationModel.chatProperties?.photo.toString()
+                        photo = conversationModel.chatProperties?.photo?.photo200.toString()
                     )
                 }
             }

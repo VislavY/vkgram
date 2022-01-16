@@ -7,200 +7,167 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import me.vislavy.vkgram.core.ConversationModel
 import me.vislavy.vkgram.core.IntentHandler
-import me.vislavy.vkgram.message_history.models.MessageHistoryContentState
-import me.vislavy.vkgram.message_history.models.MessageHistoryEvent
-import me.vislavy.vkgram.message_history.models.MessageHistoryTopBarState
+import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
+import me.vislavy.vkgram.message_history.models.MessageHistoryIntent
 import me.vislavy.vkgram.message_history.repositories.MessageRepository
-import me.vislavy.vkgram.api.VkAccessToken
 import me.vislavy.vkgram.api.data.ConversationType
+import me.vislavy.vkgram.core.repositories.ConversationRepository
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class MessageHistoryViewModel @Inject constructor(
-    private val vkAccessToken: VkAccessToken,
+    private val conversationRepository: ConversationRepository,
     private val messageRepository: MessageRepository
-) : ViewModel(), IntentHandler<MessageHistoryEvent> {
+) : ViewModel(), IntentHandler<MessageHistoryIntent> {
 
-    private val _topBarState = MutableStateFlow(MessageHistoryTopBarState("Обновление..."))
-    val topBarState = _topBarState.asStateFlow()
+    private val _viewState =
+        MutableStateFlow<MessageHistoryViewState>(MessageHistoryViewState.Loading)
+    val viewState = _viewState.asStateFlow()
 
-    private val _contentState =
-        MutableStateFlow<MessageHistoryContentState>(MessageHistoryContentState.Loading)
-    val contentState = _contentState.asStateFlow()
-
-    private lateinit var conversation: ConversationModel
-
-    override fun onIntent(intent: MessageHistoryEvent) {
-        when (val currentContentState = _contentState.value) {
-            is MessageHistoryContentState.Loading -> reduce(intent, currentContentState)
-            is MessageHistoryContentState.Error -> reduce(intent, currentContentState)
-            is MessageHistoryContentState.Display -> reduce(intent, currentContentState)
+    override fun onIntent(intent: MessageHistoryIntent) {
+        when (val currentContentState = _viewState.value) {
+            is MessageHistoryViewState.Loading -> reduce(intent, currentContentState)
+            is MessageHistoryViewState.Error -> reduce(intent, currentContentState)
+            is MessageHistoryViewState.Display -> reduce(intent, currentContentState)
         }
     }
 
     private fun reduce(
-        event: MessageHistoryEvent,
-        currentState: MessageHistoryContentState.Loading
+        intent: MessageHistoryIntent,
+        currentState: MessageHistoryViewState.Loading
     ) {
-        when (event) {
-            is MessageHistoryEvent.EnterScreen -> enterScreen(event.conversation)
-            else -> throw NotImplementedError("Invalid $event for state $currentState")
+        when (intent) {
+            is MessageHistoryIntent.EnterScreen -> enterScreen(intent.conversationId)
+            else -> throw NotImplementedError("Invalid $intent for state $currentState")
         }
     }
 
-    private fun reduce(event: MessageHistoryEvent, currentState: MessageHistoryContentState.Error) {
-        when (event) {
-            is MessageHistoryEvent.ReloadScreen -> reloadScreen()
-            else -> throw NotImplementedError("Invalid $event for state $currentState")
+    private fun reduce(intent: MessageHistoryIntent, currentState: MessageHistoryViewState.Error) {
+        when (intent) {
+            is MessageHistoryIntent.ReloadScreen -> reloadScreen()
+            else -> throw NotImplementedError("Invalid $intent for state $currentState")
         }
     }
 
     private fun reduce(
-        event: MessageHistoryEvent,
-        currentState: MessageHistoryContentState.Display
+        intent: MessageHistoryIntent,
+        currentState: MessageHistoryViewState.Display
     ) {
-        when (event) {
-            is MessageHistoryEvent.EnterScreen -> enterScreen(event.conversation)
-            is MessageHistoryEvent.MessageListEnd -> fetchMessageListAndIncrease(
-                offset = event.size,
-                currentContentState = currentState
+        when (intent) {
+            is MessageHistoryIntent.EnterScreen -> enterScreen(intent.conversationId)
+            is MessageHistoryIntent.UpdateYourMessageText -> updateYourMessageText(
+                intent.text,
+                currentState
             )
-            is MessageHistoryEvent.SendMessage -> sendMessage(event.text)
-            else -> throw NotImplementedError("Invalid $event for state $currentState")
+            is MessageHistoryIntent.IncreaseMessageList -> increaseMessageList(intent.currentListSize, currentState)
+            is MessageHistoryIntent.SendMessage -> sendMessage(currentState)
+            else -> throw NotImplementedError("Invalid $intent for state $currentState")
         }
     }
 
-    private fun enterScreen(conversation: ConversationModel) {
-        this.conversation = conversation
-
-
-        getTopBarSubtitle()
-        fetchMessageList()
+    private fun enterScreen(conversationId: Int) {
+        try {
+            viewModelScope.launch {
+                val conversation =
+                    conversationRepository.getConversationsByIds("$conversationId")[0]
+                val topBarSubtitle = when (conversation.properties.type) {
+                    ConversationType.User -> defineLastSeenDate(conversationId)
+                    ConversationType.Group -> "группа"
+                    ConversationType.Chat -> "${conversation.memberCount} участников"
+                }
+                val messages = messageRepository.getMessageList(conversationId, DefaultMessageCount)
+                _viewState.value = MessageHistoryViewState.Display(
+                    conversation = conversation,
+                    topBarSubtitle = topBarSubtitle,
+                    messages = messages
+                )
+            }
+        } catch (e: Exception) {
+            Log.e(Tag, e.toString())
+            _viewState.value = MessageHistoryViewState.Error
+        }
     }
 
     private fun reloadScreen() {
-        _contentState.value = MessageHistoryContentState.Loading
+        _viewState.value = MessageHistoryViewState.Loading
     }
 
-    private fun getTopBarSubtitle() {
-        viewModelScope.launch {
-            when (conversation.properties.type) {
-                ConversationType.User -> getUserLastActivity()
-                ConversationType.Group -> _topBarState.value = MessageHistoryTopBarState("группа")
-                ConversationType.Chat -> {
-                    val wordEnding = when {
-                        conversation.memberCount == 1 -> ""
-                        conversation.memberCount <= 4 -> "а"
-                        else -> "ов"
-                    }
+    private suspend fun defineLastSeenDate(userId: Int): String {
+        val lastActivity = messageRepository.getLastActivity(userId)
+        return if (lastActivity.online) {
+            "онлайн"
+        } else {
+            val currentDate = Calendar.getInstance()
+            val currentDay = currentDate.get(Calendar.DAY_OF_MONTH)
+            val currentMount = currentDate.get(Calendar.MONTH)
+            val currentYear = currentDate.get(Calendar.YEAR)
 
-                    _topBarState.value = MessageHistoryTopBarState("${conversation.memberCount} участник$wordEnding")
-                }
+            val lastActivityDate = Calendar.getInstance()
+            lastActivityDate.time = lastActivity.time
+            val lastActivityDay = lastActivityDate.get(Calendar.DAY_OF_MONTH)
+            val lastActivityMount = lastActivityDate.get(Calendar.MONTH)
+            val lastActivityYear = lastActivityDate.get(Calendar.YEAR)
+
+            val dateFormat = SimpleDateFormat("k:mm", Locale.getDefault())
+            if (
+                currentDay == lastActivityDay
+                && currentMount == lastActivityMount
+                && currentYear == lastActivityYear
+            ) {
+                "был(а) в ${dateFormat.format(lastActivityDate.time)}"
+            } else {
+                val dayOfMouthDateFormat = SimpleDateFormat("d MMM", Locale.getDefault())
+                "был(а) ${dayOfMouthDateFormat.format(lastActivityDate.time)} в ${dateFormat.format(lastActivityDate.time)}"
             }
         }
     }
 
-    private fun getUserLastActivity() {
-        viewModelScope.launch {
-            try {
-                val response = messageRepository.getLastActivity(
-                    accessToken = vkAccessToken.accessToken,
-                    userId = conversation.properties.id
-                )
-                val subtitle = if (response.online == 1) {
-                    "онлайн"
-                } else {
-                    val currentDate = Calendar.getInstance()
-                    val currentDay = currentDate.get(Calendar.DAY_OF_MONTH)
-                    val currentMount = currentDate.get(Calendar.MONTH)
-                    val currentYear = currentDate.get(Calendar.YEAR)
-
-                    val lastActivityDate = Calendar.getInstance()
-                    lastActivityDate.time = response.time
-                    val lastActivityDay = lastActivityDate.get(Calendar.DAY_OF_MONTH)
-                    val lastActivityMount = lastActivityDate.get(Calendar.MONTH)
-                    val lastActivityYear = lastActivityDate.get(Calendar.YEAR)
-
-                    val dateFormat = SimpleDateFormat("k:mm", Locale.getDefault())
-                    if (
-                        currentDay == lastActivityDay
-                        && currentMount == lastActivityMount
-                        && currentYear == lastActivityYear
-                    ) {
-                        "был(а) в ${dateFormat.format(lastActivityDate.time)}"
-                    } else {
-                        val dayOfMouthDateFormat = SimpleDateFormat("d MMM", Locale.getDefault())
-                        "был(а) ${dayOfMouthDateFormat.format(lastActivityDate.time)} в ${dateFormat.format(lastActivityDate.time)}"
-                    }
-                }
-
-                _topBarState.value = MessageHistoryTopBarState(subtitle)
-            } catch (e: Exception) {
-                Log.e(Tag, e.toString())
-            }
-        }
+    private fun updateYourMessageText(text: String, currentState: MessageHistoryViewState.Display) {
+        _viewState.value = currentState.copy(yourMessageText = text)
     }
 
-    private fun fetchMessageList() {
-        viewModelScope.launch {
-            try {
-                val response = messageRepository.fetchMessageList(
-                    accessToken = vkAccessToken.accessToken,
-                    conversationId = conversation.properties.id,
+    private fun increaseMessageList(currentSize: Int, currentState: MessageHistoryViewState.Display) {
+        try {
+            viewModelScope.launch {
+                val conversationId = currentState.conversation?.properties?.id ?: return@launch
+                val additionalMessages = messageRepository.getMessageList(
+                    conversationId = conversationId,
                     count = DefaultMessageCount,
-                    offset = 0
+                    offset = currentSize
                 )
-                _contentState.value = MessageHistoryContentState.Display(response)
-            } catch (e: Exception) {
-                Log.e(Tag, e.toString())
-                _contentState.value = MessageHistoryContentState.Error
+                val messages = currentState.messages.toMutableList()
+                messages.addAll(additionalMessages)
+                _viewState.value = currentState.copy(messages = messages)
             }
+        } catch (e: Exception) {
+            Log.e(Tag, e.toString())
+            _viewState.value = MessageHistoryViewState.Error
         }
     }
 
-    private fun fetchMessageListAndIncrease(
-        offset: Int,
-        currentContentState: MessageHistoryContentState.Display
-    ) {
-        viewModelScope.launch {
-            try {
-                val response = messageRepository.fetchMessageList(
-                    accessToken = vkAccessToken.accessToken,
-                    conversationId = conversation.properties.id,
-                    count = DefaultMessageCount,
-                    offset = offset
-                )
-                val newMessageList = currentContentState.messages.toMutableList()
-                newMessageList.addAll(response)
-                _contentState.value = currentContentState.copy(messages = newMessageList)
-            } catch (e: Exception) {
-                Log.e(Tag, e.toString())
-                _contentState.value = MessageHistoryContentState.Error
-            }
-        }
-    }
+    private fun sendMessage(currentState: MessageHistoryViewState.Display) {
+        try {
+            viewModelScope.launch {
+                val yourMessageText = currentState.yourMessageText
+                if (yourMessageText.isBlank()) return@launch
+                val conversationId = currentState.conversation?.properties?.id ?: return@launch
+                messageRepository.sendMessage(conversationId, yourMessageText)
 
-    private fun sendMessage(text: String) {
-        viewModelScope.launch {
-            try {
-                messageRepository.sendMessage(
-                    accessToken = vkAccessToken.accessToken,
-                    conversationId = conversation.properties.id,
-                    text = text
-                )
-            } catch (e: Exception) {
-                Log.e(Tag, e.toString())
+                _viewState.value = currentState.copy(yourMessageText = "")
             }
+        } catch (e: Exception) {
+            Log.e(Tag, e.toString())
+            _viewState.value = MessageHistoryViewState.Error
         }
     }
 
     companion object {
-        private const val Tag = "messageHistory"
-        // Max - 100
+        private const val Tag = "MessageHistory"
+
+        // Max = 200
         private const val DefaultMessageCount = 40
     }
 }

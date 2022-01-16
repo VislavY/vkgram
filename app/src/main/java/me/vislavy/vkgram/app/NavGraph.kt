@@ -15,11 +15,8 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import me.vislavy.vkgram.app_settings.AppSettingsScreen
 import me.vislavy.vkgram.app_settings.AppSettingsViewModel
-import me.vislavy.vkgram.core.ConversationModel
 import me.vislavy.vkgram.core.Destinations
 import me.vislavy.vkgram.home.HomeScreen
 import me.vislavy.vkgram.home.HomeViewModel
@@ -32,8 +29,6 @@ import me.vislavy.vkgram.profile.ProfileScreen
 import me.vislavy.vkgram.profile.ProfileViewModel
 import me.vislavy.vkgram.search.SearchScreen
 import me.vislavy.vkgram.search.SearchViewModel
-import java.net.URLDecoder
-import java.nio.charset.StandardCharsets
 
 @ExperimentalPermissionsApi
 @ExperimentalFoundationApi
@@ -75,31 +70,19 @@ fun NavGraph(startDestination: String) {
         }
 
         composable(
-            route = "${Destinations.MessageHistory}/{conversation}",
+            route = "${Destinations.MessageHistory}/{conversationId}",
+            arguments = listOf(navArgument("conversationId") { type = NavType.IntType }),
             enterTransition = {
-                slideInHorizontally(
-                    initialOffsetX = { 200 },
-                    animationSpec = tween(200)
-                ) + fadeIn(animationSpec = tween(400))
+                slideInHorizontally(tween(200))
             },
             popExitTransition = {
-                slideOutHorizontally(
-                    targetOffsetX = { 200 },
-                    animationSpec = tween(200)
-                ) + fadeOut(animationSpec = tween(400))
+                slideOutHorizontally(tween(200))
             }
         ) { backStackEntry ->
-            val encodedConversation =
-                backStackEntry.arguments?.getString("conversation") ?: return@composable
-            val conversation = Json.decodeFromString<ConversationModel>(encodedConversation)
+            val conversationId = backStackEntry.arguments?.getInt("conversationId") ?: return@composable
             val viewModel: MessageHistoryViewModel = hiltViewModel()
             MessageHistoryScreen(
-                conversation = conversation.copy(
-                    photo = URLDecoder.decode(
-                        conversation.photo,
-                        StandardCharsets.UTF_8.toString()
-                    )
-                ),
+                conversationId = conversationId,
                 navController = navController,
                 viewModel = viewModel
             )

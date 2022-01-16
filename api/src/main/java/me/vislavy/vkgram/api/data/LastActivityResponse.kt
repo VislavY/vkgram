@@ -1,6 +1,7 @@
 package me.vislavy.vkgram.api.data
 
 import kotlinx.serialization.Serializable
+import me.vislavy.vkgram.api.serializers.BooleanSerializer
 import me.vislavy.vkgram.api.serializers.DateSerializer
 import java.util.*
 
@@ -11,6 +12,6 @@ data class LastActivityResponse(
 
 @Serializable
 data class LastActivity(
-    val online: Int,
+    @Serializable(BooleanSerializer::class) val online: Boolean,
     @Serializable(DateSerializer::class) val time: Date
 )

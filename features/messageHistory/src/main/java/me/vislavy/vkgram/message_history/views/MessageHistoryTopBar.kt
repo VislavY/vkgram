@@ -13,28 +13,28 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
-import me.vislavy.vkgram.core.ConversationModel
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.message_history.R
-import me.vislavy.vkgram.message_history.models.MessageHistoryTopBarState
+import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
 
 @Composable
 fun MessageHistoryTopBar(
-    conversation: ConversationModel,
-    state: MessageHistoryTopBarState,
     modifier: Modifier = Modifier,
+    viewState: MessageHistoryViewState.Display,
+    color: Color = VKgramTheme.palette.primary,
     navController: NavController
 ) {
     TopAppBar(
         modifier = modifier,
-        backgroundColor = VKgramTheme.palette.primary
+        backgroundColor = color
     ) {
         IconButton(
             onClick = {
@@ -52,7 +52,7 @@ fun MessageHistoryTopBar(
 
         Image(
             painter = rememberImagePainter(
-                data = conversation.photo,
+                data = viewState.conversation?.photo,
                 builder = {
                     crossfade(true)
                     transformations(CircleCropTransformation())
@@ -67,13 +67,14 @@ fun MessageHistoryTopBar(
 
         Column {
             Text(
-                text = conversation.title,
+                text = viewState.conversation?.title.toString(),
+                maxLines = 1,
                 color = VKgramTheme.palette.primaryText,
                 style = VKgramTheme.typography.subtitle1
             )
 
             Text(
-                text = state.subtitle,
+                text = viewState.topBarSubtitle,
                 color = VKgramTheme.palette.secondaryText,
                 style = VKgramTheme.typography.body2
             )
@@ -86,10 +87,7 @@ fun MessageHistoryTopBar(
 fun MessageHistoryTopBar_Preview() {
     MainTheme {
         MessageHistoryTopBar(
-            conversation = ConversationModel(
-                title = "Sample title",
-            ),
-            state = MessageHistoryTopBarState("Updating..."),
+            viewState = MessageHistoryViewState.Display(),
             navController = rememberNavController()
         )
     }

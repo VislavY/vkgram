@@ -74,7 +74,7 @@ fun HomeScreen(
                 onConversationClick = { model ->
                     if (!state.selectModeEnabled) {
                         navController.navigate(
-                            route = Destinations.MessageHistory
+                            route = "${Destinations.MessageHistory}/${model.properties.id}"
                         )
                     } else {
                         viewModel.onIntent(HomeIntent.AddToSelectedConvList(model))
