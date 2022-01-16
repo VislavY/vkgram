@@ -109,7 +109,7 @@ fun ConversationItem(
                     Box(
                         modifier = Modifier
                             .background(
-                                color = VKgramTheme.palette.indicator,
+                                color = VKgramTheme.palette.primaryIndicator,
                                 shape = CircleShape
                             )
                             .size(16.dp)
@@ -130,7 +130,7 @@ fun ConversationItem(
                     Box(
                         modifier = Modifier
                             .background(
-                                color = VKgramTheme.palette.indicator,
+                                color = VKgramTheme.palette.primaryIndicator,
                                 shape = CircleShape
                             )
                             .size(20.dp)
@@ -175,7 +175,7 @@ fun ConversationItem(
                                 modifier = Modifier.size(16.dp),
                                 imageVector = Icons.Default.VolumeMute,
                                 contentDescription = null,
-                                tint = VKgramTheme.palette.onSurface
+                                tint = VKgramTheme.palette.secondaryIndicator
                             )
                         }
                     }
@@ -198,7 +198,7 @@ fun ConversationItem(
 
                     Text(
                         text = LastMessageDate.timeDifference(model.lastMessage?.date),
-                        color = VKgramTheme.palette.secondaryText,
+                        color = VKgramTheme.palette.secondaryIndicator,
                         style = VKgramTheme.typography.caption
                     )
                 }
@@ -209,7 +209,7 @@ fun ConversationItem(
                     model.lastMessage?.out?.let {
                         Text(
                             text = if (it) "Вы: " else model.lastMessageAuthor,
-                            color = VKgramTheme.palette.secondaryText,
+                            color = VKgramTheme.palette.secondaryIndicator,
                             style = VKgramTheme.typography.body1
                         )
                     }
@@ -262,7 +262,7 @@ fun ConversationItem(
                             modifier = Modifier
                                 .background(
                                     color = if (!model.pushSettings.soundDisabled)
-                                        VKgramTheme.palette.secondary else VKgramTheme.palette.onSurface,
+                                        VKgramTheme.palette.secondary else VKgramTheme.palette.secondaryIndicator,
                                     shape = CircleShape
                                 )
                         ) {

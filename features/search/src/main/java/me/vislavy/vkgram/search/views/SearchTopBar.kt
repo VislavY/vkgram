@@ -71,7 +71,7 @@ fun SearchTopBar(
                 placeholder = {
                     Text(
                         text = stringResource(R.string.search),
-                        color = VKgramTheme.palette.secondaryText,
+                        color = VKgramTheme.palette.hintText,
                         style = VKgramTheme.typography.searchText
                     )
                 },

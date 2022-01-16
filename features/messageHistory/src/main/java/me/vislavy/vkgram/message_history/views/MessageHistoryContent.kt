@@ -3,10 +3,8 @@ package me.vislavy.vkgram.message_history.views
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -17,7 +15,6 @@ import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
 import me.vislavy.vkgram.api.data.Message
 import java.util.*
-import kotlin.math.abs
 
 @Composable
 fun MessageHistoryContent(
@@ -46,6 +43,7 @@ fun MessageHistoryContent(
                     isLastAfter = (model.out != nextModel.out)
                 }
                 MessageItem(
+                    modifier = Modifier,
                     model = model,
                     isLastBefore = isLastBefore,
                     isLastAfter = isLastAfter
