@@ -6,6 +6,8 @@ object VKgramColor {
     val White = Color(0xFFFFFFFF)
     val BlueGrey900 = Color(0xFF263238)
     val BlueGrey500 = Color(0xFF607d8b)
+    val BlueGrey300 = Color(0xFF90a4ae)
+    val BlueGrey50 = Color(0xFFeceff1)
     val DarkGrey = Color(0xFF121212)
     val Grey700 = Color(0xFF616161)
     val Grey300 = Color(0xFFE0E0E0)

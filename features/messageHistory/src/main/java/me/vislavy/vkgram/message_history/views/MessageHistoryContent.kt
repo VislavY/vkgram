@@ -3,10 +3,12 @@ package me.vislavy.vkgram.message_history.views
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -15,6 +17,7 @@ import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
 import me.vislavy.vkgram.api.data.Message
 import java.util.*
+import kotlin.math.abs
 
 @Composable
 fun MessageHistoryContent(
@@ -31,10 +34,24 @@ fun MessageHistoryContent(
             contentPadding = PaddingValues(horizontal = 8.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            itemsIndexed(viewState.messages) { i, message ->
-                MessageItem(model = message)
+            itemsIndexed(viewState.messages) { index, model ->
+                var isLastBefore = false
+                if (index > 0) {
+                    val previousModel = viewState.messages[index - 1]
+                    isLastBefore = (model.out != previousModel.out)
+                }
+                var isLastAfter = false
+                if (index < (viewState.messages.size - 1)) {
+                    val nextModel = viewState.messages[index + 1]
+                    isLastAfter = (model.out != nextModel.out)
+                }
+                MessageItem(
+                    model = model,
+                    isLastBefore = isLastBefore,
+                    isLastAfter = isLastAfter
+                )
 
-                if (i == (viewState.messages.size - 1)) {
+                if (index == (viewState.messages.size - 1)) {
                     onMessageListEnd(viewState.messages.size)
                 }
             }
@@ -46,38 +63,6 @@ fun MessageHistoryContent(
 @Composable
 fun MessageHistoryContent_Preview() {
     MainTheme {
-        MessageHistoryContent(
-            viewState = MessageHistoryViewState.Display(
-                messages = listOf(
-                    Message(
-                        id = 1,
-                        userId = 1,
-                        ConversationId = 1,
-                        text = "Sample text",
-                        attachments = emptyList(),
-                        date = Date(),
-                        out = false
-                    ),
-                    Message(
-                        id = 2,
-                        userId = 2,
-                        ConversationId = 2,
-                        text = "Sample text 2",
-                        attachments = emptyList(),
-                        date = Date(),
-                        out = true
-                    )
-                )
-            ),
-            onMessageListEnd = { }
-        )
-    }
-}
-
-@Preview
-@Composable
-fun DarkMessageHistoryContent_Preview() {
-    MainTheme(darkThemeEnabled = true) {
         MessageHistoryContent(
             viewState = MessageHistoryViewState.Display(
                 messages = listOf(

@@ -59,7 +59,7 @@ fun MessageHistoryBottomBar(
                         if (viewState.yourMessageText.isEmpty()) {
                             Text(
                                 text = "Сообщение",
-                                color = VKgramTheme.palette.secondaryText,
+                                color = VKgramTheme.palette.hintText,
                                 style = VKgramTheme.typography.body1
                             )
                         }

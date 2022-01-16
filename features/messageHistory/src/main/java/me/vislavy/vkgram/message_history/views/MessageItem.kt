@@ -1,9 +1,6 @@
 package me.vislavy.vkgram.message_history.views
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -21,34 +18,41 @@ import java.util.*
 @Composable
 fun MessageItem(
     modifier: Modifier = Modifier,
-    model: Message
+    model: Message,
+    isLastBefore: Boolean = false,
+    isLastAfter: Boolean = true
 ) {
-    Box(Modifier.fillMaxWidth()) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = if (isLastBefore) 8.dp else 0.dp)
+    ) {
         Box(
             modifier = Modifier
                 .align(
-                    alignment = if (!model.out) {
-                        Alignment.CenterStart
-                    } else {
+                    alignment = if (model.out) {
                         Alignment.CenterEnd
+                    } else {
+                        Alignment.CenterStart
                     }
                 )
                 .width(300.dp)
         ) {
             Surface(
-                modifier = modifier.align(
-                    alignment = if (!model.out) {
-                        Alignment.CenterStart
-                    } else {
-                        Alignment.CenterEnd
-                    }
+                modifier = modifier
+                    .align(
+                        alignment = if (model.out) Alignment.CenterEnd else Alignment.CenterStart
+                    ),
+                shape = RoundedCornerShape(
+                    topStart = if (!model.out && ((!isLastAfter && !isLastBefore) || !isLastAfter))
+                        0.dp else 16.dp,
+                    topEnd = if (model.out && ((!isLastAfter && !isLastBefore) || !isLastAfter))
+                        0.dp else 16.dp,
+                    bottomStart = if (!model.out) 0.dp else 16.dp,
+                    bottomEnd = if (model.out) 0.dp else 16.dp,
                 ),
-                shape = RoundedCornerShape(12.dp),
-                color = if (!model.out) {
-                    VKgramTheme.palette.surface
-                } else {
-                    VKgramTheme.palette.secondary
-                }
+                color = if (model.out)
+                    VKgramTheme.palette.secondary else VKgramTheme.palette.defaultMessage
             ) {
                 Text(
                     text = model.text,
@@ -56,11 +60,7 @@ fun MessageItem(
                         horizontal = 10.dp,
                         vertical = 8.dp
                     ),
-                    color = if (!model.out) {
-                        VKgramTheme.palette.primaryText
-                    } else {
-                        Color.White
-                    },
+                    color = if (model.out)  Color.White else VKgramTheme.palette.primaryText,
                     style = VKgramTheme.typography.body1
                 )
             }
@@ -72,24 +72,6 @@ fun MessageItem(
 @Composable
 fun MessageItem_Preview() {
     MainTheme {
-        MessageItem(
-            model = Message(
-                id = 1,
-                userId = 1,
-                ConversationId = 1,
-                text = "Sample text",
-                attachments = emptyList(),
-                date = Date(),
-                out = false
-            )
-        )
-    }
-}
-
-@Preview
-@Composable
-fun DarkMessageItem_Preview() {
-    MainTheme(darkThemeEnabled = true) {
         MessageItem(
             model = Message(
                 id = 1,
