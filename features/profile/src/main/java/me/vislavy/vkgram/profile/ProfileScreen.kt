@@ -27,11 +27,6 @@ fun ProfileScreen(
     navController: NavController,
     viewModel: ProfileViewModel
 ) {
-    val currentActivity = (LocalContext.current as Activity)
-    WindowCompat.setDecorFitsSystemWindows(currentActivity.window, false)
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(Color.Transparent)
-
     val viewState = viewModel.viewState.collectAsState()
 
     when (val state = viewState.value) {
@@ -60,12 +55,5 @@ fun ProfileScreen(
 
     LaunchedEffect(viewState) {
         viewModel.onIntent(ProfileEvent.EnterScreen(userId))
-    }
-
-    DisposableEffect(viewState) {
-        onDispose {
-            WindowCompat.setDecorFitsSystemWindows(currentActivity.window, true)
-            systemUiController.setStatusBarColor(Color.White)
-        }
     }
 }

@@ -1,10 +1,7 @@
 package me.vislavy.vkgram.message_history.views
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -20,6 +17,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.rememberInsetsPaddingValues
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.message_history.R
@@ -30,11 +29,16 @@ fun MessageHistoryTopBar(
     modifier: Modifier = Modifier,
     viewState: MessageHistoryViewState.Display,
     color: Color = VKgramTheme.palette.primary,
+    contentPadding: PaddingValues = rememberInsetsPaddingValues(
+        insets = LocalWindowInsets.current.statusBars,
+        applyBottom = false
+    ),
     navController: NavController
 ) {
     TopAppBar(
         modifier = modifier,
-        backgroundColor = color
+        backgroundColor = color,
+        contentPadding = contentPadding
     ) {
         IconButton(
             onClick = {

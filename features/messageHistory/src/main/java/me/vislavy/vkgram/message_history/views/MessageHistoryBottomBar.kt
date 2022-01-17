@@ -14,6 +14,8 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.tooling.preview.Preview
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.navigationBarsWithImePadding
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.core.views.VKgramDivider
@@ -28,8 +30,10 @@ fun MessageHistoryBottomBar(
     onSendClick: () -> Unit
 ) {
     Surface(
-        modifier = modifier.fillMaxWidth(),
-        color = color
+        modifier = modifier
+            .fillMaxWidth()
+            .navigationBarsWithImePadding(),
+        color = color,
     ) {
         Column {
             VKgramDivider()

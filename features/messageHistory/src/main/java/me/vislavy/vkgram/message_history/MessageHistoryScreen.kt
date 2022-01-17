@@ -5,6 +5,8 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.google.accompanist.insets.ExperimentalAnimatedInsets
+import com.google.accompanist.insets.ProvideWindowInsets
 import me.vislavy.vkgram.core.views.ErrorContent
 import me.vislavy.vkgram.core.views.LoadingContent
 import me.vislavy.vkgram.message_history.models.MessageHistoryIntent
@@ -13,6 +15,7 @@ import me.vislavy.vkgram.message_history.views.MessageHistoryBottomBar
 import me.vislavy.vkgram.message_history.views.MessageHistoryContent
 import me.vislavy.vkgram.message_history.views.MessageHistoryTopBar
 
+@ExperimentalAnimatedInsets
 @Composable
 fun MessageHistoryScreen(
     conversationId: Int,

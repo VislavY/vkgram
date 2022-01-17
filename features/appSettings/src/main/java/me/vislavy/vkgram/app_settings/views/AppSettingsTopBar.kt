@@ -1,10 +1,7 @@
 package me.vislavy.vkgram.app_settings.views
 
 import androidx.compose.animation.*
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -15,11 +12,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.rememberInsetsPaddingValues
 import kotlinx.coroutines.launch
 import me.vislavy.vkgram.app_settings.R
 import me.vislavy.vkgram.core.datastore.LocalSettingsDataStore
@@ -29,6 +29,11 @@ import me.vislavy.vkgram.core.theme.VKgramTheme
 @Composable
 fun AppSettingsTopBar(
     modifier: Modifier = Modifier,
+    color: Color = VKgramTheme.palette.primary,
+    contentPadding: PaddingValues = rememberInsetsPaddingValues(
+        insets = LocalWindowInsets.current.systemBars,
+        applyBottom = false
+    ),
     navController: NavController = rememberNavController()
 ) {
     val settingsDataStore = LocalSettingsDataStore.current
@@ -36,7 +41,8 @@ fun AppSettingsTopBar(
 
     TopAppBar(
         modifier = modifier,
-        backgroundColor = VKgramTheme.palette.primary
+        backgroundColor = color,
+        contentPadding = contentPadding
     ) {
         IconButton(onClick = {
             navController.popBackStack()

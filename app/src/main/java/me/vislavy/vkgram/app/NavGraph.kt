@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
+import com.google.accompanist.insets.ExperimentalAnimatedInsets
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -30,6 +31,7 @@ import me.vislavy.vkgram.profile.ProfileViewModel
 import me.vislavy.vkgram.search.SearchScreen
 import me.vislavy.vkgram.search.SearchViewModel
 
+@ExperimentalAnimatedInsets
 @ExperimentalPermissionsApi
 @ExperimentalFoundationApi
 @ExperimentalSerializationApi

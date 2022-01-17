@@ -43,6 +43,7 @@ dependencies {
     api(Libs.AndroidX.Compose.Material)
     api(Libs.AndroidX.Compose.MaterialIconsExtended)
     api(Libs.AndroidX.Navigation.NavigationCompose)
+    api(Libs.Accompanist.AccompanistInsets)
 
     api(Libs.AndroidX.Hilt.HiltAndroid)
     kapt(Libs.AndroidX.Hilt.HiltCompiler)

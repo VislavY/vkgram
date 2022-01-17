@@ -1,5 +1,6 @@
 package me.vislavy.vkgram.new_conversation.screens.conversation_creation.views
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
@@ -15,12 +16,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.rememberInsetsPaddingValues
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 
 @Composable
-fun ConversationCreationTopBar(navController: NavController) {
-    TopAppBar(backgroundColor = Color.White) {
+fun ConversationCreationTopBar(
+    modifier: Modifier = Modifier,
+    color: Color = VKgramTheme.palette.primary,
+    contentPadding: PaddingValues = rememberInsetsPaddingValues(
+        insets = LocalWindowInsets.current.systemBars,
+        applyBottom = false
+    ),
+    navController: NavController
+) {
+    TopAppBar(
+        modifier = modifier,
+        backgroundColor = color,
+        contentPadding = contentPadding
+    ) {
         IconButton(
             onClick = {
                 navController.popBackStack()
@@ -45,16 +60,8 @@ fun ConversationCreationTopBar(navController: NavController) {
 
 @Preview
 @Composable
-fun ConversationCreationTopBar_Preview() {
+fun PreviewCreateConversationTopBar() {
     MainTheme {
-        ConversationCreationTopBar(rememberNavController())
-    }
-}
-
-@Preview
-@Composable
-fun DarkConversationCreationTopBar_Preview() {
-    MainTheme(darkThemeEnabled = true) {
-        ConversationCreationTopBar(rememberNavController())
+        ConversationCreationTopBar(navController = rememberNavController())
     }
 }

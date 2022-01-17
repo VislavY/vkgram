@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.pager.ExperimentalPagerApi
 import kotlinx.serialization.ExperimentalSerializationApi
 import me.vislavy.vkgram.core.Destinations
@@ -54,7 +55,9 @@ fun HomeScreen(
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    modifier = Modifier.padding(bottom = 16.dp),
+                    modifier = Modifier
+                        .padding(bottom = 16.dp)
+                        .navigationBarsWithImePadding(),
                     onClick = { navController.navigate(Destinations.NewConversation) },
                     backgroundColor = VKgramTheme.palette.secondary
                 ) {

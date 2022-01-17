@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
+import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.core.views.ErrorContent
@@ -51,14 +52,16 @@ fun ConversationCreationScreen(
     ) {
         Scaffold(
             topBar = {
-                ConversationCreationTopBar(navController)
+                ConversationCreationTopBar(navController = navController)
             },
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
                         viewModel.onIntent(ConversationCreationEvent.CreateConversation)
                     },
-                    modifier = Modifier.padding(bottom = 16.dp),
+                    modifier = Modifier
+                        .padding(bottom = 16.dp)
+                        .navigationBarsWithImePadding(),
                     backgroundColor = VKgramTheme.palette.secondary
                 ) {
                     Icon(
@@ -85,7 +88,6 @@ fun ConversationCreationScreen(
                         viewModel.onIntent(ConversationCreationEvent.RemoveMember(it))
                     }
                 )
-                else -> throw NotImplementedError("Unexpected conversation_creation state")
             }
 
             LaunchedEffect(viewState) {

@@ -10,12 +10,18 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
+import androidx.core.view.WindowCompat
 import coil.annotation.ExperimentalCoilApi
+import com.google.accompanist.insets.ExperimentalAnimatedInsets
+import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
@@ -27,6 +33,7 @@ import me.vislavy.vkgram.core.datastore.LocalSettingsDataStoreProvider
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTypography
 
+@ExperimentalAnimatedInsets
 @ExperimentalPermissionsApi
 @ExperimentalFoundationApi
 @ExperimentalSerializationApi
@@ -39,7 +46,15 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         setContent {
+            val systemUiController = rememberSystemUiController()
+            SideEffect {
+                systemUiController.setSystemBarsColor(Color.Transparent, true)
+            }
+
             LocalSettingsDataStoreProvider {
                 val settingsDataStore = LocalSettingsDataStore.current
                 val fontSizeState =
@@ -49,9 +64,11 @@ class MainActivity : ComponentActivity() {
                     fontSize = fontSizeState.value,
                     darkThemeEnabled = (isSystemInDarkTheme() || darkThemeEnabledState.value)
                 ) {
-                    val startDestination = if (VK.isLoggedIn())
-                        Destinations.Home else Destinations.Login
-                    NavGraph(startDestination)
+                    ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
+                        val startDestination = if (VK.isLoggedIn())
+                            Destinations.Home else Destinations.Login
+                        NavGraph(startDestination)
+                    }
                 }
             }
         }

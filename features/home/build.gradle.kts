@@ -51,6 +51,8 @@ android {
         api(me.vislavy.vkgram.build_src.Libs.Accompanist.AccompanistSystemUiController)
         api(me.vislavy.vkgram.build_src.Libs.Accompanist.AccompanistPager)
         api(me.vislavy.vkgram.build_src.Libs.Coil.CoilCompose)
+        api(me.vislavy.vkgram.build_src.Libs.Accompanist.AccompanistInsets)
+        api(me.vislavy.vkgram.build_src.Libs.Accompanist.AccompanistInsetsUi)
 
         api(me.vislavy.vkgram.build_src.Libs.AndroidX.Hilt.HiltAndroid)
         kapt(me.vislavy.vkgram.build_src.Libs.AndroidX.Hilt.HiltCompiler)

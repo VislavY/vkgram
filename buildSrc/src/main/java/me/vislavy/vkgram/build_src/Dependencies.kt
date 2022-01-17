@@ -48,6 +48,8 @@ object Libs {
         const val AccompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:$Version"
         const val AccompanistPlaceholder = "com.google.accompanist:accompanist-placeholder-material:$Version"
         const val AccompanistPermissions = "com.google.accompanist:accompanist-permissions:$Version"
+        const val AccompanistInsetsUi = "com.google.accompanist:accompanist-insets-ui:$Version"
+        const val AccompanistInsets = "com.google.accompanist:accompanist-insets:$Version"
         const val AccompanistPager = "com.google.accompanist:accompanist-pager:$Version"
     }
 

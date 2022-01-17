@@ -61,6 +61,9 @@ dependencies {
 
     implementation Libs.AndroidX.Navigation.NavigationCompose
     implementation Libs.Accompanist.AccompanistNavigationAnimation
+    api(Libs.Accompanist.AccompanistInsets)
+    api(Libs.Accompanist.AccompanistInsetsUi)
+    api(Libs.Accompanist.AccompanistSystemUiController)
 
     implementation Libs.AndroidX.Hilt.HiltAndroid
     implementation Libs.AndroidX.Hilt.HiltNavigationCompose

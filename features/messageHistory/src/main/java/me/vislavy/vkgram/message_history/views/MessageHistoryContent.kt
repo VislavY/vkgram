@@ -8,14 +8,18 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.insets.ExperimentalAnimatedInsets
+import com.google.accompanist.insets.rememberImeNestedScrollConnection
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
 import me.vislavy.vkgram.api.data.Message
 import java.util.*
 
+@ExperimentalAnimatedInsets
 @Composable
 fun MessageHistoryContent(
     onMessageListEnd: (Int) -> Unit,
@@ -27,6 +31,7 @@ fun MessageHistoryContent(
         color = VKgramTheme.palette.background
     ) {
         LazyColumn(
+            modifier = Modifier.nestedScroll(connection = rememberImeNestedScrollConnection()),
             reverseLayout = true,
             contentPadding = PaddingValues(horizontal = 8.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -57,6 +62,7 @@ fun MessageHistoryContent(
     }
 }
 
+@ExperimentalAnimatedInsets
 @Preview
 @Composable
 fun MessageHistoryContent_Preview() {

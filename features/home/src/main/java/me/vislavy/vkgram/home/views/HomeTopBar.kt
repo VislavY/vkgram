@@ -21,6 +21,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.rememberInsetsPaddingValues
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.api.data.User
@@ -47,11 +49,15 @@ fun HomeTopBar(
 
     var deleteConvDialogState by remember { mutableStateOf(false) }
 
-    Surface(
-        modifier = modifier.height(56.dp),
-        color = VKgramTheme.palette.primary,
+    TopAppBar(
+        modifier = modifier,
+        elevation = 0.dp,
+        backgroundColor = VKgramTheme.palette.primary,
+        contentPadding = rememberInsetsPaddingValues(
+            LocalWindowInsets.current.statusBars,
+            applyBottom = false,
+        )
     ) {
-
         Row(verticalAlignment = Alignment.CenterVertically) {
             Spacer(Modifier.width(16.dp))
 

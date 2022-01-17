@@ -1,3 +1,5 @@
+import me.vislavy.vkgram.build_src.Libs
+
 plugins {
     id("com.android.library")
     id("kotlinx-serialization")
@@ -22,32 +24,34 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.Version
+        kotlinCompilerExtensionVersion = Libs.AndroidX.Compose.Version
     }
 
     dependencies {
         api(project(":core"))
         api(project(":api"))
 
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.CoreKtx)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Appcompat)
+        api(Libs.AndroidX.CoreKtx)
+        api(Libs.AndroidX.Appcompat)
 
-        api(me.vislavy.vkgram.build_src.Libs.Accompanist.AccompanistPermissions)
+        api(Libs.Accompanist.AccompanistPermissions)
 
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Navigation.NavigationCompose)
-        api(me.vislavy.vkgram.build_src.Libs.Accompanist.AccompanistNavigationAnimation)
+        api(Libs.AndroidX.Navigation.NavigationCompose)
+        api(Libs.Accompanist.AccompanistNavigationAnimation)
 
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.Material)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.MaterialIconsExtended)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.Animation)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.UiTooling)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Lifecycle.LifecycleViewModelCompose)
-        api(me.vislavy.vkgram.build_src.Libs.Coil.CoilCompose)
+        api(Libs.AndroidX.Compose.Material)
+        api(Libs.AndroidX.Compose.MaterialIconsExtended)
+        api(Libs.AndroidX.Compose.Animation)
+        api(Libs.AndroidX.Compose.UiTooling)
+        api(Libs.AndroidX.Lifecycle.LifecycleViewModelCompose)
+        api(Libs.Accompanist.AccompanistInsets)
+        api(Libs.Accompanist.AccompanistInsetsUi)
+        api(Libs.Coil.CoilCompose)
 
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Hilt.HiltAndroid)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Hilt.HiltNavigationCompose)
-        kapt(me.vislavy.vkgram.build_src.Libs.AndroidX.Hilt.HiltCompiler)
+        api(Libs.AndroidX.Hilt.HiltAndroid)
+        api(Libs.AndroidX.Hilt.HiltNavigationCompose)
+        kapt(Libs.AndroidX.Hilt.HiltCompiler)
 
-        api(me.vislavy.vkgram.build_src.Libs.KotlinX.KotlinXSerializationJson)
+        api(Libs.KotlinX.KotlinXSerializationJson)
     }
 }
