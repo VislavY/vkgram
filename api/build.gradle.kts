@@ -1,3 +1,4 @@
+import me.vislavy.vkgram.build_src.Config
 import me.vislavy.vkgram.build_src.Libs
 
 plugins {
@@ -8,18 +9,27 @@ plugins {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = Config.CompileSdk
 
     defaultConfig {
-        minSdk = 21
-        targetSdk = 31
+        minSdk = Config.MinSdk
+        targetSdk = Config.TargetSdk
+    }
+
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
     }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-
 
     kotlinOptions {
         jvmTarget = "${JavaVersion.VERSION_1_8}"

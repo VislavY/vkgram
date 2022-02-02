@@ -14,13 +14,6 @@ object Libs {
             const val UiTooling = "androidx.compose.ui:ui-tooling:$Version"
         }
 
-        object Hilt {
-            private const val Version = "2.40.5"
-            const val HiltAndroid = "com.google.dagger:hilt-android:$Version"
-            const val HiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha03"
-            const val HiltCompiler = "com.google.dagger:hilt-compiler:$Version"
-        }
-
         object Lifecycle {
             const val LifecycleViewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0"
 
@@ -42,17 +35,6 @@ object Libs {
         }
     }
 
-    object Accompanist {
-        private const val Version = "0.22.0-rc"
-        const val AccompanistNavigationAnimation = "com.google.accompanist:accompanist-navigation-animation:$Version"
-        const val AccompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:$Version"
-        const val AccompanistPlaceholder = "com.google.accompanist:accompanist-placeholder-material:$Version"
-        const val AccompanistPermissions = "com.google.accompanist:accompanist-permissions:$Version"
-        const val AccompanistInsetsUi = "com.google.accompanist:accompanist-insets-ui:$Version"
-        const val AccompanistInsets = "com.google.accompanist:accompanist-insets:$Version"
-        const val AccompanistPager = "com.google.accompanist:accompanist-pager:$Version"
-    }
-
     object Coil {
         const val CoilCompose = "io.coil-kt:coil-compose:1.4.0"
     }
@@ -70,5 +52,25 @@ object Libs {
     object VK {
         private const val Version = "3.2.0"
         const val AndroidSdkApi = "com.vk:android-sdk-api:$Version"
+    }
+
+    object Google {
+        object Hilt {
+            const val Version = "2.40.5"
+            const val HiltAndroid = "com.google.dagger:hilt-android:$Version"
+            const val HiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha03"
+            const val HiltCompiler = "com.google.dagger:hilt-compiler:$Version"
+        }
+
+        object Accompanist {
+            private const val Version = "0.22.0-rc"
+            const val AccompanistNavigationAnimation = "com.google.accompanist:accompanist-navigation-animation:$Version"
+            const val AccompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:$Version"
+            const val AccompanistPlaceholder = "com.google.accompanist:accompanist-placeholder-material:$Version"
+            const val AccompanistPermissions = "com.google.accompanist:accompanist-permissions:$Version"
+            const val AccompanistInsetsUi = "com.google.accompanist:accompanist-insets-ui:$Version"
+            const val AccompanistInsets = "com.google.accompanist:accompanist-insets:$Version"
+            const val AccompanistPager = "com.google.accompanist:accompanist-pager:$Version"
+        }
     }
 }

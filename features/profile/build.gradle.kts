@@ -1,3 +1,6 @@
+import me.vislavy.vkgram.build_src.Config
+import me.vislavy.vkgram.build_src.Libs
+
 plugins {
     id("com.android.library")
     kotlin("android")
@@ -5,15 +8,23 @@ plugins {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = Config.CompileSdk
 
     defaultConfig {
-        minSdk = 21
-        targetSdk = 31
+        minSdk = Config.MinSdk
+        targetSdk = Config.TargetSdk
+
+        resourceConfigurations.addAll(listOf("ru", "en"))
     }
 
-    buildFeatures {
-        compose = true
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
     }
 
     compileOptions {
@@ -21,32 +32,37 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = "${JavaVersion.VERSION_1_8}"
+    buildFeatures {
+        compose = true
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.Version
+        kotlinCompilerExtensionVersion = Libs.AndroidX.Compose.Version
     }
 
-    dependencies {
-        api(project(":core"))
-        api(project(":api"))
-
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.CoreKtx)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Appcompat)
-        api(me.vislavy.vkgram.build_src.Libs.KotlinX.KotlinXCoroutinesCore)
-
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Compose.Material)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Lifecycle.LifecycleViewModelCompose)
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Navigation.NavigationCompose)
-        api(me.vislavy.vkgram.build_src.Libs.Accompanist.AccompanistSystemUiController)
-        api(me.vislavy.vkgram.build_src.Libs.Accompanist.AccompanistPager)
-        api(me.vislavy.vkgram.build_src.Libs.Coil.CoilCompose)
-
-        api(me.vislavy.vkgram.build_src.Libs.AndroidX.Hilt.HiltAndroid)
-        kapt(me.vislavy.vkgram.build_src.Libs.AndroidX.Hilt.HiltCompiler)
-
-        api(me.vislavy.vkgram.build_src.Libs.VK.AndroidSdkApi)
+    kotlinOptions {
+        jvmTarget = "${JavaVersion.VERSION_1_8}"
     }
+}
+
+dependencies {
+    api(project(":core"))
+    api(project(":api"))
+
+    api(Libs.AndroidX.CoreKtx)
+    api(Libs.AndroidX.Appcompat)
+    api(Libs.KotlinX.KotlinXCoroutinesCore)
+
+    api(Libs.AndroidX.Lifecycle.LifecycleViewModelCompose)
+    api(Libs.AndroidX.Navigation.NavigationCompose)
+
+    api(Libs.AndroidX.Compose.Material)
+    api(Libs.Google.Accompanist.AccompanistSystemUiController)
+    api(Libs.Google.Accompanist.AccompanistPager)
+    api(Libs.Coil.CoilCompose)
+
+    api(Libs.Google.Hilt.HiltAndroid)
+    kapt(Libs.Google.Hilt.HiltCompiler)
+
+    api(Libs.VK.AndroidSdkApi)
 }

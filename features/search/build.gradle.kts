@@ -1,3 +1,4 @@
+import me.vislavy.vkgram.build_src.Config
 import me.vislavy.vkgram.build_src.Libs
 
 plugins {
@@ -7,20 +8,28 @@ plugins {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = Config.CompileSdk
 
     defaultConfig {
-        minSdk = 21
-        targetSdk = 31
+        minSdk = Config.MinSdk
+        targetSdk = Config.TargetSdk
+
+        resourceConfigurations.addAll(listOf("ru", "en"))
+    }
+
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
     }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "${JavaVersion.VERSION_1_8}"
     }
 
     buildFeatures {
@@ -29,6 +38,10 @@ android {
 
     composeOptions {
         kotlinCompilerExtensionVersion = Libs.AndroidX.Compose.Version
+    }
+
+    kotlinOptions {
+        jvmTarget = "${JavaVersion.VERSION_1_8}"
     }
 }
 
@@ -42,10 +55,10 @@ dependencies {
 
     api(Libs.AndroidX.Compose.Material)
     api(Libs.AndroidX.Navigation.NavigationCompose)
-    api(Libs.Accompanist.AccompanistPlaceholder)
-    api(Libs.Accompanist.AccompanistInsets)
+    api(Libs.Google.Accompanist.AccompanistPlaceholder)
+    api(Libs.Google.Accompanist.AccompanistInsets)
     api(Libs.Coil.CoilCompose)
 
-    api(Libs.AndroidX.Hilt.HiltAndroid)
-    kapt(Libs.AndroidX.Hilt.HiltCompiler)
+    api(Libs.Google.Hilt.HiltAndroid)
+    kapt(Libs.Google.Hilt.HiltCompiler)
 }
