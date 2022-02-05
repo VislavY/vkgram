@@ -18,6 +18,7 @@ import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.api.data.Message
 import me.vislavy.vkgram.api.data.Photo
+import me.vislavy.vkgram.api.data.Sticker
 import java.util.*
 
 @Composable
@@ -28,10 +29,12 @@ fun MessageItem(
     isLastAfter: Boolean = true
 ) {
     val photos = mutableListOf<Photo>()
+    var sticker: Sticker? = null
     if (model.attachments.isNotEmpty()) {
         model.attachments.forEach { attachment ->
             when (attachment.type) {
                 AttachmentType.PHOTO -> photos.add(attachment.photo!!)
+                AttachmentType.STICKER -> sticker = attachment.sticker
                 else -> Unit
             }
         }
@@ -66,9 +69,27 @@ fun MessageItem(
                     bottomStart = if (!model.out) 0.dp else 16.dp,
                     bottomEnd = if (model.out) 0.dp else 16.dp,
                 ),
-                color = if (model.out)
-                    VKgramTheme.palette.secondary else VKgramTheme.palette.defaultMessage
+                color = when {
+                    sticker != null -> VKgramTheme.palette.background
+                    model.out -> VKgramTheme.palette.secondary
+                    else -> VKgramTheme.palette.defaultMessage
+                }
             ) {
+                sticker?.let {
+                    Image(
+                        modifier = Modifier
+                            .width(192.dp)
+                            .height(192.dp),
+                        painter = rememberImagePainter(
+                            data = it.images.last().url,
+                            builder = {
+                                crossfade(true)
+                            }
+                        ),
+                        contentDescription = null
+                    )
+                }
+
                 Column {
                     when (photos.size) {
                         1 -> {
@@ -197,7 +218,11 @@ fun MessageItem(
                                 }
                             }
                         }
-                        5 -> Column(Modifier.padding(4.dp).height(250.dp)) {
+                        5 -> Column(
+                            Modifier
+                                .padding(4.dp)
+                                .height(250.dp)
+                        ) {
                             Row(Modifier.weight(1F)) {
                                 val photo1 = photos[0].sizes.find { it.type == "q" }!!
                                 Image(
@@ -324,15 +349,18 @@ fun MessageItem(
                             for (i in 1..3) {
                                 Row(Modifier.weight(1F)) {
                                     for (j in 1..2) {
-                                        val photo = photos[photoIndex].sizes.find { it.type == "q" }!!
+                                        val photo =
+                                            photos[photoIndex].sizes.find { it.type == "q" }!!
                                         Image(
                                             modifier = Modifier
                                                 .fillMaxHeight()
-                                                .weight(when {
-                                                    i == 1 && j == 1 -> 2F
-                                                    i == 3 && j == 2 -> 2F
-                                                    else -> 1F
-                                                }),
+                                                .weight(
+                                                    when {
+                                                        i == 1 && j == 1 -> 2F
+                                                        i == 3 && j == 2 -> 2F
+                                                        else -> 1F
+                                                    }
+                                                ),
                                             painter = rememberImagePainter(
                                                 data = photo.url,
                                                 builder = {
@@ -417,16 +445,19 @@ fun MessageItem(
                                 Row(Modifier.weight(1F)) {
                                     val columns = if (i == 1) 2 else 3
                                     for (j in 1..columns) {
-                                        val photo = photos[photoIndex].sizes.find { it.type == "q" }!!
+                                        val photo =
+                                            photos[photoIndex].sizes.find { it.type == "q" }!!
                                         Image(
                                             modifier = Modifier
                                                 .fillMaxHeight()
-                                                .weight(when {
-                                                    i == 1 && j == 1 -> 2F
-                                                    i == 3 && j == 1 -> 2F
-                                                    i == 3 && j == 3 -> 2F
-                                                    else -> 1F
-                                                }),
+                                                .weight(
+                                                    when {
+                                                        i == 1 && j == 1 -> 2F
+                                                        i == 3 && j == 1 -> 2F
+                                                        i == 3 && j == 3 -> 2F
+                                                        else -> 1F
+                                                    }
+                                                ),
                                             painter = rememberImagePainter(
                                                 data = photo.url,
                                                 builder = {

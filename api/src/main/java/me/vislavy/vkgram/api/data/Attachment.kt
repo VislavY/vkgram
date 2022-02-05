@@ -7,5 +7,6 @@ import me.vislavy.vkgram.api.AttachmentType
 data class Attachment(
     val type: AttachmentType,
     val photo: Photo? = null,
-    val video: Video? = null
+    val video: Video? = null,
+    val sticker: Sticker? = null
 )
