@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import coil.transform.RoundedCornersTransformation
-import me.vislavy.vkgram.api.AttachmentType
+import me.vislavy.vkgram.api.data.AttachmentType
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.api.data.Message

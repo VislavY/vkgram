@@ -34,7 +34,7 @@ import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.home.utils.LastMessageDate
 import me.vislavy.vkgram.home.R
-import me.vislavy.vkgram.api.AttachmentType
+import me.vislavy.vkgram.api.data.AttachmentType
 import me.vislavy.vkgram.api.data.Message
 import me.vislavy.vkgram.api.data.PushSettings
 import me.vislavy.vkgram.api.data.SortId

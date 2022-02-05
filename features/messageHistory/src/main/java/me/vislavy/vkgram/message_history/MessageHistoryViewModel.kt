@@ -7,6 +7,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import me.vislavy.vkgram.api.EventFlag
+import me.vislavy.vkgram.api.LongPollServerEvent
+import me.vislavy.vkgram.api.LongPollServerManager
 import me.vislavy.vkgram.core.IntentHandler
 import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
 import me.vislavy.vkgram.message_history.models.MessageHistoryIntent
@@ -20,12 +23,25 @@ import javax.inject.Inject
 @HiltViewModel
 class MessageHistoryViewModel @Inject constructor(
     private val conversationRepository: ConversationRepository,
-    private val messageRepository: MessageRepository
+    private val messageRepository: MessageRepository,
+    private val longPollServerManager: LongPollServerManager
 ) : ViewModel(), IntentHandler<MessageHistoryIntent> {
 
     private val _viewState =
         MutableStateFlow<MessageHistoryViewState>(MessageHistoryViewState.Loading)
     val viewState = _viewState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            longPollServerManager.events().collect { event ->
+                if (_viewState.value !is MessageHistoryViewState.Display) return@collect
+                val currentState = (_viewState.value as MessageHistoryViewState.Display)
+                if (event?.eventFlag == EventFlag.NewMessage && event.conversationId == currentState.conversation!!.properties.id) {
+                    addNewMessage(currentState)
+                }
+            }
+        }
+    }
 
     override fun onIntent(intent: MessageHistoryIntent) {
         when (val currentContentState = _viewState.value) {
@@ -159,6 +175,23 @@ class MessageHistoryViewModel @Inject constructor(
                 _viewState.value = currentState.copy(yourMessageText = "")
             }
         } catch (e: Exception) {
+            Log.e(Tag, e.toString())
+            _viewState.value = MessageHistoryViewState.Error
+        }
+    }
+
+    private fun addNewMessage(currentState: MessageHistoryViewState.Display) {
+        try {
+            viewModelScope.launch {
+                val messages = currentState.messages.toMutableList()
+                val newMessage = messageRepository.getMessageList(
+                    conversationId = currentState.conversation!!.properties.id,
+                    count = 1
+                )[0]
+                messages.add(0, newMessage)
+                _viewState.value = currentState.copy(messages = messages)
+            }
+        } catch (e: java.lang.Exception) {
             Log.e(Tag, e.toString())
             _viewState.value = MessageHistoryViewState.Error
         }

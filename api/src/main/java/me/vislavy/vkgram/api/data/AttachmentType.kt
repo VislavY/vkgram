@@ -1,11 +1,10 @@
-package me.vislavy.vkgram.api
+package me.vislavy.vkgram.api.data
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 enum class AttachmentType {
-
     @SerialName("photo") PHOTO,
     @SerialName("video") VIDEO,
     @SerialName("audio") AUDIO,
