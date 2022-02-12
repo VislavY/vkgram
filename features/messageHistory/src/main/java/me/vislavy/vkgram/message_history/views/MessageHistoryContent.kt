@@ -3,31 +3,33 @@ package me.vislavy.vkgram.message_history.views
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.ExperimentalAnimatedInsets
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
 import me.vislavy.vkgram.api.data.Message
 import java.util.*
 
-@ExperimentalAnimatedInsets
 @Composable
 fun MessageHistoryContent(
     onMessageListEnd: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewState: MessageHistoryViewState.Display
 ) {
+    val listState = rememberLazyListState()
+
     Surface(
         modifier = modifier.fillMaxSize(),
         color = VKgramTheme.palette.background
     ) {
         LazyColumn(
 //            modifier = Modifier.nestedScroll(connection = rememberImeNestedScrollConnection()),
+            state = listState,
             reverseLayout = true,
             contentPadding = PaddingValues(horizontal = 8.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -37,6 +39,7 @@ fun MessageHistoryContent(
             }
 
             itemsIndexed(viewState.messages) { index, model ->
+                val visibleItem = listState.layoutInfo.visibleItemsInfo.find { it.index == index }
                 var isLastBefore = false
                 if (index > 0) {
                     val previousModel = viewState.messages[index - 1]
@@ -51,7 +54,8 @@ fun MessageHistoryContent(
                     modifier = Modifier,
                     model = model,
                     isLastBefore = isLastBefore,
-                    isLastAfter = isLastAfter
+                    isLastAfter = isLastAfter,
+                    offsetInList = visibleItem?.offset ?: 0
                 )
 
                 if (index == (viewState.messages.size - 1)) {
@@ -62,7 +66,6 @@ fun MessageHistoryContent(
     }
 }
 
-@ExperimentalAnimatedInsets
 @Preview
 @Composable
 fun MessageHistoryContent_Preview() {

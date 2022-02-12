@@ -20,13 +20,15 @@ import me.vislavy.vkgram.api.data.Message
 import me.vislavy.vkgram.api.data.Photo
 import me.vislavy.vkgram.api.data.Sticker
 import java.util.*
+import kotlin.math.abs
 
 @Composable
 fun MessageItem(
     modifier: Modifier = Modifier,
     model: Message,
     isLastBefore: Boolean = false,
-    isLastAfter: Boolean = true
+    isLastAfter: Boolean = true,
+    offsetInList: Int = 0
 ) {
     val photos = mutableListOf<Photo>()
     var sticker: Sticker? = null
@@ -71,7 +73,10 @@ fun MessageItem(
                 ),
                 color = when {
                     sticker != null -> VKgramTheme.palette.background
-                    model.out -> VKgramTheme.palette.secondary
+                    model.out -> VKgramTheme.palette.secondary.copy(
+                        alpha = if (offsetInList == 0)
+                            1F else abs(1F - (abs(offsetInList.toFloat()) / 10000) * 3)
+                    )
                     else -> VKgramTheme.palette.defaultMessage
                 }
             ) {
