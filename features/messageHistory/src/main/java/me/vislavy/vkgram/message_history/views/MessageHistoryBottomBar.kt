@@ -1,49 +1,53 @@
 package me.vislavy.vkgram.message_history.views
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Attachment
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.SentimentSatisfied
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
-import com.google.accompanist.insets.ProvideWindowInsets
+import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
-import me.vislavy.vkgram.core.views.VKgramDivider
 import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
+import me.vislavy.vkgram.message_history.views.stickers_sheet.StickersSheetContent
 
 @Composable
 fun MessageHistoryBottomBar(
     modifier: Modifier = Modifier,
     viewState: MessageHistoryViewState.Display,
     color: Color = VKgramTheme.palette.primary,
-    onTextChange: (String) -> Unit,
-    onSendClick: () -> Unit
+    onTextChange: (TextFieldValue) -> Unit,
+    onSendClick: () -> Unit,
 ) {
+    var stickersSheetVisible by remember { mutableStateOf(false) }
+
     Surface(
         modifier = modifier
             .fillMaxWidth()
             .navigationBarsWithImePadding(),
         color = color,
+        elevation = 8.dp
     ) {
         Column {
-            VKgramDivider()
-
             Row(verticalAlignment = Alignment.Bottom) {
-                IconButton(onClick = { }) {
+                IconButton(onClick = {}) {
                     Icon(
-                        imageVector = Icons.Default.Attachment,
+                        imageVector = Icons.Default.Add,
                         contentDescription = null,
-                        modifier = Modifier.rotate(120F),
                         tint = VKgramTheme.palette.onSurface
                     )
                 }
@@ -52,19 +56,19 @@ fun MessageHistoryBottomBar(
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
                         .weight(1F),
-                    value = viewState.yourMessageText,
-                    onValueChange = { text ->
-                        onTextChange(text)
+                    value = viewState.messageText,
+                    onValueChange = { value ->
+                        onTextChange(value)
                     },
-                    textStyle = VKgramTheme.typography.body1.copy(color = VKgramTheme.palette.primaryText),
+                    textStyle = VKgramTheme.typography.searchText.copy(color = VKgramTheme.palette.primaryText),
                     maxLines = 4,
                     cursorBrush = SolidColor(VKgramTheme.palette.secondary),
                     decorationBox = { innerTextField ->
-                        if (viewState.yourMessageText.isEmpty()) {
+                        if (viewState.messageText.text.isEmpty()) {
                             Text(
                                 text = "Сообщение",
                                 color = VKgramTheme.palette.hintText,
-                                style = VKgramTheme.typography.body1
+                                style = VKgramTheme.typography.searchText
                             )
                         }
 
@@ -72,7 +76,9 @@ fun MessageHistoryBottomBar(
                     }
                 )
 
-                IconButton(onClick = { }) {
+                IconButton(onClick = {
+                    stickersSheetVisible = !stickersSheetVisible
+                }) {
                     Icon(
                         imageVector = Icons.Default.SentimentSatisfied,
                         contentDescription = null,
@@ -87,6 +93,21 @@ fun MessageHistoryBottomBar(
                         tint = VKgramTheme.palette.secondary
                     )
                 }
+            }
+
+            AnimatedVisibility(
+                visible = stickersSheetVisible,
+                enter = expandVertically(),
+                exit = shrinkVertically()
+            ) {
+                StickersSheetContent(onEmojiClick = { emoji ->
+                    val cursorPos = viewState.messageText.selection.start
+                    val messageText = viewState.messageText.text
+                    val formattedMessageText = StringBuilder(messageText)
+                        .insert(cursorPos, emoji)
+                        .toString()
+                    onTextChange(TextFieldValue(formattedMessageText, TextRange(cursorPos + emoji.length)))
+                })
             }
         }
     }

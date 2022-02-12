@@ -1,18 +1,14 @@
 package me.vislavy.vkgram.message_history.views
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.ExperimentalAnimatedInsets
-import com.google.accompanist.insets.rememberImeNestedScrollConnection
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
@@ -31,11 +27,15 @@ fun MessageHistoryContent(
         color = VKgramTheme.palette.background
     ) {
         LazyColumn(
-            modifier = Modifier.nestedScroll(connection = rememberImeNestedScrollConnection()),
+//            modifier = Modifier.nestedScroll(connection = rememberImeNestedScrollConnection()),
             reverseLayout = true,
             contentPadding = PaddingValues(horizontal = 8.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
+            item {
+                Spacer(Modifier.height(16.dp))
+            }
+
             itemsIndexed(viewState.messages) { index, model ->
                 var isLastBefore = false
                 if (index > 0) {

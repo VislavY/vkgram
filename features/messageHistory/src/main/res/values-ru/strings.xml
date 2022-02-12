@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="message_history_emotions">Эмоции</string>
+    <string name="message_history_gestures_and_body">Жесты &amp; Тело</string>
+    <string name="message_history_symbols">Символы</string>
+    <string name="message_history_peoples">Люди</string>
+    <string name="message_history_food_and_drinks">Еда &amp; Напитки</string>
+    <string name="message_history_objects">Объекты</string>
+    <string name="message_history_activity_and_sport">Активность &amp; Спорт</string>
+    <string name="message_history_travel_and_places">Путешествие &amp; Занятия</string>
+    <string name="message_history_animals_and_nature">Животные &amp; Природа</string>
+    <string name="message_history_flags">Флаги</string>
+</resources>

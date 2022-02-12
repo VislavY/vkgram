@@ -1,6 +1,7 @@
 package me.vislavy.vkgram.message_history
 
 import android.util.Log
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,7 +9,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import me.vislavy.vkgram.api.EventFlag
-import me.vislavy.vkgram.api.LongPollServerEvent
 import me.vislavy.vkgram.api.LongPollServerManager
 import me.vislavy.vkgram.core.IntentHandler
 import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
@@ -33,7 +33,7 @@ class MessageHistoryViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            longPollServerManager.events().collect { event ->
+            longPollServerManager.event.collect { event ->
                 if (_viewState.value !is MessageHistoryViewState.Display) return@collect
                 val currentState = (_viewState.value as MessageHistoryViewState.Display)
                 if (event?.eventFlag == EventFlag.NewMessage && event.conversationId == currentState.conversation!!.properties.id) {
@@ -75,7 +75,7 @@ class MessageHistoryViewModel @Inject constructor(
         when (intent) {
             is MessageHistoryIntent.EnterScreen -> enterScreen(intent.conversationId)
             is MessageHistoryIntent.UpdateYourMessageText -> updateYourMessageText(
-                intent.text,
+                intent.messageText,
                 currentState
             )
             is MessageHistoryIntent.IncreaseMessageList -> increaseMessageList(intent.currentListSize, currentState)
@@ -141,8 +141,8 @@ class MessageHistoryViewModel @Inject constructor(
         }
     }
 
-    private fun updateYourMessageText(text: String, currentState: MessageHistoryViewState.Display) {
-        _viewState.value = currentState.copy(yourMessageText = text)
+    private fun updateYourMessageText(newMessageText: TextFieldValue, currentState: MessageHistoryViewState.Display) {
+        _viewState.value = currentState.copy(messageText = newMessageText)
     }
 
     private fun increaseMessageList(currentSize: Int, currentState: MessageHistoryViewState.Display) {
@@ -167,12 +167,12 @@ class MessageHistoryViewModel @Inject constructor(
     private fun sendMessage(currentState: MessageHistoryViewState.Display) {
         try {
             viewModelScope.launch {
-                val yourMessageText = currentState.yourMessageText
-                if (yourMessageText.isBlank()) return@launch
+                val messageText = currentState.messageText
+                if (messageText.text.isBlank()) return@launch
                 val conversationId = currentState.conversation?.properties?.id ?: return@launch
-                messageRepository.sendMessage(conversationId, yourMessageText)
+                messageRepository.sendMessage(conversationId, messageText.text)
 
-                _viewState.value = currentState.copy(yourMessageText = "")
+                _viewState.value = currentState.copy(messageText = TextFieldValue())
             }
         } catch (e: Exception) {
             Log.e(Tag, e.toString())

@@ -6,7 +6,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.google.accompanist.insets.ExperimentalAnimatedInsets
-import com.google.accompanist.insets.ProvideWindowInsets
 import me.vislavy.vkgram.core.views.ErrorContent
 import me.vislavy.vkgram.core.views.LoadingContent
 import me.vislavy.vkgram.message_history.models.MessageHistoryIntent

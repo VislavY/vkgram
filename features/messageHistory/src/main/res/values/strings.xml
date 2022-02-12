@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="message_history_emotions">Emotions</string>
+    <string name="message_history_gestures_and_body">Gestures &amp; Body</string>
+    <string name="message_history_symbols">Symbols</string>
+    <string name="message_history_peoples">Peoples</string>
+    <string name="message_history_food_and_drinks">Food &amp; Drinks</string>
+    <string name="message_history_objects">Objects</string>
+    <string name="message_history_activity_and_sport">Activity &amp; Sport</string>
+    <string name="message_history_travel_and_places">Travel &amp; Places</string>
+    <string name="message_history_animals_and_nature">Animals &amp; Nature</string>
+    <string name="message_history_flags">Flags</string>
+</resources>

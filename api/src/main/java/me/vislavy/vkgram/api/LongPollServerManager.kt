@@ -1,6 +1,8 @@
 package me.vislavy.vkgram.api
 
 import android.util.Log
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
@@ -17,6 +19,9 @@ class LongPollServerManager(vkAccessToken: VkAccessToken, vkService: VkService) 
     private var httpClient: OkHttpClient
     private var longPollServer: LongPollServer
     private var ts: Int = 0
+
+    private val _event = MutableStateFlow<LongPollServerEvent?>(null)
+    val event = _event.asStateFlow()
 
     init {
         val timeout = Int.MAX_VALUE.toLong()
@@ -42,6 +47,7 @@ class LongPollServerManager(vkAccessToken: VkAccessToken, vkService: VkService) 
                 val response = httpClient.newCall(request).await()
                 val responseBody = response.body ?: return@flow
                 val longPollServerEvent = parse(responseBody)
+                _event.value = longPollServerEvent
                 emit(longPollServerEvent)
             } catch (e: Exception) {
                 Log.e(Tag, e.stackTraceToString())

@@ -61,6 +61,8 @@ dependencies {
     api(Libs.Google.Accompanist.AccompanistSystemUiController)
     api(Libs.Google.Accompanist.AccompanistInsetsUi)
     api(Libs.Google.Accompanist.AccompanistInsets)
+    api("com.google.accompanist:accompanist-flowlayout:0.24.1-alpha")
+    api(Libs.Google.Accompanist.AccompanistPager)
     api(Libs.Coil.CoilCompose)
 
     api(Libs.Google.Hilt.HiltAndroid)
