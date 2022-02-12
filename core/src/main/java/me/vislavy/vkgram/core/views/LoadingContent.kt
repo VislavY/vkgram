@@ -24,7 +24,7 @@ fun LoadingContent(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .align(Alignment.Center)
                     .size(48.dp),
-                color = VKgramTheme.palette.onSurface
+                color = VKgramTheme.palette.secondary
             )
         }
     }
@@ -32,16 +32,8 @@ fun LoadingContent(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-fun LoadingContent_Preview() {
+fun PreviewLoadingContent() {
     MainTheme {
-        LoadingContent()
-    }
-}
-
-@Preview
-@Composable
-fun DarkLoadingContent_Preview() {
-    MainTheme(darkThemeEnabled = true) {
         LoadingContent()
     }
 }
