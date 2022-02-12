@@ -7,7 +7,7 @@ object Libs {
         const val CoreKtx = "androidx.core:core-ktx:1.7.0"
 
         object Compose {
-            const val Version = "1.1.0-rc01"
+            const val Version = "1.1.0"
             const val Material = "androidx.compose.material:material:$Version"
             const val MaterialIconsExtended = "androidx.compose.material:material-icons-extended:$Version"
             const val Animation = "androidx.compose.animation:animation:$Version"
@@ -20,7 +20,7 @@ object Libs {
         }
 
         object Navigation {
-            const val NavigationCompose = "androidx.navigation:navigation-compose:2.4.0-rc01"
+            const val NavigationCompose = "androidx.navigation:navigation-compose:2.4.1"
         }
 
         object Room {
@@ -63,7 +63,7 @@ object Libs {
         }
 
         object Accompanist {
-            private const val Version = "0.22.0-rc"
+            private const val Version = "0.23.0"
             const val AccompanistNavigationAnimation = "com.google.accompanist:accompanist-navigation-animation:$Version"
             const val AccompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:$Version"
             const val AccompanistPlaceholder = "com.google.accompanist:accompanist-placeholder-material:$Version"
