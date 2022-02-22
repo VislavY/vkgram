@@ -1,19 +1,21 @@
-package me.vislavy.vkgram.message_history.views
+package me.vislavy.vkgram.message_history.views.gallery
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.SentimentSatisfied
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -26,13 +28,10 @@ import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
 import me.vislavy.vkgram.message_history.views.stickers_sheet.StickersSheetContent
 
 @Composable
-fun MessageHistoryBottomBar(
+fun GallerySheetBottomBar(
     modifier: Modifier = Modifier,
     viewState: MessageHistoryViewState.Display,
-    color: Color = VKgramTheme.palette.primary,
     onTextChange: (TextFieldValue) -> Unit,
-    onSendClick: () -> Unit,
-    onOpenGalleryClick: () -> Unit
 ) {
     var stickersSheetVisible by remember { mutableStateOf(false) }
 
@@ -40,14 +39,16 @@ fun MessageHistoryBottomBar(
         modifier = modifier
             .fillMaxWidth()
             .navigationBarsWithImePadding(),
-        color = color,
+        color = VKgramTheme.palette.surface,
         elevation = 8.dp
     ) {
         Column {
             Row(verticalAlignment = Alignment.Bottom) {
-                IconButton(onClick = onOpenGalleryClick) {
+                IconButton(onClick = {
+                    stickersSheetVisible = !stickersSheetVisible
+                }) {
                     Icon(
-                        imageVector = Icons.Default.Add,
+                        imageVector = Icons.Default.SentimentSatisfied,
                         contentDescription = null,
                         tint = VKgramTheme.palette.onSurface
                     )
@@ -67,7 +68,7 @@ fun MessageHistoryBottomBar(
                     decorationBox = { innerTextField ->
                         if (viewState.messageText.text.isEmpty()) {
                             Text(
-                                text = "Сообщение",
+                                text = "Комментарий",
                                 color = VKgramTheme.palette.hintText,
                                 style = VKgramTheme.typography.searchText
                             )
@@ -76,24 +77,6 @@ fun MessageHistoryBottomBar(
                         innerTextField()
                     }
                 )
-
-                IconButton(onClick = {
-                    stickersSheetVisible = !stickersSheetVisible
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.SentimentSatisfied,
-                        contentDescription = null,
-                        tint = VKgramTheme.palette.onSurface
-                    )
-                }
-
-                IconButton(onClick = onSendClick) {
-                    Icon(
-                        imageVector = Icons.Default.Send,
-                        contentDescription = null,
-                        tint = VKgramTheme.palette.secondary
-                    )
-                }
             }
 
             AnimatedVisibility(
@@ -116,13 +99,11 @@ fun MessageHistoryBottomBar(
 
 @Preview
 @Composable
-fun PreviewMessageHistoryBottomBar() {
+fun PreviewGallerySheetBottomBar() {
     MainTheme {
-        MessageHistoryBottomBar(
+        GallerySheetBottomBar(
             viewState = MessageHistoryViewState.Display(),
-            onTextChange = { },
-            onSendClick = { },
-            onOpenGalleryClick = { }
+            onTextChange = { }
         )
     }
 }

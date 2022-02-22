@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 object VKgramColor {
     val White = Color(0xFFFFFFFF)
+    val Black = Color(0xFF000000)
     val BlueGrey900 = Color(0xFF263238)
     val BlueGrey500 = Color(0xFF607d8b)
     val BlueGrey300 = Color(0xFF90a4ae)

@@ -31,7 +31,8 @@ class LoginViewModel : ViewModel(), IntentHandler<LoginEvent> {
     private fun login(activity: Activity) {
         val scopes = listOf(
             VKScope.MESSAGES,
-            VKScope.FRIENDS
+            VKScope.FRIENDS,
+            VKScope.PHOTOS
         )
         VK.login(activity, scopes)
 

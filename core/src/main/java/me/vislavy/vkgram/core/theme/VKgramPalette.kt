@@ -29,7 +29,7 @@ data class VKgramPalette(
             onSecondary = VKgramColor.White,
             surface = VKgramColor.White,
             onSurface = VKgramColor.BlueGrey500,
-            primaryText = VKgramColor.BlueGrey900,
+            primaryText = VKgramColor.Black,
             secondaryText = VKgramColor.BlueGrey500,
             hintText = VKgramColor.BlueGrey300,
             defaultMessage = VKgramColor.BlueGrey50,
@@ -38,7 +38,7 @@ data class VKgramPalette(
             friendCard = VKgramColor.Green500,
             commonFriendCard = VKgramColor.Orange500,
             subscribesCard = VKgramColor.Red500,
-            primaryIndicator = VKgramColor.LightGreen500,
+            primaryIndicator = VKgramColor.Black.copy(0.85F),
             secondaryIndicator = VKgramColor.BlueGrey300
         )
 

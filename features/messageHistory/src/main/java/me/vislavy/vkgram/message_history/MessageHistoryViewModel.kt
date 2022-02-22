@@ -16,6 +16,11 @@ import me.vislavy.vkgram.message_history.models.MessageHistoryIntent
 import me.vislavy.vkgram.message_history.repositories.MessageRepository
 import me.vislavy.vkgram.api.data.ConversationType
 import me.vislavy.vkgram.core.repositories.ConversationRepository
+import me.vislavy.vkgram.message_history.repositories.PhotoRepository
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -24,6 +29,7 @@ import javax.inject.Inject
 class MessageHistoryViewModel @Inject constructor(
     private val conversationRepository: ConversationRepository,
     private val messageRepository: MessageRepository,
+    private val photoRepository: PhotoRepository,
     private val longPollServerManager: LongPollServerManager
 ) : ViewModel(), IntentHandler<MessageHistoryIntent> {
 
@@ -75,11 +81,14 @@ class MessageHistoryViewModel @Inject constructor(
         when (intent) {
             is MessageHistoryIntent.EnterScreen -> enterScreen(intent.conversationId)
             is MessageHistoryIntent.UpdateYourMessageText -> updateYourMessageText(
-                intent.messageText,
+                intent.value,
                 currentState
             )
             is MessageHistoryIntent.IncreaseMessageList -> increaseMessageList(intent.currentListSize, currentState)
             is MessageHistoryIntent.SendMessage -> sendMessage(currentState)
+            is MessageHistoryIntent.UpdateSelectedAttachmentList -> updateAttachmentList(intent.value, currentState)
+            is MessageHistoryIntent.ClearSelectedAttachmentList -> clearAttachmentList(currentState)
+            is MessageHistoryIntent.UploadAttachment -> uploadPhoto(intent.value)
             else -> throw NotImplementedError("Invalid $intent for state $currentState")
         }
     }
@@ -194,6 +203,48 @@ class MessageHistoryViewModel @Inject constructor(
         } catch (e: java.lang.Exception) {
             Log.e(Tag, e.toString())
             _viewState.value = MessageHistoryViewState.Error
+        }
+    }
+
+    private fun updateAttachmentList(value: File, currentState: MessageHistoryViewState.Display) {
+        val attachments = currentState.selectedAttachments.toMutableList()
+        if (attachments.contains(value)) {
+            attachments.remove(value)
+        } else {
+            attachments.add(value)
+        }
+        _viewState.value = currentState.copy(selectedAttachments = attachments)
+    }
+
+    private fun clearAttachmentList(currentState: MessageHistoryViewState.Display) {
+        _viewState.value = currentState.copy(selectedAttachments = emptyList())
+    }
+
+    private fun uploadPhoto(file: File) {
+        viewModelScope.launch {
+            try {
+                val uploadServer = photoRepository.getMessagesUploadServer()
+                val mediaType = "multipart/form-data".toMediaType()
+                val requestBody = file.asRequestBody(mediaType)
+                val multipartBody = MultipartBody.Part.createFormData(
+                    name = "file",
+                    filename = file.name,
+                    body = requestBody
+                )
+                val uploadPhotoResult = photoRepository.uploadFile(
+                    uploadServerUrl = uploadServer.uploadUrl,
+                    file = multipartBody
+                )
+                val photo = photoRepository.saveMessagePhoto(
+                    photo = uploadPhotoResult.photo,
+                    server = uploadPhotoResult.server,
+                    hash = uploadPhotoResult.hash
+                )
+
+            } catch (e: Exception) {
+                Log.e(Tag, e.toString())
+                _viewState.value = MessageHistoryViewState.Error
+            }
         }
     }
 

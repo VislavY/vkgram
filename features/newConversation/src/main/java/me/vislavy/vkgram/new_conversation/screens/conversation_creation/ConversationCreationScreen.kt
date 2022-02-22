@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import com.google.accompanist.insets.navigationBarsWithImePadding
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.core.views.ErrorContent
 import me.vislavy.vkgram.core.views.LoadingContent
@@ -23,9 +22,7 @@ import me.vislavy.vkgram.new_conversation.screens.conversation_creation.models.C
 import me.vislavy.vkgram.new_conversation.screens.conversation_creation.models.ConversationCreationViewState
 import me.vislavy.vkgram.new_conversation.screens.conversation_creation.views.ConversationCreationContent
 import me.vislavy.vkgram.new_conversation.screens.conversation_creation.views.ConversationCreationTopBar
-import me.vislavy.vkgram.new_conversation.screens.conversation_creation.views.gallery.GallerySheetContent
 
-@ExperimentalPermissionsApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalCoilApi
@@ -40,12 +37,6 @@ fun ConversationCreationScreen(
     )
     ModalBottomSheetLayout(
         sheetContent = {
-            GallerySheetContent(
-                state = gallerySheetState,
-                onMediaFileSelect = { mediaFile ->
-                    viewModel.onIntent(ConversationCreationEvent.ConversationPhotoSelected(mediaFile))
-                }
-            )
         },
         sheetState = gallerySheetState,
         sheetBackgroundColor = Color.Transparent

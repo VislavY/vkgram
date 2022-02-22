@@ -23,4 +23,4 @@ fun VKgramDivider(
     )
 }
 
-private const val DividerAlpha = 0.12F
+private const val DividerAlpha = 0.24F

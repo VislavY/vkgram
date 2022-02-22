@@ -63,7 +63,6 @@ dependencies {
     api(Libs.AndroidX.Compose.Animation)
     api(Libs.AndroidX.Compose.UiTooling)
     api(Libs.Google.Accompanist.AccompanistNavigationAnimation)
-    api(Libs.Google.Accompanist.AccompanistPermissions)
     api(Libs.Google.Accompanist.AccompanistInsetsUi)
     api(Libs.Google.Accompanist.AccompanistInsets)
     api(Libs.Coil.CoilCompose)

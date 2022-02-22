@@ -4,10 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import me.vislavy.vkgram.message_history.repositories.GroupRepo
-import me.vislavy.vkgram.message_history.repositories.GroupRepoImpl
-import me.vislavy.vkgram.message_history.repositories.MessageRepository
-import me.vislavy.vkgram.message_history.repositories.MessageRepositoryImpl
+import me.vislavy.vkgram.message_history.repositories.*
 
 @Suppress("UNUSED")
 @Module
@@ -19,4 +16,7 @@ interface MessageHistoryBindModule {
 
     @Binds
     fun bindMessageRepo(impl: MessageRepositoryImpl): MessageRepository
+
+    @Binds
+    fun bindPhotoRepository(impl: PhotoRepositoryImpl): PhotoRepository
 }

@@ -10,7 +10,6 @@ import androidx.navigation.NavGraphBuilder
 import coil.annotation.ExperimentalCoilApi
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -23,7 +22,6 @@ import me.vislavy.vkgram.new_conversation.screens.members_choice.MembersChoiceVi
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
-@ExperimentalPermissionsApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalSerializationApi

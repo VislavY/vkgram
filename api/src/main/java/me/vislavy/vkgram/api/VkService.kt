@@ -6,9 +6,9 @@ import kotlinx.serialization.json.Json
 import me.vislavy.vkgram.api.data.*
 import me.vislavy.vkgram.api.data.ConversationResponse
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
 import retrofit2.Retrofit
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface VkService {
 
@@ -142,6 +142,24 @@ interface VkService {
 
     @GET("account.getProfileInfo?v=5.131")
     suspend fun getProfileInfo(@Query("access_token") accessToken: String): ProfileInfoResponse
+
+    @GET("photos.getMessagesUploadServer?v=5.131")
+    suspend fun getMessagesUploadServer(@Query("access_token") accessToken: String): UploadServerResponse
+
+    @GET("photos.saveMessagesPhoto?v=5.131")
+    suspend fun saveMessagesPhoto(
+        @Query("access_token") accessToken: String,
+        @Query("photo") photo: String,
+        @Query("server") server: Int,
+        @Query("hash") hash: String
+    ): PhotoResponse
+
+    @Multipart
+    @POST
+    suspend fun uploadFile(
+        @Url uploadServerUrl: String,
+        @Part file: MultipartBody.Part
+    ): UploadFileResult
 }
 
 @ExperimentalSerializationApi
