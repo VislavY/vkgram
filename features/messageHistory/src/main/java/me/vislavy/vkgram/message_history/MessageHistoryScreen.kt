@@ -23,11 +23,13 @@ import me.vislavy.vkgram.core.views.ErrorContent
 import me.vislavy.vkgram.core.views.LoadingContent
 import me.vislavy.vkgram.message_history.models.MessageHistoryIntent
 import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
+import me.vislavy.vkgram.message_history.views.ImageContent
 import me.vislavy.vkgram.message_history.views.MessageHistoryBottomBar
 import me.vislavy.vkgram.message_history.views.MessageHistoryContent
 import me.vislavy.vkgram.message_history.views.MessageHistoryTopBar
 import me.vislavy.vkgram.message_history.views.gallery.GallerySheetBottomBar
 import me.vislavy.vkgram.message_history.views.gallery.GallerySheetContent
+import java.io.File
 
 @ExperimentalAnimationApi
 @ExperimentalPermissionsApi
@@ -45,6 +47,9 @@ fun MessageHistoryScreen(
     val gallerySheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden
     )
+
+    var image by remember { mutableStateOf<File?>(null) }
+    var imageContentVisible by remember { mutableStateOf(false) }
 
     when (val state = viewState.value) {
         is MessageHistoryViewState.Loading -> LoadingContent()
@@ -64,6 +69,10 @@ fun MessageHistoryScreen(
                                     file
                                 )
                             )
+                        },
+                        onFileClick = { file ->
+                            image = file
+                            imageContentVisible = !imageContentVisible
                         }
                     )
                 },
@@ -177,6 +186,15 @@ fun MessageHistoryScreen(
                 viewModel.onIntent(MessageHistoryIntent.ClearSelectedAttachmentList)
             }
         }
+    }
+
+    if (imageContentVisible) {
+        ImageContent(
+            image = image,
+            onDismiss = {
+                imageContentVisible = false
+            }
+        )
     }
 
     LaunchedEffect(viewState) {

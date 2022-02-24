@@ -48,7 +48,8 @@ fun GallerySheetContent(
     viewState: MessageHistoryViewState.Display,
     sheetState: ModalBottomSheetState,
     color: Color = VKgramTheme.palette.surface,
-    onSelectFileClick: (File) -> Unit
+    onSelectFileClick: (File) -> Unit,
+    onFileClick: (File) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -182,6 +183,7 @@ fun GallerySheetContent(
                             ImageItem(
                                 file = image,
                                 onSelectClick = onSelectFileClick,
+                                onClick = onFileClick,
                                 isSelected = viewState.selectedAttachments.contains(image)
                             )
                         }
@@ -235,7 +237,8 @@ fun PreviewGallerySheetContent() {
         GallerySheetContent(
             viewState = MessageHistoryViewState.Display(),
             sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden),
-            onSelectFileClick = { }
+            onSelectFileClick = { },
+            onFileClick = { }
         )
     }
 }

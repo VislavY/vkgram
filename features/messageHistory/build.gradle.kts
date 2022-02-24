@@ -65,6 +65,7 @@ dependencies {
     api(Libs.Google.Accompanist.AccompanistPermissions)
     api(Libs.Google.Accompanist.AccompanistPager)
     api(Libs.Coil.CoilCompose)
+    api("androidx.palette:palette:1.0.0")
 
     api(Libs.Google.Hilt.HiltAndroid)
     kapt(Libs.Google.Hilt.HiltCompiler)

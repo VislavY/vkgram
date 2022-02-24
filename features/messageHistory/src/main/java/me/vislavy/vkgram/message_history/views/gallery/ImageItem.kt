@@ -42,11 +42,22 @@ import java.io.File
 @Composable
 fun ImageItem(
     modifier: Modifier = Modifier,
+    onClick: (File) -> Unit,
     onSelectClick: (File) -> Unit,
     file: File? = null,
     isSelected: Boolean = false
 ) {
-    Surface(modifier.size(100.dp)) {
+    Surface(
+        modifier
+            .size(100.dp)
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = rememberRipple(),
+                onClick = {
+                    onClick(file!!)
+                }
+            )
+    ) {
         Box {
             Box(
                 modifier = Modifier
@@ -141,6 +152,9 @@ fun ImageItem(
 @Composable
 fun PreviewImageItem() {
     MainTheme {
-        ImageItem(onSelectClick = { })
+        ImageItem(
+            onSelectClick = { },
+            onClick = { }
+        )
     }
 }
