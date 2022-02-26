@@ -7,7 +7,7 @@ object Libs {
         const val CoreKtx = "androidx.core:core-ktx:1.7.0"
 
         object Compose {
-            const val Version = "1.1.0"
+            const val Version = "1.1.1"
             const val Material = "androidx.compose.material:material:$Version"
             const val MaterialIconsExtended = "androidx.compose.material:material-icons-extended:$Version"
             const val Animation = "androidx.compose.animation:animation:$Version"
