@@ -10,7 +10,7 @@ data class PhotoResponse(
 
 @Serializable
 data class Photo(
-    val id: Int,
-    @SerialName("owner_id") val ownerId: Int,
-    val sizes: List<PhotoSize>
+    val id: Int = 0,
+    @SerialName("owner_id") val ownerId: Int = 0,
+    val sizes: List<PhotoSize> = emptyList()
 )
