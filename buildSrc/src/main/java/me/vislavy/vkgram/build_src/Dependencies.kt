@@ -63,11 +63,12 @@ object Libs {
         }
 
         object Accompanist {
-            private const val Version = "0.23.0"
+            private const val Version = "0.23.1"
             const val AccompanistNavigationAnimation = "com.google.accompanist:accompanist-navigation-animation:$Version"
             const val AccompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:$Version"
             const val AccompanistPlaceholder = "com.google.accompanist:accompanist-placeholder-material:$Version"
             const val AccompanistPermissions = "com.google.accompanist:accompanist-permissions:$Version"
+            const val AccompanistFlowLayout = "com.google.accompanist:accompanist-flowlayout:$Version"
             const val AccompanistInsetsUi = "com.google.accompanist:accompanist-insets-ui:$Version"
             const val AccompanistInsets = "com.google.accompanist:accompanist-insets:$Version"
             const val AccompanistPager = "com.google.accompanist:accompanist-pager:$Version"

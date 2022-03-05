@@ -1,8 +1,11 @@
 package me.vislavy.vkgram.message_history.views
 
 import android.graphics.drawable.Drawable
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateOffsetAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -40,23 +43,26 @@ import coil.request.ImageRequest
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import me.vislavy.vkgram.api.data.Photo
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramColor
-import java.io.File
+import kotlin.math.abs
 
 @Composable
 fun ImageContent(
     modifier: Modifier = Modifier,
-    image: File? = null,
+    model: Photo,
     onDismiss: () -> Unit
 ) {
     val context = LocalContext.current
     val conf = LocalConfiguration.current
 
     var imageDrawable by remember { mutableStateOf<Drawable?>(null) }
+
     LaunchedEffect(Unit) {
+        val imageProperties = model.sizes.last()
         val imageRequest = ImageRequest.Builder(context)
-            .data(image)
+            .data(imageProperties.url)
             .allowHardware(false)
             .build()
         imageDrawable = Coil.execute(imageRequest).drawable
@@ -71,6 +77,7 @@ fun ImageContent(
         }
     }
 
+    var isUiVisible by remember { mutableStateOf(true) }
     val systemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.setSystemBarsColor(
@@ -124,6 +131,8 @@ fun ImageContent(
                     },
                     onDragEnd = {
                         if (imageScale == 1F) {
+                            if (abs(imageOffset.y) > conf.screenHeightDp / 2) onDismiss()
+
                             imageOffset = Offset.Zero
                         }
                     }
@@ -131,6 +140,9 @@ fun ImageContent(
             }
             .pointerInput(Unit) {
                 detectTapGestures(
+                    onTap = {
+                        isUiVisible = !isUiVisible
+                    },
                     onDoubleTap = { offset ->
                         val localOffset = Offset(
                             x = conf.screenWidthDp - offset.x,
@@ -151,36 +163,43 @@ fun ImageContent(
         color = surfaceColor
     ) {
         Box {
-            Box(
+            AnimatedVisibility(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .fillMaxWidth()
-                    .zIndex(1F)
-                    .background(VKgramColor.Black.copy(0.4F))
-                    .statusBarsPadding()
+                    .zIndex(1F),
+                visible = isUiVisible,
+                enter = fadeIn(),
+                exit = fadeOut()
             ) {
-                Row(
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                        .background(VKgramColor.Black.copy(0.4F))
+                        .statusBarsPadding()
                 ) {
-                    IconButton(onClick = onDismiss) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = null,
-                            tint = VKgramColor.White
-                        )
-                    }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(onClick = onDismiss) {
+                            Icon(
+                                imageVector = Icons.Rounded.ArrowBack,
+                                contentDescription = null,
+                                tint = VKgramColor.White
+                            )
+                        }
 
-                    Spacer(Modifier.weight(1F))
+                        Spacer(Modifier.weight(1F))
 
-                    IconButton(onClick = { }) {
-                        Icon(
-                            imageVector = Icons.Rounded.MoreVert,
-                            contentDescription = null,
-                            tint = VKgramColor.White
-                        )
+                        IconButton(onClick = { }) {
+                            Icon(
+                                imageVector = Icons.Rounded.MoreVert,
+                                contentDescription = null,
+                                tint = VKgramColor.White
+                            )
+                        }
                     }
                 }
             }
@@ -188,6 +207,7 @@ fun ImageContent(
             Image(
                 modifier = Modifier
                     .align(Alignment.Center)
+                    .fillMaxSize()
                     .graphicsLayer(
                         scaleX = animateImageScale,
                         scaleY = animateImageScale,
@@ -198,53 +218,60 @@ fun ImageContent(
                 contentDescription = null
             )
 
-            Box(
+            AnimatedVisibility(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
-                    .zIndex(1F)
-                    .background(VKgramColor.Black.copy(0.4F))
-                    .navigationBarsPadding()
+                    .zIndex(1F),
+                visible = isUiVisible,
+                enter = fadeIn(),
+                exit = fadeOut()
             ) {
-                Row(
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                        .background(VKgramColor.Black.copy(0.4F))
+                        .navigationBarsPadding()
                 ) {
-                    IconButton(
-                        modifier = Modifier.padding(horizontal = 24.dp),
-                        onClick = { }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Icon(
-                            imageVector = Icons.Rounded.FavoriteBorder,
-                            contentDescription = null,
-                            tint = VKgramColor.White
-                        )
-                    }
+                        IconButton(
+                            modifier = Modifier.padding(horizontal = 24.dp),
+                            onClick = { }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.FavoriteBorder,
+                                contentDescription = null,
+                                tint = VKgramColor.White
+                            )
+                        }
 
-                    IconButton(
-                        modifier = Modifier.padding(horizontal = 24.dp),
-                        onClick = { }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.ChatBubbleOutline,
-                            contentDescription = null,
-                            tint = VKgramColor.White
-                        )
-                    }
+                        IconButton(
+                            modifier = Modifier.padding(horizontal = 24.dp),
+                            onClick = { }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.ChatBubbleOutline,
+                                contentDescription = null,
+                                tint = VKgramColor.White
+                            )
+                        }
 
 
-                    IconButton(
-                        modifier = Modifier.padding(horizontal = 24.dp),
-                        onClick = { }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Share,
-                            contentDescription = null,
-                            tint = VKgramColor.White
-                        )
+                        IconButton(
+                            modifier = Modifier.padding(horizontal = 24.dp),
+                            onClick = { }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Share,
+                                contentDescription = null,
+                                tint = VKgramColor.White
+                            )
+                        }
                     }
                 }
             }
@@ -257,6 +284,7 @@ fun ImageContent(
 fun PreviewImageContent() {
     MainTheme {
         ImageContent(
+            model = Photo(),
             onDismiss = { }
         )
     }

@@ -14,7 +14,7 @@ import me.vislavy.vkgram.api.data.Photo
 import me.vislavy.vkgram.core.theme.MainTheme
 
 @Composable
-fun PhotoItem(
+fun ImageItem(
     modifier: Modifier = Modifier,
     model: Photo,
     shape: Shape = RectangleShape
@@ -37,8 +37,8 @@ fun PhotoItem(
 
 @Preview
 @Composable
-fun PreviewPhotoItem() {
+fun PreviewItemItem() {
     MainTheme {
-        PhotoItem(model = Photo())
+        ImageItem(model = Photo())
     }
 }

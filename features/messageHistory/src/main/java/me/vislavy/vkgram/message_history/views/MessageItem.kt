@@ -24,7 +24,8 @@ fun MessageItem(
     model: Message,
     isLastBefore: Boolean = false,
     isLastAfter: Boolean = true,
-    offsetInList: Int = 0
+    offsetInList: Int = 0,
+    onMediaClick: (Attachment) -> Unit
 ) {
     val photos = mutableListOf<Photo>()
     val videos = mutableListOf<Video>()
@@ -98,7 +99,12 @@ fun MessageItem(
                         it.type == AttachmentType.Photo  || it.type == AttachmentType.Video
                     }
                     if (photoAndVideoAttachments.isNotEmpty()) {
-                        MediaMessageContent(models = photoAndVideoAttachments)
+                        MediaMessageContent(
+                            models = photoAndVideoAttachments,
+                            onMediaClick = { index, models ->
+                                onMediaClick(models[index])
+                            }
+                        )
                     }
 
                     if (model.text.isNotBlank()) {
@@ -131,7 +137,8 @@ fun MessageItem_Preview() {
                 attachments = emptyList(),
                 date = Date(),
                 out = false
-            )
+            ),
+            onMediaClick = { }
         )
     }
 }

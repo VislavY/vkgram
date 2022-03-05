@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import me.vislavy.vkgram.api.data.Attachment
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
@@ -19,7 +20,8 @@ import java.util.*
 fun MessageHistoryContent(
     onMessageListEnd: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    viewState: MessageHistoryViewState.Display
+    viewState: MessageHistoryViewState.Display,
+    onMessageMediaClick: (Attachment) -> Unit
 ) {
     val listState = rememberLazyListState()
 
@@ -55,7 +57,8 @@ fun MessageHistoryContent(
                     model = model,
                     isLastBefore = isLastBefore,
                     isLastAfter = isLastAfter,
-                    offsetInList = visibleItem?.offset ?: 0
+                    offsetInList = visibleItem?.offset ?: 0,
+                    onMediaClick = onMessageMediaClick
                 )
 
                 if (index == (viewState.messages.size - 1)) {
@@ -93,7 +96,8 @@ fun MessageHistoryContent_Preview() {
                     )
                 )
             ),
-            onMessageListEnd = { }
+            onMessageListEnd = { },
+            onMessageMediaClick = { }
         )
     }
 }

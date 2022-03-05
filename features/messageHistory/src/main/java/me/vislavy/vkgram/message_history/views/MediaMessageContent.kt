@@ -13,7 +13,8 @@ import me.vislavy.vkgram.api.data.PhotoSize
 @Composable
 fun MediaMessageContent(
     modifier: Modifier = Modifier,
-    models: List<Attachment>
+    models: List<Attachment>,
+    onMediaClick: (Int, List<Attachment>) -> Unit
 ) {
     Box(modifier = modifier.padding(4.dp)) {
         when (models.size) {
@@ -24,7 +25,10 @@ fun MediaMessageContent(
                         .width(mediaSize.width.dp)
                         .height(mediaSize.height.dp),
                     model = models[0],
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(12.dp),
+                    onClick = {
+                        onMediaClick(0, models)
+                    }
                 )
             }
             2 -> {
@@ -46,7 +50,10 @@ fun MediaMessageContent(
                             topEnd = 6.dp,
                             bottomStart = 12.dp,
                             bottomEnd = 6.dp
-                        )
+                        ),
+                        onClick = {
+                            onMediaClick(0, models)
+                        }
                     )
 
                     Spacer(Modifier.width(MediaSpacerValue.dp))
@@ -61,7 +68,10 @@ fun MediaMessageContent(
                             topEnd = 12.dp,
                             bottomStart = 6.dp,
                             bottomEnd = 12.dp
-                        )
+                        ),
+                        onClick = {
+                            onMediaClick(1, models)
+                        }
                     )
                 }
             }
@@ -74,7 +84,10 @@ fun MediaMessageContent(
                         topEnd = 6.dp,
                         bottomStart = 12.dp,
                         bottomEnd = 6.dp
-                    )
+                    ),
+                    onClick = {
+                        onMediaClick(0, models)
+                    }
                 )
 
                 Spacer(Modifier.width(MediaSpacerValue.dp))
@@ -93,7 +106,10 @@ fun MediaMessageContent(
                                 topEnd = if (index == 2) 12.dp else 6.dp,
                                 bottomStart = 6.dp,
                                 bottomEnd = if (index == models.size) 12.dp else 6.dp,
-                            )
+                            ),
+                            onClick = {
+                                onMediaClick(index - 1, models)
+                            }
                         )
 
                         if (index != models.size    ) {
@@ -113,7 +129,10 @@ fun MediaMessageContent(
                                 topEnd = if (index == 1) 12.dp else 6.dp,
                                 bottomStart = 6.dp,
                                 bottomEnd = 6.dp,
-                            )
+                            ),
+                            onClick = {
+                                onMediaClick(index, models)
+                            }
                         )
 
                         if (index != 1) {
@@ -136,7 +155,10 @@ fun MediaMessageContent(
                                 topEnd = 6.dp,
                                 bottomStart = if (index == 2) 12.dp else 6.dp,
                                 bottomEnd = if (index == 4) 12.dp else 6.dp,
-                            )
+                            ),
+                            onClick = {
+                                onMediaClick(index, models)
+                            }
                         )
 
                         if (index != 4) {
@@ -164,7 +186,10 @@ fun MediaMessageContent(
                                     topEnd = if (row == 0 && column == 1) 12.dp else 6.dp,
                                     bottomStart = if (row == 2 && column == 0) 12.dp else 6.dp,
                                     bottomEnd = if (row == 2 && column == 1) 12.dp else 6.dp
-                                )
+                                ),
+                                onClick = {
+                                    onMediaClick(index, models)
+                                }
                             )
 
                             if (column != 1) {
@@ -209,7 +234,10 @@ fun MediaMessageContent(
                                     topEnd = if (row == 0 && column == columnCount) 12.dp else 6.dp,
                                     bottomStart = if (row == 2 && column == 0) 12.dp else 6.dp,
                                     bottomEnd = if (row == 2 && column == columnCount) 12.dp else 6.dp,
-                                )
+                                ),
+                                onClick = {
+                                    onMediaClick(index, models)
+                                }
                             )
 
                             if (column != columnCount) {
