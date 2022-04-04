@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import me.vislavy.vkgram.api.EventFlag
 import me.vislavy.vkgram.api.LongPollServerManager
-import me.vislavy.vkgram.core.IntentHandler
+import me.vislavy.vkgram.core.base.MviViewModel
 import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
 import me.vislavy.vkgram.message_history.models.MessageHistoryIntent
 import me.vislavy.vkgram.message_history.repositories.MessageRepository
@@ -31,7 +31,7 @@ class MessageHistoryViewModel @Inject constructor(
     private val messageRepository: MessageRepository,
     private val photoRepository: PhotoRepository,
     private val longPollServerManager: LongPollServerManager
-) : ViewModel(), IntentHandler<MessageHistoryIntent> {
+) : ViewModel(), MviViewModel<MessageHistoryIntent> {
 
     private val _viewState =
         MutableStateFlow<MessageHistoryViewState>(MessageHistoryViewState.Loading)
@@ -49,11 +49,11 @@ class MessageHistoryViewModel @Inject constructor(
         }
     }
 
-    override fun onIntent(intent: MessageHistoryIntent) {
+    override fun onEvent(event: MessageHistoryIntent) {
         when (val currentContentState = _viewState.value) {
-            is MessageHistoryViewState.Loading -> reduce(intent, currentContentState)
-            is MessageHistoryViewState.Error -> reduce(intent, currentContentState)
-            is MessageHistoryViewState.Display -> reduce(intent, currentContentState)
+            is MessageHistoryViewState.Loading -> reduce(event, currentContentState)
+            is MessageHistoryViewState.Error -> reduce(event, currentContentState)
+            is MessageHistoryViewState.Display -> reduce(event, currentContentState)
         }
     }
 

@@ -5,13 +5,13 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import me.vislavy.vkgram.profile.repositories.AccountRepository
-import me.vislavy.vkgram.profile.repositories.AccountRepositoryImpl
+import me.vislavy.vkgram.profile.repositories.AccountRepositoryIml
 
-@Suppress("Unused")
+@Suppress("UNUSED")
 @Module
 @InstallIn(SingletonComponent::class)
 interface ProfileBindModule {
 
     @Binds
-    fun bindAccountRepository(impl: AccountRepositoryImpl): AccountRepository
+    fun bindAccountRepository(impl: AccountRepositoryIml): AccountRepository
 }

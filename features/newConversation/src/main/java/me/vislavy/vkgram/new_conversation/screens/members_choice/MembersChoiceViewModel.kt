@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import me.vislavy.vkgram.core.repositories.FriendRepository
-import me.vislavy.vkgram.core.IntentHandler
+import me.vislavy.vkgram.core.base.MviViewModel
 import me.vislavy.vkgram.new_conversation.UserModel
 import me.vislavy.vkgram.new_conversation.screens.members_choice.models.MembersChoiceEvent
 import me.vislavy.vkgram.new_conversation.screens.members_choice.models.MembersChoiceViewState
@@ -18,16 +18,16 @@ import javax.inject.Inject
 @HiltViewModel
 class MembersChoiceViewModel @Inject constructor(
     private val friendRepository: FriendRepository
-) : ViewModel(), IntentHandler<MembersChoiceEvent> {
+) : ViewModel(), MviViewModel<MembersChoiceEvent> {
 
     private val _viewState = MutableStateFlow<MembersChoiceViewState>(MembersChoiceViewState.Loading)
     val viewState = _viewState.asStateFlow()
 
-    override fun onIntent(intent: MembersChoiceEvent) {
+    override fun onEvent(event: MembersChoiceEvent) {
         when (val currentState = _viewState.value) {
-            is MembersChoiceViewState.Loading -> reduce(intent, currentState)
-            is MembersChoiceViewState.Error -> reduce(intent, currentState)
-            is MembersChoiceViewState.Display -> reduce(intent, currentState)
+            is MembersChoiceViewState.Loading -> reduce(event, currentState)
+            is MembersChoiceViewState.Error -> reduce(event, currentState)
+            is MembersChoiceViewState.Display -> reduce(event, currentState)
         }
     }
 

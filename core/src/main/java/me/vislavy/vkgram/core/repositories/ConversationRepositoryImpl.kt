@@ -59,4 +59,15 @@ class ConversationRepositoryImpl @Inject constructor(
     override suspend fun deleteConversation(id: Int) {
         vkService.deleteConversation(vkAccessToken.accessToken, id)
     }
+
+    override suspend fun getDialogAttachments(
+        id: Int,
+        count: Int,
+        offset: Int
+    ) = vkService.getDialogAttachments(
+        accessToken = vkAccessToken.accessToken,
+        dialogId = id,
+        count = count,
+        offset = offset
+    ).response.items.map { it.attachment }
 }

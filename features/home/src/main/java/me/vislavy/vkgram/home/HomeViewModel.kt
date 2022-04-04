@@ -8,7 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import me.vislavy.vkgram.core.IntentHandler
+import me.vislavy.vkgram.core.base.MviViewModel
 import me.vislavy.vkgram.core.repositories.ConversationRepository
 import me.vislavy.vkgram.core.repositories.FriendRepository
 import me.vislavy.vkgram.core.repositories.UserRepository
@@ -17,7 +17,6 @@ import me.vislavy.vkgram.home.models.HomeViewState
 import me.vislavy.vkgram.api.EventFlag
 import me.vislavy.vkgram.api.LongPollServerManager
 import me.vislavy.vkgram.core.ConversationModel
-import java.util.*
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -27,7 +26,7 @@ class HomeViewModel @Inject constructor(
     private val friendRepository: FriendRepository,
     private val longPollServerManager: LongPollServerManager,
     private val userRepository: UserRepository,
-) : ViewModel(), IntentHandler<HomeIntent> {
+) : ViewModel(), MviViewModel<HomeIntent> {
 
     private val _viewState = MutableStateFlow<HomeViewState>(HomeViewState.Loading)
     val viewState = _viewState.asStateFlow()
@@ -61,11 +60,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    override fun onIntent(intent: HomeIntent) {
+    override fun onEvent(event: HomeIntent) {
         when (val currentState = _viewState.value) {
-            is HomeViewState.Loading -> reduce(intent, currentState)
-            is HomeViewState.Error -> reduce(intent, currentState)
-            is HomeViewState.Display -> reduce(intent, currentState)
+            is HomeViewState.Loading -> reduce(event, currentState)
+            is HomeViewState.Error -> reduce(event, currentState)
+            is HomeViewState.Display -> reduce(event, currentState)
         }
     }
 

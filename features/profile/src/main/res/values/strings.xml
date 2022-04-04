@@ -1,63 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="status">Status</string>
-    <string name="relation">Relation</string>
-    <string name="not_specified">Not specified</string>
-    <string name="single">Single</string>
-    <string name="in_a_relationship">In a relationship</string>
-    <string name="engaged">Engaged</string>
-    <string name="married">Married</string>
-    <string name="its_complicated">It\'s complicated</string>
-    <string name="actively_searching">Actively searching</string>
-    <string name="in_love">In love</string>
-    <string name="in_a_civil_union">In a civil union</string>
-    <string name="birthday">Birthday</string>
-    <string name="city">City</string>
-    <string name="basic_information">Basic information</string>
-    <string name="hometown">Hometown</string>
-    <string name="languages">Languages</string>
-    <string name="grandparents">Grandparents</string>
-    <string name="parents">Parents</string>
-    <string name="siblings">Siblings</string>
-    <string name="childes">Childes</string>
-    <string name="grandchildes">Grandchildes</string>
-    <string name="life_position">Life position</string>
-    <string name="political_views">Political views</string>
-    <string name="communist">Communist</string>
-    <string name="socialist">Socialist</string>
-    <string name="moderate">Moderate</string>
-    <string name="liberal">Liberal</string>
-    <string name="conservative">Conservative</string>
-    <string name="monarchist">Monarchist</string>
-    <string name="ultraconservative">Ultraconservative</string>
-    <string name="apathetic">Apathetic</string>
-    <string name="libertarian">Libertarian</string>
-    <string name="world_view">World view</string>
-    <string name="main_in_life">Main in life</string>
-    <string name="family_and_children">Family and children</string>
-    <string name="career_and_money">Career and money</string>
-    <string name="entertainment_and_leisure">Entertainment and leisure</string>
-    <string name="science_and_research">Science and research</string>
-    <string name="improving_the_world">Improving the world</string>
-    <string name="personal_development">Personal development</string>
-    <string name="beauty_and_art">Beauty and art</string>
-    <string name="fame_and_influence">Fame and influence</string>
-    <string name="main_in_peoples">Main in people</string>
-    <string name="intellect_and_creativity">Intellect and creativity</string>
-    <string name="kindness_and_honesty">Kindness and honesty</string>
-    <string name="health_and_beauty">Health and beauty</string>
-    <string name="wealth_and_power">Wealth and power</string>
-    <string name="courage_and_persistence">Courage and persistence</string>
-    <string name="humor_and_love_for_life">Humor and love for life</string>
-    <string name="views_on_smoking">Views on smoking</string>
-    <string name="views_on_alcohol">Views on alcohol</string>
-    <string name="very_negative">Very negative</string>
-    <string name="negative">Negative</string>
-    <string name="neutral">Neutral</string>
-    <string name="compromise">Compromise</string>
-    <string name="positive">Positive</string>
-    <string name="inspired_by">Inspired by</string>
-    <string name="friends">Friends</string>
-    <string name="common_friends">Common</string>
-    <string name="subscribes">Subscribes</string>
+    <!-- Profile top app bar  -->
+    <string name="profile_back_arrow_icon">Back arrow icon</string>
+    <string name="profile_attachments_icon">Attachments icon</string>
+    <string name="profile_more_icon">More icon</string>
+
+    <!-- Profile content -->
+    <string name="profile_photo">Profile photo</string>
+    <string name="profile_dialog">Dialog</string>
+    <string name="profile_subscribe">Subscribe</string>
+    <string name="profile_unsubscribe">Unsubscribe</string>
+    <string name="profile_reply_to_subscription">Reply to subscription</string>
+    <string name="profile_delete_friend">Delete friend</string>
+    <string name="profile_not_specified">Not specified</string>
+    <string name="profile_location_icon">Location icon</string>
+    <string name="profile_location">Location: %1$s</string>
+    <string name="profile_birthday_icon">Birthday icon</string>
+    <string name="profile_birthday">Birthday: %1$s</string>
+    <string name="profile_friends">Friends</string>
+    <string name="profile_common_friends">Common</string>
+    <string name="profile_subscribes">Subscribes</string>
+    <string name="profile_general">General</string>
+    <string name="profile_notifications_icon">Notifications icon</string>
+    <string name="profile_notifications">Notifications</string>
+    <string name="profile_arrow_right_icon">Arrow right icon</string>
+    <string name="profile_settings">Settings</string>
+    <string name="profile_account_settings_icon">Account settings icon</string>
+    <string name="profile_account">Account</string>
+    <string name="profile_application_settings_icon">Application settings icon</string>
+    <string name="profile_application">Application</string>
+    <string name="profile_blacklist_icon">Blacklist icon</string>
+    <string name="profile_blacklist">Blacklist</string>
+    <string name="profile_logout">Logout</string>
+
+    <!-- Profile unsubscribe dialog -->
+    <string name="profile_unsubscribe_dialog_title">Unsubscribe</string>
+    <string name="profile_unsubscribe_dialog_body">Do you really want to unsubscribe %1$s?</string>
+    <string name="profile_unsubscribe_dialog_confirm">Yes</string>
+    <string name="profile_unsubscribe_dialog_dismiss">Not</string>
+    
+    <!-- Profile reply to subscription menu -->
+    <string name="profile_reply_to_subscription_menu_accept">Accept</string>
+    <string name="profile_reply_to_subscription_menu_reject">Reject</string>
+
+    <!-- Profile delete friend dialog -->
+    <string name="profile_unfriend_dialog_title">Unfriend</string>
+    <string name="profile_unfriend_dialog_body">Do you really want to unfriend %1$s?</string>
+    <string name="profile_unfriend_dialog_confirm">Yes</string>
+    <string name="profile_unfriend_dialog_dismiss">Not</string>
+
+    <!-- Last seen -->
+    <string name="last_seen_online">Online</string>
+    <string name="last_seen_recently">Was recently</string>
+
+    <plurals name="last_seen_minute_plurals">
+        <item quantity="one">Was a minute ago</item>
+        <item quantity="other">Was %1$s minutes ago</item>
+    </plurals>
+
+    <plurals name="last_seen_hour_plurals">
+        <item quantity="one">Was a hour ago</item>
+        <item quantity="other">Was %1$s hours ago</item>
+    </plurals>
+    
+    <string name="last_seen_today">Was today at %1$s</string>
+    <string name="last_seen_yesterday">Was yesterday at %1$s</string>
+    <string name="last_seen_week">Was on %1$s. at %2$s</string>
+    <string name="last_seen_month">Was %1$s. %2$s at %3$s</string>
+    <string name="last_seen_year">Was %1$s. %2$s, %3$s at %4$s</string>
 </resources>

@@ -43,7 +43,7 @@ fun ErrorContent(
                     text = "Произошла ошибка при загрузке данных",
                     color = VKgramTheme.palette.primaryText,
                     textAlign = TextAlign.Center,
-                    style = VKgramTheme.typography.title
+                    style = VKgramTheme.typography.h6
                 )
 
                 Spacer(Modifier.height(32.dp))

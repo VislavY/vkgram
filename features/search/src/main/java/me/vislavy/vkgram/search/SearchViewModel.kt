@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import me.vislavy.vkgram.api.local.entities.LastConversation
-import me.vislavy.vkgram.core.IntentHandler
+import me.vislavy.vkgram.core.base.MviViewModel
 import me.vislavy.vkgram.core.repositories.ConversationRepository
 import me.vislavy.vkgram.search.repositories.SearchHistoryRepository
 import me.vislavy.vkgram.search.models.SearchIntent
@@ -21,17 +21,17 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val searchHistoryRepository: SearchHistoryRepository,
     private val conversationRepository: ConversationRepository
-) : ViewModel(), IntentHandler<SearchIntent> {
+) : ViewModel(), MviViewModel<SearchIntent> {
 
     private val _viewState = MutableStateFlow<SearchViewState>(SearchViewState.Display())
     val viewState = _viewState.asStateFlow()
 
     private var lastChangeSearchTextDate = GregorianCalendar()
 
-    override fun onIntent(intent: SearchIntent) {
+    override fun onEvent(event: SearchIntent) {
         when (val currentState = _viewState.value) {
-            is SearchViewState.Error -> reduce(intent, currentState)
-            is SearchViewState.Display -> reduce(intent, currentState)
+            is SearchViewState.Error -> reduce(event, currentState)
+            is SearchViewState.Display -> reduce(event, currentState)
         }
     }
 

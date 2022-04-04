@@ -38,7 +38,7 @@ fun HomeScreen(
         is HomeViewState.Loading -> LoadingContent()
         is HomeViewState.Error -> ErrorContent(
             onReloadClick = {
-                viewModel.onIntent(HomeIntent.ReloadScreen)
+                viewModel.onEvent(HomeIntent.ReloadScreen)
             }
         )
         is HomeViewState.Display -> Scaffold(
@@ -47,8 +47,8 @@ fun HomeScreen(
                     HomeTopBar(
                         viewState = state,
                         userModel = it,
-                        onClearSelectedConvListClick = { viewModel.onIntent(HomeIntent.ClearSelectedConvList) },
-                        onDeleteConvClick = { viewModel.onIntent(HomeIntent.DeleteSelectedConvs) },
+                        onClearSelectedConvListClick = { viewModel.onEvent(HomeIntent.ClearSelectedConvList) },
+                        onDeleteConvClick = { viewModel.onEvent(HomeIntent.DeleteSelectedConvs) },
                         navController = navController
                     )
                 }
@@ -80,17 +80,17 @@ fun HomeScreen(
                             route = "${Destinations.MessageHistory}/${model.properties.id}"
                         )
                     } else {
-                        viewModel.onIntent(HomeIntent.AddToSelectedConvList(model))
+                        viewModel.onEvent(HomeIntent.AddToSelectedConvList(model))
                     }
                 },
                 onConversationLongClick = { model ->
-                    viewModel.onIntent(HomeIntent.AddToSelectedConvList(model))
+                    viewModel.onEvent(HomeIntent.AddToSelectedConvList(model))
                 },
                 onConversationListEnd = { conversationCount ->
-                    viewModel.onIntent(HomeIntent.IncreaseConvList(conversationCount))
+                    viewModel.onEvent(HomeIntent.IncreaseConvList(conversationCount))
                 },
                 onFriendListEnd = { friendCount ->
-                    viewModel.onIntent(HomeIntent.IncreaseFriendList(friendCount))
+                    viewModel.onEvent(HomeIntent.IncreaseFriendList(friendCount))
                 }
             )
         }
@@ -98,9 +98,9 @@ fun HomeScreen(
 
     LaunchedEffect(viewState) {
         if (viewState.value !is HomeViewState.Display) {
-            viewModel.onIntent(HomeIntent.EnterScreen)
+            viewModel.onEvent(HomeIntent.EnterScreen)
         } else {
-            viewModel.onIntent(HomeIntent.UpdateProfile)
+            viewModel.onEvent(HomeIntent.UpdateProfile)
         }
     }
 }

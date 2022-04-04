@@ -5,6 +5,7 @@ object Libs {
     object AndroidX {
         const val Appcompat = "androidx.appcompat:appcompat:1.4.0"
         const val CoreKtx = "androidx.core:core-ktx:1.7.0"
+        const val Palette = "androidx.palette:palette:1.0.0"
 
         object Compose {
             const val Version = "1.1.1"
@@ -67,6 +68,7 @@ object Libs {
             const val AccompanistNavigationAnimation = "com.google.accompanist:accompanist-navigation-animation:$Version"
             const val AccompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:$Version"
             const val AccompanistPlaceholder = "com.google.accompanist:accompanist-placeholder-material:$Version"
+            const val AccompanistSwipeRefresh = "com.google.accompanist:accompanist-swiperefresh:$Version"
             const val AccompanistPermissions = "com.google.accompanist:accompanist-permissions:$Version"
             const val AccompanistFlowLayout = "com.google.accompanist:accompanist-flowlayout:$Version"
             const val AccompanistInsetsUi = "com.google.accompanist:accompanist-insets-ui:$Version"

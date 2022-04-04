@@ -56,8 +56,13 @@ dependencies {
     api(Libs.AndroidX.Lifecycle.LifecycleViewModelCompose)
     api(Libs.AndroidX.Navigation.NavigationCompose)
 
+    api(Libs.AndroidX.Palette)
     api(Libs.AndroidX.Compose.Material)
-    api(Libs.Google.Accompanist.AccompanistSystemUiController)
+    api(Libs.AndroidX.Compose.MaterialIconsExtended)
+    api("androidx.compose.material3:material3:1.0.0-alpha07")
+    api(Libs.Google.Accompanist.AccompanistSwipeRefresh)
+    api(Libs.Google.Accompanist.AccompanistPlaceholder)
+    api(Libs.Google.Accompanist.AccompanistInsets)
     api(Libs.Google.Accompanist.AccompanistPager)
     api(Libs.Coil.CoilCompose)
 

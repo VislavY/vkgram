@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import me.vislavy.vkgram.core.Destinations
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.home.models.HomeViewState
@@ -35,7 +36,7 @@ fun FriendListContent(
                 itemsIndexed(viewState.friends) { i, friend ->
                     FriendItem(
                         model = friend,
-                        onClick = { }
+                        onClick = { navController.navigate("${Destinations.Profile}/${friend.id}") }
                     )
 
                     if (i == (viewState.friends.size - 1)) {

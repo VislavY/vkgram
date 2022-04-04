@@ -2,7 +2,7 @@ package me.vislavy.vkgram.core.repositories
 
 import me.vislavy.vkgram.api.VkAccessToken
 import me.vislavy.vkgram.api.VkService
-import me.vislavy.vkgram.api.data.User
+import me.vislavy.vkgram.api.data.FriendStatus
 import javax.inject.Inject
 
 class FriendRepositoryImpl @Inject constructor(
@@ -19,17 +19,20 @@ class FriendRepositoryImpl @Inject constructor(
         offset = offset
     ).response.friends
 
-    override suspend fun findFriendsByName(name: String, count: Int) = vkService.findFriendsByName(
+    override suspend fun findFriends(name: String, count: Int) = vkService.findFriendsByName(
         accessToken = vkAccessToken.accessToken,
         name = name,
         count = count
     ).response.friends
 
-    override suspend fun acceptFriendById(id: Int) {
-        vkService.acceptFriend(vkAccessToken.accessToken, id)
+    override suspend fun addFriend(uid: Int) {
+        vkService.acceptFriend(vkAccessToken.accessToken, uid)
     }
 
-    override suspend fun deleteFriendById(id: Int) {
-        vkService.deleteFriend(vkAccessToken.accessToken, id)
+    override suspend fun deleteFriend(uid: Int) {
+        vkService.deleteFriend(vkAccessToken.accessToken, uid)
     }
+
+    override suspend fun getFriendsStatus(uids: List<Int>) =
+        vkService.areFriends(vkAccessToken.accessToken, uids).response
 }

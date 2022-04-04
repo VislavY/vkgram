@@ -1,8 +1,5 @@
 package me.vislavy.vkgram.profile.repositories
 
-import me.vislavy.vkgram.api.data.ProfileInfo
-
 interface AccountRepository {
-
-    suspend fun getProfileInfo(): ProfileInfo
+    suspend fun setSilenceMode(dialogId: Int, sound: Byte, time: Int = -1): Byte
 }

@@ -6,20 +6,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import me.vislavy.vkgram.app_settings.models.AppSettingsIntent
 import me.vislavy.vkgram.app_settings.models.AppSettingsViewState
-import me.vislavy.vkgram.core.IntentHandler
+import me.vislavy.vkgram.core.base.MviViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class AppSettingsViewModel @Inject constructor() : ViewModel(), IntentHandler<AppSettingsIntent> {
+class AppSettingsViewModel @Inject constructor() : ViewModel(), MviViewModel<AppSettingsIntent> {
 
     private val _viewState = MutableStateFlow<AppSettingsViewState>(AppSettingsViewState.Loading)
     val viewState = _viewState.asStateFlow()
 
-    override fun onIntent(intent: AppSettingsIntent) {
+    override fun onEvent(event: AppSettingsIntent) {
         when (val currentState = _viewState.value) {
-            is AppSettingsViewState.Loading -> reduce(intent, currentState)
-            is AppSettingsViewState.Error -> reduce(intent, currentState)
-            is AppSettingsViewState.Display -> reduce(intent, currentState)
+            is AppSettingsViewState.Loading -> reduce(event, currentState)
+            is AppSettingsViewState.Error -> reduce(event, currentState)
+            is AppSettingsViewState.Display -> reduce(event, currentState)
         }
     }
 

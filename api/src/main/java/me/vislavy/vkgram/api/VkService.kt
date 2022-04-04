@@ -37,6 +37,9 @@ interface VkService {
             + ",home_town"
             + ",relation"
             + ",counters"
+            + ",is_friend"
+            + ",country"
+            + ",friend_status"
     )
     suspend fun getUserListByIds(
         @Query("access_token") accessToken: String,
@@ -108,6 +111,14 @@ interface VkService {
         @Query("peer_id") id: Int
     )
 
+    @GET("messages.getHistoryAttachments?media_type=photo&v=5.131")
+    suspend fun getDialogAttachments(
+        @Query("access_token") accessToken: String,
+        @Query("peer_id") dialogId: Int,
+        @Query("count") count: Int,
+        @Query("start_from") offset: Int
+    ): AttachmentResponse
+
     @GET("friends.get?fields=domain,photo_50,photo_100,photo_200,photo_400_orig&order=hints&v=5.131")
     suspend fun getFriendList(
         @Query("access_token") accessToken: String,
@@ -160,6 +171,20 @@ interface VkService {
         @Url uploadServerUrl: String,
         @Part file: MultipartBody.Part
     ): UploadFileResult
+
+    @GET("account.setSilenceMode?v=5.131")
+    suspend fun setSilenceMode(
+        @Query("access_token") accessToken: String,
+        @Query("peer_id") dialogId: Int,
+        @Query("sound") sound: Byte,
+        @Query("time") time: Int
+    ): Byte
+
+    @GET("friends.areFriends?v=5.131")
+    suspend fun areFriends(
+        @Query("access_token") accessToken: String,
+        @Query("user_ids") userIds: List<Int>,
+    ): FriendStatusResponse
 }
 
 @ExperimentalSerializationApi

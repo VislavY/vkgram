@@ -48,7 +48,7 @@ fun ConversationCreationScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        viewModel.onIntent(ConversationCreationEvent.CreateConversation)
+                        viewModel.onEvent(ConversationCreationEvent.CreateConversation)
                     },
                     modifier = Modifier
                         .padding(bottom = 16.dp)
@@ -76,13 +76,13 @@ fun ConversationCreationScreen(
                     viewState = state,
                     gallerySheetState = gallerySheetState,
                     onMemberRemoveClick = {
-                        viewModel.onIntent(ConversationCreationEvent.RemoveMember(it))
+                        viewModel.onEvent(ConversationCreationEvent.RemoveMember(it))
                     }
                 )
             }
 
             LaunchedEffect(viewState) {
-                viewModel.onIntent(ConversationCreationEvent.EnterScreen(members))
+                viewModel.onEvent(ConversationCreationEvent.EnterScreen(members))
             }
         }
     }

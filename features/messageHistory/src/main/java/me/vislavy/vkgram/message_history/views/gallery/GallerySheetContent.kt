@@ -106,7 +106,7 @@ fun GallerySheetContent(
                 Text(
                     text = "Галерея",
                     color = VKgramTheme.palette.primaryText,
-                    style = VKgramTheme.typography.title
+                    style = VKgramTheme.typography.h6
                 )
             }
 

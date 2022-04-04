@@ -8,10 +8,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Sms
-import androidx.compose.material.icons.filled.TextFields
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,16 +21,11 @@ import me.vislavy.vkgram.core.datastore.LocalSettingsDataStore
 import me.vislavy.vkgram.core.datastore.LocalSettingsDataStoreProvider
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
-import me.vislavy.vkgram.core.theme.VKgramTypography
 
 @Composable
 fun AppSettingsContent(modifier: Modifier = Modifier) {
     val settingsDataStore = LocalSettingsDataStore.current
     val coroutineScope = rememberCoroutineScope()
-
-    val fontSizeState =
-        settingsDataStore.getFontSize().collectAsState(VKgramTypography.FontSize.Normal)
-    var fontSizeDialogState by remember { mutableStateOf(false) }
 
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -67,26 +62,6 @@ fun AppSettingsContent(modifier: Modifier = Modifier) {
                                 shape = CircleShape
                             )
                     )
-                }
-            )
-
-            SettingsButton(
-                onClick = {
-                    fontSizeDialogState = true
-                },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.TextFields,
-                        contentDescription = null,
-                        tint = VKgramTheme.palette.onSurface
-                    )
-                },
-                title = stringResource(R.string.app_settings_font_size),
-                subtitle = when (fontSizeState.value) {
-                    VKgramTypography.FontSize.Small -> stringResource(R.string.app_settings_small)
-                    VKgramTypography.FontSize.Normal -> stringResource(R.string.app_settings_normal)
-                    VKgramTypography.FontSize.Medium -> stringResource(R.string.app_settings_medium)
-                    VKgramTypography.FontSize.Big -> stringResource(R.string.app_settings_big)
                 }
             )
 
@@ -160,28 +135,6 @@ fun AppSettingsContent(modifier: Modifier = Modifier) {
                 }
             )
         }
-    }
-
-    if (fontSizeDialogState) {
-        AlertDialog(
-            modifier = Modifier.fillMaxWidth(),
-            onDismissRequest = {
-                fontSizeDialogState = false
-            },
-            backgroundColor = Color.Transparent,
-            buttons = {
-                FontSizeDialogContent(
-                    currentFontStyle = fontSizeState.value,
-                    onSelect = { fontSize ->
-                        coroutineScope.launch {
-                            settingsDataStore.setFontSize(fontSize)
-                        }
-
-                        fontSizeDialogState = false
-                    }
-                )
-            }
-        )
     }
 }
 

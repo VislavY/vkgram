@@ -10,10 +10,9 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import coil.annotation.ExperimentalCoilApi
@@ -31,8 +30,8 @@ import me.vislavy.vkgram.core.Destinations
 import me.vislavy.vkgram.core.datastore.LocalSettingsDataStore
 import me.vislavy.vkgram.core.datastore.LocalSettingsDataStoreProvider
 import me.vislavy.vkgram.core.theme.MainTheme
-import me.vislavy.vkgram.core.theme.VKgramTypography
 
+@ExperimentalMaterial3Api
 @ExperimentalAnimatedInsets
 @ExperimentalPermissionsApi
 @ExperimentalFoundationApi
@@ -57,11 +56,8 @@ class MainActivity : ComponentActivity() {
 
             LocalSettingsDataStoreProvider {
                 val settingsDataStore = LocalSettingsDataStore.current
-                val fontSizeState =
-                    settingsDataStore.getFontSize().collectAsState(VKgramTypography.FontSize.Normal)
                 val darkThemeEnabledState = settingsDataStore.getDarkThemeEnabled().collectAsState(false)
                 MainTheme(
-                    fontSize = fontSizeState.value,
                     darkThemeEnabled = (isSystemInDarkTheme() || darkThemeEnabledState.value)
                 ) {
                     ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {

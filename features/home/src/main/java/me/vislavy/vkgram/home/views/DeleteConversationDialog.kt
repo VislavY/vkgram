@@ -59,14 +59,14 @@ fun DeleteConversationDialog(
                         text = if (selectedConversations[0].properties.type == ConversationType.Chat)
                             "Покинуть чат" else "Удалить беседу",
                         color = VKgramTheme.palette.primaryText,
-                        style = VKgramTheme.typography.title
+                        style = VKgramTheme.typography.h6
                     )
                 }
             } else {
                 Text(
                     text = "Удалить ${selectedConversations.size} беседы",
                     color = VKgramTheme.palette.primaryText,
-                    style = VKgramTheme.typography.title
+                    style = VKgramTheme.typography.h6
                 )
             }
         },

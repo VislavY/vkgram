@@ -1,63 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="status">Статус</string>
-    <string name="relation">Семейное положение</string>
-    <string name="not_specified">Не указано</string>
-    <string name="single">Не женат/Не замужем</string>
-    <string name="in_a_relationship">Есть друг/Есть подруга</string>
-    <string name="engaged">Помолвлен/Помолвлена</string>
-    <string name="married">Женат/Замужем</string>
-    <string name="its_complicated">Всё сложно</string>
-    <string name="actively_searching">В активном поиске</string>
-    <string name="in_love">Влюблён/Влюблена</string>
-    <string name="in_a_civil_union">В гражданском браке</string>
-    <string name="birthday">День рождения</string>
-    <string name="city">Город</string>
-    <string name="basic_information">Основная информация</string>
-    <string name="hometown">Родной город</string>
-    <string name="languages">Языки</string>
-    <string name="grandparents">Бабушки и дедушки</string>
-    <string name="parents">Родители</string>
-    <string name="siblings">Братья и сёстры</string>
-    <string name="childes">Дети</string>
-    <string name="grandchildes">Внуки</string>
-    <string name="life_position">Жизненная позиция</string>
-    <string name="political_views">Политические предпочтения</string>
-    <string name="communist">Коммунистические</string>
-    <string name="socialist">Социалистические</string>
-    <string name="moderate">Умеренные</string>
-    <string name="liberal">Либеральные</string>
-    <string name="conservative">Консервативные</string>
-    <string name="monarchist">Монархические</string>
-    <string name="ultraconservative">Ультраконсервативные</string>
-    <string name="apathetic">Индифферентные</string>
-    <string name="libertarian">Либертарианские</string>
-    <string name="world_view">Мировоззрение</string>
-    <string name="main_in_life">Главное в жизни</string>
-    <string name="family_and_children">Семья и дети</string>
-    <string name="career_and_money">Карьера и деньги</string>
-    <string name="entertainment_and_leisure">Развлечения и отдых</string>
-    <string name="science_and_research">Наука и исследования</string>
-    <string name="improving_the_world">Совершенствование мира</string>
-    <string name="personal_development">Саморазвитие</string>
-    <string name="beauty_and_art">Красота и искусство</string>
-    <string name="fame_and_influence">Слава и влияние</string>
-    <string name="main_in_peoples">Главное в людях</string>
-    <string name="intellect_and_creativity">Ум и креативность</string>
-    <string name="kindness_and_honesty">Доброта и честность</string>
-    <string name="health_and_beauty">Красота и здоровье</string>
-    <string name="wealth_and_power">Власть и богатство</string>
-    <string name="courage_and_persistence">Смелость и упорство</string>
-    <string name="humor_and_love_for_life">Юмор и жизнилюбие</string>
-    <string name="views_on_smoking">Отношение к курению</string>
-    <string name="views_on_alcohol">Отношение к алкоголю</string>
-    <string name="very_negative">Крайне отрицательное</string>
-    <string name="negative">Отрицательное</string>
-    <string name="neutral">Нейтральное</string>
-    <string name="compromise">Компромиссное</string>
-    <string name="positive">Положительное</string>
-    <string name="inspired_by">Вдохновляет</string>
-    <string name="friends">Друзей</string>
-    <string name="common_friends">Общих</string>
-    <string name="subscribes">Подписчиков</string>
+    <!-- Profile top app bar  -->
+    <string name="profile_back_arrow_icon">Значок стрелки назад</string>
+    <string name="profile_attachments_icon">Значок вложений</string>
+    <string name="profile_more_icon">Значок больше</string>
+
+    <!-- Profile content -->
+    <string name="profile_photo">Фотография профиля</string>
+    <string name="profile_dialog">Диалог</string>
+    <string name="profile_subscribe">Подписаться</string>
+    <string name="profile_unsubscribe">Отписаться</string>
+    <string name="profile_reply_to_subscription">Ответить на подписку</string>
+    <string name="profile_delete_friend">Удалить из друзей</string>
+    <string name="profile_not_specified">Не указано</string>
+    <string name="profile_location_icon">Значок локации</string>
+    <string name="profile_location">Локация: %1$s</string>
+    <string name="profile_birthday_icon">Значок дня рождения</string>
+    <string name="profile_birthday">День рождения: %1$s</string>
+    <string name="profile_friends">Друзей</string>
+    <string name="profile_common_friends">Общих</string>
+    <string name="profile_subscribes">Подписчиков</string>
+    <string name="profile_general">Общее</string>
+    <string name="profile_notifications_icon">Значок уведомлений</string>
+    <string name="profile_notifications">Уведомления</string>
+    <string name="profile_arrow_right_icon">Значок стрелки вправо</string>
+    <string name="profile_settings">Настройки</string>
+    <string name="profile_account_settings_icon">Значок настроек аккаунта</string>
+    <string name="profile_account">Аккаунт</string>
+    <string name="profile_application_settings_icon">Значок настроек приложения</string>
+    <string name="profile_application">Приложение</string>
+    <string name="profile_blacklist_icon">Иконка чёрного списка</string>
+    <string name="profile_blacklist">Чёрный список</string>
+    <string name="profile_logout">Выйти</string>
+
+    <!-- Profile unsubscribe dialog -->
+    <string name="profile_unsubscribe_dialog_title">Отписывание</string>
+    <string name="profile_unsubscribe_dialog_body">Вы действительно хотите отписаться от %1$s?</string>
+    <string name="profile_unsubscribe_dialog_confirm">Да</string>
+    <string name="profile_unsubscribe_dialog_dismiss">Нет</string>
+
+    <!-- Profile reply to subscription menu -->
+    <string name="profile_reply_to_subscription_menu_accept">Принять</string>
+    <string name="profile_reply_to_subscription_menu_reject">Отклонить</string>
+
+    <!-- Profile delete friend dialog -->
+    <string name="profile_unfriend_dialog_title">Удаление из друзей</string>
+    <string name="profile_unfriend_dialog_body">Вы правда хотите удалить из друзей %1$s?</string>
+    <string name="profile_unfriend_dialog_confirm">Да</string>
+    <string name="profile_unfriend_dialog_dismiss">Нет</string>
+
+    <!-- Last seen -->
+    <string name="last_seen_online">Онлайн</string>
+    <string name="last_seen_recently">Был(а) недавно</string>
+
+    <plurals name="last_seen_minute_plurals">
+        <item quantity="one">Был(а) %1$s минуту назад</item>
+        <item quantity="few">Был(а) %1$s минуты назад</item>
+        <item quantity="many">Был(а) %1$s минут назад</item>
+    </plurals>
+
+    <plurals name="last_seen_hour_plurals">
+        <item quantity="one">Был(а) %1$s час назад</item>
+        <item quantity="few">Был(а) %1$s часа назад</item>
+        <item quantity="many">Был(а) %1$s часов назад</item>
+    </plurals>
+
+    <string name="last_seen_today">Был(а) сегодня в %1$s</string>
+    <string name="last_seen_yesterday">Был(а) вчера в %1$s</string>
+    <string name="last_seen_week">Был(а) в %1$s в %2$s</string>
+    <string name="last_seen_month">Был(а) %2$s %1$s. в %3$s</string>
+    <string name="last_seen_year">Был(а) %2$s %1$s. %3$s в %4$s</string>
 </resources>

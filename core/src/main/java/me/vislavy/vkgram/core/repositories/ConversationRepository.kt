@@ -1,5 +1,6 @@
 package me.vislavy.vkgram.core.repositories
 
+import me.vislavy.vkgram.api.data.Attachment
 import me.vislavy.vkgram.core.ConversationModel
 import me.vislavy.vkgram.api.data.Chat
 import me.vislavy.vkgram.api.data.ConversationByIdResponse
@@ -26,4 +27,10 @@ interface ConversationRepository {
     suspend fun getChatById(id: Int): Chat
 
     suspend fun deleteConversation(id: Int)
+
+    suspend fun getDialogAttachments(
+        id: Int,
+        count: Int,
+        offset: Int
+    ): List<Attachment>
 }

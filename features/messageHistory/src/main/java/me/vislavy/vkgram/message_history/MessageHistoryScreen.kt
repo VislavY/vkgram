@@ -2,33 +2,20 @@ package me.vislavy.vkgram.message_history
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Send
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import kotlinx.coroutines.launch
 import me.vislavy.vkgram.api.data.Attachment
 import me.vislavy.vkgram.api.data.AttachmentType
-import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.core.views.ErrorContent
 import me.vislavy.vkgram.core.views.LoadingContent
 import me.vislavy.vkgram.message_history.models.MessageHistoryIntent
 import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
 import me.vislavy.vkgram.message_history.views.*
-import me.vislavy.vkgram.message_history.views.gallery.GallerySheetBottomBar
-import me.vislavy.vkgram.message_history.views.gallery.GallerySheetContent
-import java.io.File
 
 @ExperimentalAnimationApi
 @ExperimentalPermissionsApi
@@ -53,7 +40,7 @@ fun MessageHistoryScreen(
     when (val state = viewState.value) {
         is MessageHistoryViewState.Loading -> LoadingContent()
         is MessageHistoryViewState.Error -> ErrorContent(onReloadClick = {
-            viewModel.onIntent(MessageHistoryIntent.ReloadScreen)
+            viewModel.onEvent(MessageHistoryIntent.ReloadScreen)
         })
         is MessageHistoryViewState.Display ->
 //            Box {
@@ -90,9 +77,9 @@ fun MessageHistoryScreen(
                         MessageHistoryBottomBar(
                             viewState = state,
                             onTextChange = { text ->
-                                viewModel.onIntent(MessageHistoryIntent.UpdateYourMessageText(text))
+                                viewModel.onEvent(MessageHistoryIntent.UpdateYourMessageText(text))
                             },
-                            onSendClick = { viewModel.onIntent(MessageHistoryIntent.SendMessage) },
+                            onSendClick = { viewModel.onEvent(MessageHistoryIntent.SendMessage) },
                             onOpenGalleryClick = {
                                 coroutineScope.launch {
                                     gallerySheetState.show()
@@ -106,7 +93,7 @@ fun MessageHistoryScreen(
                         modifier = modifier,
                         viewState = state,
                         onMessageListEnd = { currentListSize ->
-                            viewModel.onIntent(
+                            viewModel.onEvent(
                                 MessageHistoryIntent.IncreaseMessageList(
                                     currentListSize
                                 )
@@ -218,7 +205,7 @@ fun MessageHistoryScreen(
 
     LaunchedEffect(viewState) {
         if (viewState.value !is MessageHistoryViewState.Display) {
-            viewModel.onIntent(MessageHistoryIntent.EnterScreen(conversationId))
+            viewModel.onEvent(MessageHistoryIntent.EnterScreen(conversationId))
         }
     }
 }

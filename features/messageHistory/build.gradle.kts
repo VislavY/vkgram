@@ -58,6 +58,7 @@ dependencies {
 
     api(Libs.AndroidX.Compose.Material)
     api(Libs.AndroidX.Compose.MaterialIconsExtended)
+    api(Libs.AndroidX.Palette)
     api(Libs.Google.Accompanist.AccompanistSystemUiController)
     api(Libs.Google.Accompanist.AccompanistPermissions)
     api(Libs.Google.Accompanist.AccompanistFlowLayout)
@@ -65,7 +66,6 @@ dependencies {
     api(Libs.Google.Accompanist.AccompanistInsets)
     api(Libs.Google.Accompanist.AccompanistPager)
     api(Libs.Coil.CoilCompose)
-    api("androidx.palette:palette:1.0.0")
 
     api(Libs.Google.Hilt.HiltAndroid)
     kapt(Libs.Google.Hilt.HiltCompiler)
