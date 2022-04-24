@@ -46,13 +46,4 @@ android {
 
 dependencies {
     api(project(":core"))
-
-    api(Libs.AndroidX.CoreKtx)
-    api(Libs.AndroidX.Appcompat)
-
-    api(Libs.AndroidX.Lifecycle.LifecycleViewModelCompose)
-    api(Libs.AndroidX.Navigation.NavigationCompose)
-
-    api(Libs.AndroidX.Compose.Material)
-    api(Libs.Google.Accompanist.AccompanistSystemUiController)
 }

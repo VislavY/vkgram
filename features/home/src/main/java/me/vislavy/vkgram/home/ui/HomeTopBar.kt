@@ -1,4 +1,4 @@
-package me.vislavy.vkgram.home.views
+package me.vislavy.vkgram.home.ui
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.Image

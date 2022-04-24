@@ -17,10 +17,6 @@ import me.vislavy.vkgram.message_history.models.MessageHistoryIntent
 import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
 import me.vislavy.vkgram.message_history.views.*
 
-@ExperimentalAnimationApi
-@ExperimentalPermissionsApi
-@ExperimentalFoundationApi
-@ExperimentalMaterialApi
 @Composable
 fun MessageHistoryScreen(
     conversationId: Int,
@@ -29,10 +25,10 @@ fun MessageHistoryScreen(
 ) {
     val viewState = viewModel.viewState.collectAsState()
 
-    val coroutineScope = rememberCoroutineScope()
-    val gallerySheetState = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden
-    )
+//    val coroutineScope = rememberCoroutineScope()
+//    val gallerySheetState = rememberModalBottomSheetState(
+//        initialValue = ModalBottomSheetValue.Hidden
+//    )
 
     var media by remember { mutableStateOf<Attachment?>(null) }
     var mediaContentVisible by remember { mutableStateOf(false) }

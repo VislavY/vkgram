@@ -56,6 +56,8 @@ dependencies {
     api(Libs.AndroidX.Compose.Material3)
     debugImplementation(Libs.AndroidX.Compose.UiTooling)
     api(Libs.AndroidX.Compose.UiToolingPreview)
+    api(Libs.AndroidX.Navigation.NavigationCompose)
+    api(Libs.Google.Accompanist.AccompanistSystemUiController)
     api(Libs.Google.Accompanist.AccompanistPlaceholder)
 
     api(Libs.AndroidX.Lifecycle.LifecycleViewModelCompose)

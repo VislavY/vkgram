@@ -2,6 +2,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="lang">ru</string>
 
+    <!-- Login-->
+    <string name="login">Войти</string>
+    <string name="login_hello">Привет</string>
+    <string name="login_thank_you">Благодарим Вас за выбор VKgram!</string>
+
     <!-- Error -->
     <string name="error_message">
         Ошибка загрузки. Проверьте подключение к сети и перезагрузите страницу.

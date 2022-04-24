@@ -19,13 +19,9 @@ import me.vislavy.vkgram.core.views.ErrorContent
 import me.vislavy.vkgram.core.views.LoadingContent
 import me.vislavy.vkgram.home.models.HomeIntent
 import me.vislavy.vkgram.home.models.HomeViewState
-import me.vislavy.vkgram.home.views.HomeContent
-import me.vislavy.vkgram.home.views.HomeTopBar
+import me.vislavy.vkgram.home.ui.HomeContent
+import me.vislavy.vkgram.home.ui.HomeTopBar
 
-@ExperimentalFoundationApi
-@ExperimentalSerializationApi
-@ExperimentalAnimationApi
-@ExperimentalPagerApi
 @Composable
 fun HomeScreen(
     navController: NavController,

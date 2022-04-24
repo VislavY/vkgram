@@ -22,9 +22,6 @@ import me.vislavy.vkgram.new_conversation.screens.conversation_creation.models.C
 import me.vislavy.vkgram.new_conversation.screens.conversation_creation.views.ConversationCreationContent
 import me.vislavy.vkgram.new_conversation.screens.conversation_creation.views.ConversationCreationTopBar
 
-@ExperimentalFoundationApi
-@ExperimentalMaterialApi
-@ExperimentalCoilApi
 @Composable
 fun ConversationCreationScreen(
     members: List<UserModel>,

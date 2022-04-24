@@ -18,9 +18,6 @@ import me.vislavy.vkgram.new_conversation.screens.members_choice.views.MembersCh
 import me.vislavy.vkgram.new_conversation.screens.members_choice.views.MembersChoiceContent
 import me.vislavy.vkgram.new_conversation.screens.members_choice.views.MembersChoiceFab
 
-@ExperimentalSerializationApi
-@ExperimentalAnimationApi
-@ExperimentalCoilApi
 @Composable
 fun MembersChoiceScreen(
     navController: NavController = rememberNavController(),

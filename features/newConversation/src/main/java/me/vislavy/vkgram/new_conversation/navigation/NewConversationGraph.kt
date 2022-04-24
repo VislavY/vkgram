@@ -22,11 +22,7 @@ import me.vislavy.vkgram.new_conversation.screens.members_choice.MembersChoiceVi
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
-@ExperimentalFoundationApi
-@ExperimentalMaterialApi
-@ExperimentalSerializationApi
-@ExperimentalCoilApi
-@ExperimentalAnimationApi
+@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.newConversationGraph(navController: NavController) {
     navigation(NewConversationDestinations.MemberChoice, Destinations.NewConversation) {
         composable(

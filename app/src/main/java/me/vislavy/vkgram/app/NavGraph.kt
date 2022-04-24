@@ -30,14 +30,7 @@ import me.vislavy.vkgram.profile.ProfileViewModel
 import me.vislavy.vkgram.search.SearchScreen
 import me.vislavy.vkgram.search.SearchViewModel
 
-@ExperimentalMaterial3Api
-@ExperimentalPermissionsApi
-@ExperimentalFoundationApi
-@ExperimentalSerializationApi
-@ExperimentalPagerApi
-@ExperimentalMaterialApi
-@ExperimentalAnimationApi
-@ExperimentalCoilApi
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun NavGraph(startDestination: String) {
     val navController = rememberAnimatedNavController()

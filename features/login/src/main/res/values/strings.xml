@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="login_button_text">Login with VKontakte</string>
-    <string name="login_failed">Failed login</string>
-    <string name="login_hello">Hello!</string>
-    <string name="login_successful">Successful login</string>
-    <string name="login_thank_you">Thank you for installing the VKgram messenger</string>
-</resources>
