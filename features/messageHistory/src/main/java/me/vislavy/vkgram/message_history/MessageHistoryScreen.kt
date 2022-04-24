@@ -37,12 +37,12 @@ fun MessageHistoryScreen(
     var media by remember { mutableStateOf<Attachment?>(null) }
     var mediaContentVisible by remember { mutableStateOf(false) }
 
-    when (val state = viewState.value) {
-        is MessageHistoryViewState.Loading -> LoadingContent()
-        is MessageHistoryViewState.Error -> ErrorContent(onReloadClick = {
-            viewModel.onEvent(MessageHistoryIntent.ReloadScreen)
-        })
-        is MessageHistoryViewState.Display ->
+//    when (val state = viewState.value) {
+//        is MessageHistoryViewState.Loading -> LoadingContent()
+//        is MessageHistoryViewState.Error -> ErrorContent(onReloadClick = {
+//            viewModel.onEvent(MessageHistoryIntent.ReloadScreen)
+//        })
+//        is MessageHistoryViewState.Display ->
 //            Box {
 //            ModalBottomSheetLayout(
 //                modifier = Modifier.height(1000.dp),
@@ -66,46 +66,46 @@ fun MessageHistoryScreen(
 //                sheetState = gallerySheetState,
 //                sheetBackgroundColor = Color.Transparent
 //            ) {
-                Scaffold(
-                    topBar = {
-                        MessageHistoryTopBar(
-                            viewState = state,
-                            navController = navController
-                        )
-                    },
-                    bottomBar = {
-                        MessageHistoryBottomBar(
-                            viewState = state,
-                            onTextChange = { text ->
-                                viewModel.onEvent(MessageHistoryIntent.UpdateYourMessageText(text))
-                            },
-                            onSendClick = { viewModel.onEvent(MessageHistoryIntent.SendMessage) },
-                            onOpenGalleryClick = {
-                                coroutineScope.launch {
-                                    gallerySheetState.show()
-                                }
-                            }
-                        )
-                    }
-                ) { paddingValues ->
-                    val modifier = Modifier.padding(paddingValues)
-                    MessageHistoryContent(
-                        modifier = modifier,
-                        viewState = state,
-                        onMessageListEnd = { currentListSize ->
-                            viewModel.onEvent(
-                                MessageHistoryIntent.IncreaseMessageList(
-                                    currentListSize
-                                )
-                            )
-                        },
-                        onMessageMediaClick = { attachment ->
-                            media = attachment
-                            mediaContentVisible = true
-                        }
-                    )
-                }
-            }
+//                Scaffold(
+//                    topBar = {
+//                        MessageHistoryTopBar(
+//                            viewState = state,
+//                            navController = navController
+//                        )
+//                    },
+//                    bottomBar = {
+//                        MessageHistoryBottomBar(
+//                            viewState = state,
+//                            onTextChange = { text ->
+//                                viewModel.onEvent(MessageHistoryIntent.UpdateYourMessageText(text))
+//                            },
+//                            onSendClick = { viewModel.onEvent(MessageHistoryIntent.SendMessage) },
+//                            onOpenGalleryClick = {
+//                                coroutineScope.launch {
+//                                    gallerySheetState.show()
+//                                }
+//                            }
+//                        )
+//                    }
+//                ) { paddingValues ->
+//                    val modifier = Modifier.padding(paddingValues)
+//                    MessageHistoryContent(
+//                        modifier = modifier,
+//                        viewState = state,
+//                        onMessageListEnd = { currentListSize ->
+//                            viewModel.onEvent(
+//                                MessageHistoryIntent.IncreaseMessageList(
+//                                    currentListSize
+//                                )
+//                            )
+//                        },
+//                        onMessageMediaClick = { attachment ->
+//                            media = attachment
+//                            mediaContentVisible = true
+//                        }
+//                    )
+//                }
+//            }
 
 //            val galleryBottomSheetOffset = (gallerySheetState.offset.value - 800) / 2
 //            GallerySheetBottomBar(
@@ -139,12 +139,12 @@ fun MessageHistoryScreen(
 //                    FloatingActionButton(
 //                        modifier = Modifier.align(Alignment.Center),
 //                        onClick = { viewModel.onIntent(MessageHistoryIntent.UploadAttachment(state.selectedAttachments[0])) },
-//                        backgroundColor = VKgramTheme.palette.secondary
+//                        backgroundColor = VKgramTheme.palette.primary
 //                    ) {
 //                        Icon(
 //                            imageVector = Icons.Rounded.Send,
 //                            contentDescription = null,
-//                            tint = VKgramTheme.palette.onSecondary
+//                            tint = VKgramTheme.palette.onprimary
 //                        )
 //                    }
 //
@@ -153,12 +153,12 @@ fun MessageHistoryScreen(
 //                            .align(Alignment.BottomEnd)
 //                            .size(22.dp)
 //                            .background(
-//                                color = VKgramTheme.palette.secondary,
+//                                color = VKgramTheme.palette.primary,
 //                                shape = CircleShape
 //                            )
 //                            .border(
 //                                width = 2.dp,
-//                                color = VKgramTheme.palette.onSecondary,
+//                                color = VKgramTheme.palette.onprimary,
 //                                shape = CircleShape
 //                            )
 //                    ) {
@@ -166,7 +166,7 @@ fun MessageHistoryScreen(
 //                            modifier = Modifier.align(Alignment.Center),
 //                            text = if (state.selectedAttachments.isNotEmpty())
 //                                "${state.selectedAttachments.size}" else "1",
-//                            color = VKgramTheme.palette.onSecondary,
+//                            color = VKgramTheme.palette.onprimary,
 //                            style = VKgramTheme.typography.caption
 //                        )
 //                    }
@@ -203,9 +203,9 @@ fun MessageHistoryScreen(
 //        )
     }
 
-    LaunchedEffect(viewState) {
-        if (viewState.value !is MessageHistoryViewState.Display) {
-            viewModel.onEvent(MessageHistoryIntent.EnterScreen(conversationId))
-        }
-    }
+//    LaunchedEffect(viewState) {
+//        if (viewState.value !is MessageHistoryViewState.Display) {
+//            viewModel.onEvent(MessageHistoryIntent.EnterScreen(conversationId))
+//        }
+//    }
 }

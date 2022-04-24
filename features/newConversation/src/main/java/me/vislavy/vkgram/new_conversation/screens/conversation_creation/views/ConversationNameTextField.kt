@@ -33,7 +33,7 @@ fun ConversationNameTextField(
             onTextChange(conversationNameState.value)
         },
         modifier = modifier.background(VKgramTheme.palette.background),
-        textStyle = VKgramTheme.typography.body1.copy(VKgramTheme.palette.primaryText),
+        textStyle = VKgramTheme.typography.body1.copy(VKgramTheme.palette.onSurface),
         singleLine = true,
         interactionSource = interactionSource
     ) {
@@ -41,7 +41,7 @@ fun ConversationNameTextField(
             Text(
                 text = "Название беседы",
                 color = if (conversationNameState.value.isEmpty()) {
-                    VKgramTheme.palette.secondaryText
+                    VKgramTheme.palette.onSurface
                 } else {
                     VKgramTheme.palette.background
                 },
@@ -52,7 +52,7 @@ fun ConversationNameTextField(
 
             Divider(
                 color = if (isFocusedState.value) {
-                    VKgramTheme.palette.secondary
+                    VKgramTheme.palette.primary
                 } else {
                     VKgramTheme.palette.onSurface
                 }

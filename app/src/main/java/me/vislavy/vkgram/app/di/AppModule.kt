@@ -11,7 +11,7 @@ import me.vislavy.vkgram.api.LongPollServerManager
 import me.vislavy.vkgram.api.VkAccessToken
 import me.vislavy.vkgram.api.VkService
 import me.vislavy.vkgram.api.local.database.AppDatabase
-import me.vislavy.vkgram.core.extensions.dataStore
+import me.vislavy.vkgram.api.local.database.StoredUserDao
 import javax.inject.Singleton
 
 @Module
@@ -36,7 +36,13 @@ object AppModule {
     @Provides
     fun provideAppDatabase(@ApplicationContext context: Context) = AppDatabase(context)
 
+    @Singleton
     @Provides
-    fun provideLastConversationDatabase(appDatabase: AppDatabase) =
+    fun provideLastConversationDao(appDatabase: AppDatabase) =
         appDatabase.getLastConversationDao()
+
+    @Singleton
+    @Provides
+    fun provideStoredUserDao(appDatabase: AppDatabase): StoredUserDao =
+        appDatabase.getStoredUserDao()
 }

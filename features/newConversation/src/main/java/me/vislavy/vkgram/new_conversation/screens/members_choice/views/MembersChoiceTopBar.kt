@@ -37,7 +37,7 @@ fun MembersChoiceTopBar(navController: NavController) {
 
         Text(
             text = "Новая беседа",
-            color = VKgramTheme.palette.primaryText,
+            color = VKgramTheme.palette.onSurface,
             style = VKgramTheme.typography.topBarTitle
         )
 

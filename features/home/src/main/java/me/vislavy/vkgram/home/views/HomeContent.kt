@@ -22,7 +22,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import me.vislavy.vkgram.core.ConversationModel
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
-import me.vislavy.vkgram.core.views.VKgramDivider
+import me.vislavy.vkgram.core.views.VkgramDivider
 import me.vislavy.vkgram.home.models.HomeViewState
 
 @ExperimentalFoundationApi
@@ -48,7 +48,7 @@ fun HomeContent(
         val pagerState = rememberPagerState()
         val tabTitles = listOf("Беседы", "Друзья")
         Column {
-            VKgramDivider()
+            VkgramDivider()
 
             TabRow(
                 selectedTabIndex = pagerState.currentPage,
@@ -62,11 +62,11 @@ fun HomeContent(
                             .tabIndicatorOffset(currentTabPosition = tabPositions[pagerState.targetPage])
                             .padding(horizontal = 72.dp),
                         thickness = 2.dp,
-                        color = VKgramTheme.palette.secondary
+                        color = VKgramTheme.palette.primary
                     )
                 },
                 divider = {
-                    VKgramDivider()
+                    VkgramDivider()
                 }
             ) {
                 tabTitles.forEachIndexed { index, title ->
@@ -83,9 +83,9 @@ fun HomeContent(
                             modifier = Modifier.padding(vertical = 10.dp),
                             text = title,
                             color = if (isSelected) {
-                                VKgramTheme.palette.secondary
+                                VKgramTheme.palette.primary
                             } else {
-                                VKgramTheme.palette.secondaryText
+                                VKgramTheme.palette.onSurface
                             },
                             style = VKgramTheme.typography.subtitle1
                         )

@@ -5,34 +5,6 @@
     <string name="profile_attachments_icon">Значок вложений</string>
     <string name="profile_more_icon">Значок больше</string>
 
-    <!-- Profile content -->
-    <string name="profile_photo">Фотография профиля</string>
-    <string name="profile_dialog">Диалог</string>
-    <string name="profile_subscribe">Подписаться</string>
-    <string name="profile_unsubscribe">Отписаться</string>
-    <string name="profile_reply_to_subscription">Ответить на подписку</string>
-    <string name="profile_delete_friend">Удалить из друзей</string>
-    <string name="profile_not_specified">Не указано</string>
-    <string name="profile_location_icon">Значок локации</string>
-    <string name="profile_location">Локация: %1$s</string>
-    <string name="profile_birthday_icon">Значок дня рождения</string>
-    <string name="profile_birthday">День рождения: %1$s</string>
-    <string name="profile_friends">Друзей</string>
-    <string name="profile_common_friends">Общих</string>
-    <string name="profile_subscribes">Подписчиков</string>
-    <string name="profile_general">Общее</string>
-    <string name="profile_notifications_icon">Значок уведомлений</string>
-    <string name="profile_notifications">Уведомления</string>
-    <string name="profile_arrow_right_icon">Значок стрелки вправо</string>
-    <string name="profile_settings">Настройки</string>
-    <string name="profile_account_settings_icon">Значок настроек аккаунта</string>
-    <string name="profile_account">Аккаунт</string>
-    <string name="profile_application_settings_icon">Значок настроек приложения</string>
-    <string name="profile_application">Приложение</string>
-    <string name="profile_blacklist_icon">Иконка чёрного списка</string>
-    <string name="profile_blacklist">Чёрный список</string>
-    <string name="profile_logout">Выйти</string>
-
     <!-- Profile unsubscribe dialog -->
     <string name="profile_unsubscribe_dialog_title">Отписывание</string>
     <string name="profile_unsubscribe_dialog_body">Вы действительно хотите отписаться от %1$s?</string>
@@ -50,24 +22,26 @@
     <string name="profile_unfriend_dialog_dismiss">Нет</string>
 
     <!-- Last seen -->
+    <string name="last_seen_unknown">Было %1$s</string>
+    <string name="last_seen_was_female">Была %1$s</string>
+    <string name="last_seen_was_male">Был %1$s</string>
     <string name="last_seen_online">Онлайн</string>
-    <string name="last_seen_recently">Был(а) недавно</string>
+    <string name="last_seen_recently">Недавно</string>
+    <string name="last_seen_today">Сегодня в %1$s</string>
+    <string name="last_seen_yesterday">Вчера в %1$s</string>
+    <string name="last_seen_week">%1$s в %2$s</string>
+    <string name="last_seen_month">%2$s %1$s в %3$s</string>
+    <string name="last_seen_year">%2$s %1$s %3$s в %4$s</string>
 
     <plurals name="last_seen_minute_plurals">
-        <item quantity="one">Был(а) %1$s минуту назад</item>
-        <item quantity="few">Был(а) %1$s минуты назад</item>
-        <item quantity="many">Был(а) %1$s минут назад</item>
+        <item quantity="one">%1$s минуту назад</item>
+        <item quantity="few">%1$s минуты назад</item>
+        <item quantity="many">%1$s минут назад</item>
     </plurals>
 
     <plurals name="last_seen_hour_plurals">
-        <item quantity="one">Был(а) %1$s час назад</item>
-        <item quantity="few">Был(а) %1$s часа назад</item>
-        <item quantity="many">Был(а) %1$s часов назад</item>
+        <item quantity="one">%1$s час назад</item>
+        <item quantity="few">%1$s часа назад</item>
+        <item quantity="many">%1$s часов назад</item>
     </plurals>
-
-    <string name="last_seen_today">Был(а) сегодня в %1$s</string>
-    <string name="last_seen_yesterday">Был(а) вчера в %1$s</string>
-    <string name="last_seen_week">Был(а) в %1$s в %2$s</string>
-    <string name="last_seen_month">Был(а) %2$s %1$s. в %3$s</string>
-    <string name="last_seen_year">Был(а) %2$s %1$s. %3$s в %4$s</string>
 </resources>

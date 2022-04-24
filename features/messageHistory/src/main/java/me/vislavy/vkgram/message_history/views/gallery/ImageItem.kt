@@ -110,7 +110,7 @@ fun ImageItem(
                             }
                         )
                         .background(
-                            color = VKgramTheme.palette.primaryIndicator.copy(0.12F),
+                            color = VKgramTheme.palette.primary.copy(0.12F),
                             shape = CircleShape
                         )
                         .border(
@@ -128,7 +128,7 @@ fun ImageItem(
                             modifier = Modifier
                                 .size(24.dp)
                                 .background(
-                                    color = VKgramTheme.palette.primaryIndicator,
+                                    color = VKgramTheme.palette.primary,
                                     shape = CircleShape
                                 ),
                             contentAlignment = Alignment.Center
@@ -137,7 +137,7 @@ fun ImageItem(
                                 modifier = Modifier.padding(4.dp),
                                 imageVector = Icons.Rounded.Done,
                                 contentDescription = null,
-                                tint = VKgramTheme.palette.onSecondary
+                                tint = VKgramTheme.palette.onPrimary
                             )
                         }
                     }

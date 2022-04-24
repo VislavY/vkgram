@@ -95,7 +95,7 @@ fun ConversationItem(
                             modifier = Modifier.size(16.dp),
                             imageVector = Icons.Default.PushPin,
                             contentDescription = null,
-                            tint = VKgramTheme.palette.secondary
+                            tint = VKgramTheme.palette.primary
                         )
                     }
                 }
@@ -109,7 +109,7 @@ fun ConversationItem(
                     Box(
                         modifier = Modifier
                             .background(
-                                color = VKgramTheme.palette.primaryIndicator,
+                                color = VKgramTheme.palette.primary,
                                 shape = CircleShape
                             )
                             .size(16.dp)
@@ -130,7 +130,7 @@ fun ConversationItem(
                     Box(
                         modifier = Modifier
                             .background(
-                                color = VKgramTheme.palette.primaryIndicator,
+                                color = VKgramTheme.palette.primary,
                                 shape = CircleShape
                             )
                             .size(20.dp)
@@ -145,7 +145,7 @@ fun ConversationItem(
                             modifier = Modifier.size(16.dp),
                             imageVector = Icons.Default.Done,
                             contentDescription = null,
-                            tint = VKgramTheme.palette.onSecondary
+                            tint = VKgramTheme.palette.primary
                         )
                     }
                 }
@@ -164,7 +164,7 @@ fun ConversationItem(
                             text = model.title,
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1,
-                            color = VKgramTheme.palette.primaryText,
+                            color = VKgramTheme.palette.onSurface,
                             style = VKgramTheme.typography.subtitle1
                         )
 
@@ -175,7 +175,7 @@ fun ConversationItem(
                                 modifier = Modifier.size(16.dp),
                                 imageVector = Icons.Default.VolumeMute,
                                 contentDescription = null,
-                                tint = VKgramTheme.palette.secondaryIndicator
+                                tint = VKgramTheme.palette.primary
                             )
                         }
                     }
@@ -189,7 +189,7 @@ fun ConversationItem(
                                 imageVector = if (model.lastMessageLocalId != model.lastReadMessageLocalId)
                                     Icons.Default.Done else Icons.Default.DoneAll,
                                 contentDescription = null,
-                                tint = VKgramTheme.palette.secondary
+                                tint = VKgramTheme.palette.primary
                             )
                         }
                     }
@@ -198,7 +198,7 @@ fun ConversationItem(
 
                     Text(
                         text = LastMessageDate.timeDifference(model.lastMessage?.date),
-                        color = VKgramTheme.palette.secondaryIndicator,
+                        color = VKgramTheme.palette.primary,
                         style = VKgramTheme.typography.caption
                     )
                 }
@@ -209,7 +209,7 @@ fun ConversationItem(
                     model.lastMessage?.out?.let {
                         Text(
                             text = if (it) "Вы: " else model.lastMessageAuthor,
-                            color = VKgramTheme.palette.secondaryIndicator,
+                            color = VKgramTheme.palette.primary,
                             style = VKgramTheme.typography.body1
                         )
                     }
@@ -240,7 +240,7 @@ fun ConversationItem(
                             val suffix = if (it.text.isBlank()) "" else ", "
                             Text(
                                 text = (attachmentType + suffix),
-                                color = VKgramTheme.palette.secondary,
+                                color = VKgramTheme.palette.primary,
                                 style = VKgramTheme.typography.body1
                             )
                         }
@@ -250,7 +250,7 @@ fun ConversationItem(
                             text = (it.text),
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1,
-                            color = VKgramTheme.palette.secondaryText,
+                            color = VKgramTheme.palette.onSurface,
                             style = VKgramTheme.typography.body1
                         )
                     }
@@ -262,14 +262,14 @@ fun ConversationItem(
                             modifier = Modifier
                                 .background(
                                     color = if (!model.pushSettings.soundDisabled)
-                                        VKgramTheme.palette.secondary else VKgramTheme.palette.secondaryIndicator,
+                                        VKgramTheme.palette.primary else VKgramTheme.palette.primary,
                                     shape = CircleShape
                                 )
                         ) {
                             Text(
                                 modifier = Modifier.padding(7.dp, 2.dp),
                                 text = "${model.unreadMessageCount}",
-                                color = VKgramTheme.palette.onSecondary,
+                                color = VKgramTheme.palette.onPrimary,
                                 style = VKgramTheme.typography.caption.copy(fontWeight = FontWeight.Medium)
                             )
                         }

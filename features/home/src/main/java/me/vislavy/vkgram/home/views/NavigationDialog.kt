@@ -62,7 +62,7 @@ fun NavigationDialog(
                     Image(
                         modifier = Modifier.size(48.dp),
                         painter = rememberImagePainter(
-                            data = profileModel.photo,
+                            data = profileModel.photoUrl,
                             builder = {
                                 crossfade(true)
                                 placeholder(R.drawable.photo_placeholder_56)
@@ -77,13 +77,13 @@ fun NavigationDialog(
                     Column {
                         Text(
                             text = "${profileModel.firstName} ${profileModel.lastName}",
-                            color = VKgramTheme.palette.primaryText,
+                            color = VKgramTheme.palette.onSurface,
                             style = VKgramTheme.typography.subtitle2
                         )
 
                         Text(
                             text = profileModel.domain,
-                            color = VKgramTheme.palette.secondaryText,
+                            color = VKgramTheme.palette.onSurface,
                             style = VKgramTheme.typography.body2
                         )
                     }
@@ -108,7 +108,7 @@ fun NavigationDialog(
                 ) {
                     Text(
                         text = "Profile settings",
-                        color = VKgramTheme.palette.primaryText,
+                        color = VKgramTheme.palette.onSurface,
                         style = VKgramTheme.typography.button
                     )
                 }
@@ -127,7 +127,7 @@ fun NavigationDialog(
                 ) {
                     Text(
                         text = "App settings",
-                        color = VKgramTheme.palette.primaryText,
+                        color = VKgramTheme.palette.onSurface,
                         style = VKgramTheme.typography.button
                     )
                 }
@@ -143,7 +143,7 @@ fun NavigationDialog(
                             .align(Center)
                             .padding(vertical = 8.dp),
                         text = "VKgram version 1.0.0",
-                        color = VKgramTheme.palette.secondaryText,
+                        color = VKgramTheme.palette.onSurface,
                         style = VKgramTheme.typography.body2
                     )
                 }

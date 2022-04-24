@@ -21,20 +21,20 @@ fun AppSettingsScreen(
 ) {
     val viewState = viewModel.viewState.collectAsState()
 
-    when (val state = viewState.value) {
-        is AppSettingsViewState.Loading -> LoadingContent()
-        is AppSettingsViewState.Error -> ErrorContent(onReloadClick = {
-            viewModel.onEvent(AppSettingsIntent.ReloadScreen)
-        })
-        is AppSettingsViewState.Display -> Scaffold(topBar = {
-            AppSettingsTopBar(navController = navController)
-        }) { paddingValues ->
-            val modifier = Modifier.padding(paddingValues)
-            AppSettingsContent(modifier = modifier)
-        }
-    }
-
-    LaunchedEffect(viewState) {
-        viewModel.onEvent(AppSettingsIntent.EnterScreen)
-    }
+//    when (val state = viewState.value) {
+//        is AppSettingsViewState.Loading -> LoadingContent()
+//        is AppSettingsViewState.Error -> ErrorContent(onReloadClick = {
+//            viewModel.onEvent(AppSettingsIntent.ReloadScreen)
+//        })
+//        is AppSettingsViewState.Display -> Scaffold(topBar = {
+//            AppSettingsTopBar(navController = navController)
+//        }) { paddingValues ->
+//            val modifier = Modifier.padding(paddingValues)
+//            AppSettingsContent(modifier = modifier)
+//        }
+//    }
+//
+//    LaunchedEffect(viewState) {
+//        viewModel.onEvent(AppSettingsIntent.EnterScreen)
+//    }
 }

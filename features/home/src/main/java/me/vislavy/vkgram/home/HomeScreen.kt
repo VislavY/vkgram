@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.pager.ExperimentalPagerApi
 import kotlinx.serialization.ExperimentalSerializationApi
 import me.vislavy.vkgram.core.Destinations
@@ -34,73 +33,73 @@ fun HomeScreen(
 ) {
     val viewState = viewModel.viewState.collectAsState()
 
-    when (val state = viewState.value) {
-        is HomeViewState.Loading -> LoadingContent()
-        is HomeViewState.Error -> ErrorContent(
-            onReloadClick = {
-                viewModel.onEvent(HomeIntent.ReloadScreen)
-            }
-        )
-        is HomeViewState.Display -> Scaffold(
-            topBar = {
-                state.profile?.let {
-                    HomeTopBar(
-                        viewState = state,
-                        userModel = it,
-                        onClearSelectedConvListClick = { viewModel.onEvent(HomeIntent.ClearSelectedConvList) },
-                        onDeleteConvClick = { viewModel.onEvent(HomeIntent.DeleteSelectedConvs) },
-                        navController = navController
-                    )
-                }
-            },
-            floatingActionButton = {
-                FloatingActionButton(
-                    modifier = Modifier
-                        .padding(bottom = 16.dp)
-                        .navigationBarsWithImePadding(),
-                    onClick = { navController.navigate(Destinations.NewConversation) },
-                    backgroundColor = VKgramTheme.palette.secondary
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Create,
-                        contentDescription = null,
-                        tint = Color.White
-                    )
-                }
-            }
-        ) { paddingValues ->
-            val modifier = Modifier.padding(paddingValues)
-            HomeContent(
-                modifier = modifier,
-                viewState = state,
-                navController = navController,
-                onConversationClick = { model ->
-                    if (!state.selectModeEnabled) {
-                        navController.navigate(
-                            route = "${Destinations.MessageHistory}/${model.properties.id}"
-                        )
-                    } else {
-                        viewModel.onEvent(HomeIntent.AddToSelectedConvList(model))
-                    }
-                },
-                onConversationLongClick = { model ->
-                    viewModel.onEvent(HomeIntent.AddToSelectedConvList(model))
-                },
-                onConversationListEnd = { conversationCount ->
-                    viewModel.onEvent(HomeIntent.IncreaseConvList(conversationCount))
-                },
-                onFriendListEnd = { friendCount ->
-                    viewModel.onEvent(HomeIntent.IncreaseFriendList(friendCount))
-                }
-            )
-        }
-    }
-
-    LaunchedEffect(viewState) {
-        if (viewState.value !is HomeViewState.Display) {
-            viewModel.onEvent(HomeIntent.EnterScreen)
-        } else {
-            viewModel.onEvent(HomeIntent.UpdateProfile)
-        }
-    }
+//    when (val state = viewState.value) {
+//        is HomeViewState.Loading -> LoadingContent()
+//        is HomeViewState.Error -> ErrorContent(
+//            onReloadClick = {
+//                viewModel.onEvent(HomeIntent.ReloadScreen)
+//            }
+//        )
+//        is HomeViewState.Display -> Scaffold(
+//            topBar = {
+//                state.profile?.let {
+//                    HomeTopBar(
+//                        viewState = state,
+//                        userModel = it,
+//                        onClearSelectedConvListClick = { viewModel.onEvent(HomeIntent.ClearSelectedConvList) },
+//                        onDeleteConvClick = { viewModel.onEvent(HomeIntent.DeleteSelectedConvs) },
+//                        navController = navController
+//                    )
+//                }
+//            },
+//            floatingActionButton = {
+//                FloatingActionButton(
+//                    modifier = Modifier
+//                        .padding(bottom = 16.dp)
+//                        .navigationBarsWithImePadding(),
+//                    onClick = { navController.navigate(Destinations.NewConversation) },
+//                    backgroundColor = VKgramTheme.palette.primary
+//                ) {
+//                    Icon(
+//                        imageVector = Icons.Rounded.Create,
+//                        contentDescription = null,
+//                        tint = Color.White
+//                    )
+//                }
+//            }
+//        ) { paddingValues ->
+//            val modifier = Modifier.padding(paddingValues)
+//            HomeContent(
+//                modifier = modifier,
+//                viewState = state,
+//                navController = navController,
+//                onConversationClick = { model ->
+//                    if (!state.selectModeEnabled) {
+//                        navController.navigate(
+//                            route = "${Destinations.MessageHistory}/${model.properties.id}"
+//                        )
+//                    } else {
+//                        viewModel.onEvent(HomeIntent.AddToSelectedConvList(model))
+//                    }
+//                },
+//                onConversationLongClick = { model ->
+//                    viewModel.onEvent(HomeIntent.AddToSelectedConvList(model))
+//                },
+//                onConversationListEnd = { conversationCount ->
+//                    viewModel.onEvent(HomeIntent.IncreaseConvList(conversationCount))
+//                },
+//                onFriendListEnd = { friendCount ->
+//                    viewModel.onEvent(HomeIntent.IncreaseFriendList(friendCount))
+//                }
+//            )
+//        }
+//    }
+//
+//    LaunchedEffect(viewState) {
+//        if (viewState.value !is HomeViewState.Display) {
+//            viewModel.onEvent(HomeIntent.EnterScreen)
+//        } else {
+//            viewModel.onEvent(HomeIntent.UpdateProfile)
+//        }
+//    }
 }

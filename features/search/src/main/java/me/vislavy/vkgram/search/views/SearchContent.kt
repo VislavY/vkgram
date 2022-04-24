@@ -64,7 +64,7 @@ fun SearchContent(
                 ) {
                     Text(
                         text = stringResource(R.string.search_last),
-                        color = VKgramTheme.palette.secondaryText,
+                        color = VKgramTheme.palette.onSurface,
                         style = VKgramTheme.typography.body2.copy(fontWeight = FontWeight.Medium)
                     )
 
@@ -75,7 +75,7 @@ fun SearchContent(
                             dialogIsEnabledState = true
                         },
                         text = stringResource(R.string.search_clear),
-                        color = VKgramTheme.palette.secondaryText,
+                        color = VKgramTheme.palette.onSurface,
                         style = VKgramTheme.typography.body2
                     )
                 }

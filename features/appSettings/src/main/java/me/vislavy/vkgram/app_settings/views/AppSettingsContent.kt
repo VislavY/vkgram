@@ -37,7 +37,7 @@ fun AppSettingsContent(modifier: Modifier = Modifier) {
             Text(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 text = stringResource(R.string.app_settings_appearance),
-                color = VKgramTheme.palette.secondary,
+                color = VKgramTheme.palette.primary,
                 style = VKgramTheme.typography.subtitle2
             )
 
@@ -58,7 +58,7 @@ fun AppSettingsContent(modifier: Modifier = Modifier) {
                         modifier = Modifier
                             .size(28.dp)
                             .background(
-                                color = VKgramTheme.palette.secondary,
+                                color = VKgramTheme.palette.primary,
                                 shape = CircleShape
                             )
                     )
@@ -75,7 +75,7 @@ fun AppSettingsContent(modifier: Modifier = Modifier) {
             Text(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 text = stringResource(R.string.app_settings_invisible),
-                color = VKgramTheme.palette.secondary,
+                color = VKgramTheme.palette.primary,
                 style = VKgramTheme.typography.subtitle2
             )
 
@@ -102,7 +102,7 @@ fun AppSettingsContent(modifier: Modifier = Modifier) {
                                 settingsDataStore.setInputIndicatorEnabled(enabled)
                             }
                         },
-                        colors = CheckboxDefaults.colors(checkedColor = VKgramTheme.palette.secondary)
+                        colors = CheckboxDefaults.colors(checkedColor = VKgramTheme.palette.primary)
                     )
                 }
             )
@@ -130,7 +130,7 @@ fun AppSettingsContent(modifier: Modifier = Modifier) {
                                 settingsDataStore.setReadingMessagesEnabled(enabled)
                             }
                         },
-                        colors = CheckboxDefaults.colors(checkedColor = VKgramTheme.palette.secondary)
+                        colors = CheckboxDefaults.colors(checkedColor = VKgramTheme.palette.primary)
                     )
                 }
             )

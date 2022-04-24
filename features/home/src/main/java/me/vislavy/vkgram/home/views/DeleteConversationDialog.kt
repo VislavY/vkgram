@@ -58,14 +58,14 @@ fun DeleteConversationDialog(
                     Text(
                         text = if (selectedConversations[0].properties.type == ConversationType.Chat)
                             "Покинуть чат" else "Удалить беседу",
-                        color = VKgramTheme.palette.primaryText,
+                        color = VKgramTheme.palette.onSurface,
                         style = VKgramTheme.typography.h6
                     )
                 }
             } else {
                 Text(
                     text = "Удалить ${selectedConversations.size} беседы",
-                    color = VKgramTheme.palette.primaryText,
+                    color = VKgramTheme.palette.onSurface,
                     style = VKgramTheme.typography.h6
                 )
             }
@@ -86,7 +86,7 @@ fun DeleteConversationDialog(
 
                             append("?")
                         },
-                        color = VKgramTheme.palette.primaryText,
+                        color = VKgramTheme.palette.onSurface,
                         style = VKgramTheme.typography.body1
                     )
                 }
@@ -94,7 +94,7 @@ fun DeleteConversationDialog(
                 Column {
                     Text(
                         text = "Вы дейстительно хотите удалить выбранные беседы?",
-                        color = VKgramTheme.palette.primaryText,
+                        color = VKgramTheme.palette.onSurface,
                         style = VKgramTheme.typography.body1
                     )
                 }
@@ -104,7 +104,7 @@ fun DeleteConversationDialog(
             TextButton(onClick = onCancelClick) {
                 Text(
                     text = "Отмена".uppercase(),
-                    color = VKgramTheme.palette.secondary,
+                    color = VKgramTheme.palette.primary,
                     style = VKgramTheme.typography.button
                 )
             }

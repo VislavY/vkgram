@@ -53,7 +53,7 @@ fun MemberItem(
             Column {
                 Text(
                     text = "${model.firstName} ${model.lastName}",
-                    color = VKgramTheme.palette.primaryText,
+                    color = VKgramTheme.palette.onSurface,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                     style = VKgramTheme.typography.body1
@@ -63,7 +63,7 @@ fun MemberItem(
 
                 Text(
                     text = model.domain,
-                    color = VKgramTheme.palette.secondaryText,
+                    color = VKgramTheme.palette.onSurface,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                     style = VKgramTheme.typography.body2

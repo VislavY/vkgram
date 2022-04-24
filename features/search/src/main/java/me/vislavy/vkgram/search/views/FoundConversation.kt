@@ -50,7 +50,7 @@ fun FoundConversation(
                 Column {
                     Text(
                         text = model.title,
-                        color = VKgramTheme.palette.primaryText,
+                        color = VKgramTheme.palette.onSurface,
                         style = VKgramTheme.typography.subtitle2
                     )
 
@@ -66,7 +66,7 @@ fun FoundConversation(
                             ConversationType.Group -> "группа"
                             ConversationType.User -> "пользователь"
                         },
-                        color = VKgramTheme.palette.secondaryText,
+                        color = VKgramTheme.palette.onSurface,
                         style = VKgramTheme.typography.body2
                     )
                 }

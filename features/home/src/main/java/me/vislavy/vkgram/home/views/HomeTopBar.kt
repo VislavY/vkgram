@@ -21,8 +21,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.rememberInsetsPaddingValues
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.api.data.User
@@ -53,10 +51,6 @@ fun HomeTopBar(
         modifier = modifier,
         elevation = 0.dp,
         backgroundColor = VKgramTheme.palette.primary,
-        contentPadding = rememberInsetsPaddingValues(
-            LocalWindowInsets.current.statusBars,
-            applyBottom = false,
-        )
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Spacer(Modifier.width(16.dp))
@@ -77,7 +71,7 @@ fun HomeTopBar(
                             .clip(CircleShape)
                             .size(24.dp),
                         painter = rememberImagePainter(
-                            data = userModel.photo,
+                            data = userModel.photoUrl,
                             builder = {
                                 crossfade(true)
                                 placeholder(R.drawable.photo_placeholder_56)
@@ -91,7 +85,7 @@ fun HomeTopBar(
 
                     Text(
                         text = userModel.firstName,
-                        color = VKgramTheme.palette.primaryText,
+                        color = VKgramTheme.palette.onSurface,
                         style = VKgramTheme.typography.body2
                     )
 
@@ -134,7 +128,7 @@ fun HomeTopBar(
 
                 Text(
                     text = "${viewState.selectedConversations.size}",
-                    color = VKgramTheme.palette.secondaryText,
+                    color = VKgramTheme.palette.onSurface,
                     style = VKgramTheme.typography.subtitle1
                 )
 

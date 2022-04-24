@@ -51,12 +51,12 @@ fun MembersChoiceFab(
                 )
             },
             modifier = Modifier.padding(bottom = 16.dp),
-            backgroundColor = VKgramTheme.palette.secondary
+            backgroundColor = VKgramTheme.palette.primary
         ) {
             Icon(
                 imageVector = Icons.Rounded.ArrowForward,
                 contentDescription = null,
-                tint = VKgramTheme.palette.onSecondary
+                tint = VKgramTheme.palette.onPrimary
             )
         }
     }

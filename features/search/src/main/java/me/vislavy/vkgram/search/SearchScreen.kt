@@ -27,44 +27,44 @@ fun SearchScreen(
 ) {
     val viewState = viewModel.viewState.collectAsState()
 
-    when (val state = viewState.value) {
-        is SearchViewState.Error -> ErrorContent(onReloadClick = {
-            viewModel.onEvent(SearchIntent.Reload)
-        })
-        is SearchViewState.Display -> Scaffold(topBar = {
-            SearchTopBar(
-                viewState = state,
-                onSearchTextChange = { searchText ->
-                    viewModel.onEvent(SearchIntent.StartSearch(searchText))
-                },
-                navController = navController
-            )
-        }) { paddingValues ->
-            val modifier = Modifier.padding(paddingValues)
-
-            AnimatedVisibility(
-                modifier = Modifier.zIndex(1F),
-                visible = state.isLoading,
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
-                SearchLoadingContent(modifier)
-            }
-
-            SearchContent(
-                modifier = modifier,
-                viewState = state,
-                onClearClick = {
-                    viewModel.onEvent(SearchIntent.ClearSearchHistory)
-                },
-                onConversationClick = { conversationModel ->
-                    viewModel.onEvent(SearchIntent.AddToSearchHistory(conversationModel.properties.id))
-                }
-            )
-        }
-    }
-
-    LaunchedEffect(viewState) {
-        viewModel.onEvent(SearchIntent.LoadConversationList)
-    }
+//    when (val state = viewState.value) {
+//        is SearchViewState.Error -> ErrorContent(onReloadClick = {
+//            viewModel.onEvent(SearchIntent.Reload)
+//        })
+//        is SearchViewState.Display -> Scaffold(topBar = {
+//            SearchTopBar(
+//                viewState = state,
+//                onSearchTextChange = { searchText ->
+//                    viewModel.onEvent(SearchIntent.StartSearch(searchText))
+//                },
+//                navController = navController
+//            )
+//        }) { paddingValues ->
+//            val modifier = Modifier.padding(paddingValues)
+//
+//            AnimatedVisibility(
+//                modifier = Modifier.zIndex(1F),
+//                visible = state.isLoading,
+//                enter = fadeIn(),
+//                exit = fadeOut()
+//            ) {
+//                SearchLoadingContent(modifier)
+//            }
+//
+//            SearchContent(
+//                modifier = modifier,
+//                viewState = state,
+//                onClearClick = {
+//                    viewModel.onEvent(SearchIntent.ClearSearchHistory)
+//                },
+//                onConversationClick = { conversationModel ->
+//                    viewModel.onEvent(SearchIntent.AddToSearchHistory(conversationModel.properties.id))
+//                }
+//            )
+//        }
+//    }
+//
+//    LaunchedEffect(viewState) {
+//        viewModel.onEvent(SearchIntent.LoadConversationList)
+//    }
 }

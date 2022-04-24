@@ -19,7 +19,6 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.navigationBarsWithImePadding
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
@@ -38,8 +37,7 @@ fun MessageHistoryBottomBar(
 
     Surface(
         modifier = modifier
-            .fillMaxWidth()
-            .navigationBarsWithImePadding(),
+            .fillMaxWidth(),
         color = color,
         elevation = 8.dp
     ) {
@@ -61,9 +59,9 @@ fun MessageHistoryBottomBar(
                     onValueChange = { value ->
                         onTextChange(value)
                     },
-                    textStyle = VKgramTheme.typography.searchText.copy(color = VKgramTheme.palette.primaryText),
+                    textStyle = VKgramTheme.typography.searchText.copy(color = VKgramTheme.palette.onSurface),
                     maxLines = 4,
-                    cursorBrush = SolidColor(VKgramTheme.palette.secondary),
+                    cursorBrush = SolidColor(VKgramTheme.palette.primary),
                     decorationBox = { innerTextField ->
                         if (viewState.messageText.text.isEmpty()) {
                             Text(
@@ -91,7 +89,7 @@ fun MessageHistoryBottomBar(
                     Icon(
                         imageVector = Icons.Default.Send,
                         contentDescription = null,
-                        tint = VKgramTheme.palette.secondary
+                        tint = VKgramTheme.palette.primary
                     )
                 }
             }

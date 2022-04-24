@@ -79,7 +79,7 @@ fun HorizontalMemberItem(
 
             Text(
                 text = model.firstName,
-                color = VKgramTheme.palette.secondaryText,
+                color = VKgramTheme.palette.onSurface,
                 style = VKgramTheme.typography.body2
             )
         }

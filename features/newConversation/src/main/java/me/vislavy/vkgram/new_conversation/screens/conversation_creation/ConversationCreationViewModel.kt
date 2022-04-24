@@ -18,18 +18,18 @@ import javax.inject.Inject
 @HiltViewModel
 class ConversationCreationViewModel @Inject constructor(
     private val conversationRepository: ConversationRepository
-) : ViewModel(), MviViewModel<ConversationCreationEvent> {
+) : ViewModel() {
 
     private val _viewState =
         MutableStateFlow<ConversationCreationViewState>(ConversationCreationViewState.Loading)
     val viewState = _viewState.asStateFlow()
 
-    override fun onEvent(event: ConversationCreationEvent) {
-        when (val currentState = _viewState.value) {
-            is ConversationCreationViewState.Loading -> reduce(event, currentState)
-            is ConversationCreationViewState.Display -> reduce(event, currentState)
-        }
-    }
+//    override fun onEvent(event: ConversationCreationEvent) {
+//        when (val currentState = _viewState.value) {
+//            is ConversationCreationViewState.Loading -> reduce(event, currentState)
+//            is ConversationCreationViewState.Display -> reduce(event, currentState)
+//        }
+//    }
 
     private fun reduce(
         event: ConversationCreationEvent,

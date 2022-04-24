@@ -106,7 +106,7 @@ data class VKgramTypography(
             labelLarge = TextStyle(
                 fontFamily = RobotoFontFamily,
                 lineHeight = 20.sp,
-                fontSize = 14.sp,
+                fontSize = 15.sp,
                 fontWeight = FontWeight.Medium
             ),
             labelMedium = TextStyle(
@@ -132,7 +132,7 @@ data class VKgramTypography(
             bodyMedium = TextStyle(
                 fontFamily = RobotoFontFamily,
                 lineHeight = 20.sp,
-                fontSize = 14.sp,
+                fontSize = 15.sp,
                 fontWeight = FontWeight.Normal
             ),
             bodySmall = TextStyle(

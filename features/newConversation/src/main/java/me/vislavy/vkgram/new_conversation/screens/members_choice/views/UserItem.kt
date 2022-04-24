@@ -68,7 +68,7 @@ fun UserItem(
                             Box(
                                 modifier = Modifier
                                     .background(
-                                        color = VKgramTheme.palette.secondary,
+                                        color = VKgramTheme.palette.primary,
                                         shape = CircleShape
                                     )
                                     .size(12.dp)
@@ -83,7 +83,7 @@ fun UserItem(
             Column(Modifier.weight(1f)) {
                 Text(
                     text = "${model.firstName} ${model.lastName}",
-                    color = VKgramTheme.palette.primaryText,
+                    color = VKgramTheme.palette.onSurface,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                     style = VKgramTheme.typography.body1
@@ -93,7 +93,7 @@ fun UserItem(
 
                 Text(
                     text = model.domain,
-                    color = VKgramTheme.palette.secondaryText,
+                    color = VKgramTheme.palette.onSurface,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                     style = VKgramTheme.typography.body2

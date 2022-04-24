@@ -33,7 +33,7 @@ class ConversationDataMapper @Inject constructor() {
                     val user = input.users[userIndex]
                     conversation = conversation.copy(
                         title = "${user.firstName} ${user.lastName}",
-                        photo = user.photo
+                        photo = user.photoUrl
                     )
                 }
                 ConversationType.Group -> {
@@ -92,7 +92,7 @@ class ConversationDataMapper @Inject constructor() {
                     val user = input.profiles[userIndex]
                     conversation = conversation.copy(
                         title = "${user.firstName} ${user.lastName}",
-                        photo = user.photo
+                        photo = user.photoUrl
                     )
                 }
                 ConversationType.Group -> {

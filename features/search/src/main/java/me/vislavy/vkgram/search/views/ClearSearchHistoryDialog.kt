@@ -19,14 +19,14 @@ fun ClearSearchHistoryDialog(
         title = {
             Text(
                 text = stringResource(R.string.search_clear_history),
-                color = VKgramTheme.palette.primaryText,
+                color = VKgramTheme.palette.onSurface,
                 style = VKgramTheme.typography.subtitle1
             )
         },
         text = {
             Text(
                 text = stringResource(R.string.search_are_you_sure),
-                color = VKgramTheme.palette.primaryText,
+                color = VKgramTheme.palette.onSurface,
                 style = VKgramTheme.typography.body1
             )
         },
@@ -34,7 +34,7 @@ fun ClearSearchHistoryDialog(
             TextButton(onDismissButtonClick) {
                 Text(
                     text = stringResource(R.string.search_no).uppercase(),
-                    color = VKgramTheme.palette.secondary,
+                    color = VKgramTheme.palette.primary,
                     style = VKgramTheme.typography.button
                 )
             }

@@ -1,6 +1,7 @@
 <resources>
-
     <string name="app_name">VKgram</string>
+
+    <string name="lang">en</string>
 
     <string name="login_button_text">Log in</string>
     <string name="login_failed">Failed login</string>

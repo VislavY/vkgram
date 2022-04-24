@@ -50,4 +50,7 @@ dependencies {
     api(Libs.AndroidX.Room.RoomRuntime)
     api(Libs.AndroidX.Room.RoomKtx)
     kapt(Libs.AndroidX.Room.RoomCompiler)
+
+    api("com.vk:android-sdk-core:3.5.2")
+    api("com.vk:android-sdk-api:3.5.2")
 }

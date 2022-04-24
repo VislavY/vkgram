@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="lang">ru</string>
+
+    <!-- Error -->
+    <string name="error_message">
+        Ошибка загрузки. Проверьте подключение к сети и перезагрузите страницу.
+    </string>
+
+    <string name="error_reload">Перезагрузить</string>
+    
+    <!-- Profile -->
+    <string name="profile_loading">Загрузка…</string>
+    <string name="profile_photo">Фото</string>
+    <string name="profile_verified">Верифицирован</string>
+    <string name="profile_messages">Сообщения</string>
+    <string name="profile_notes">Заметки</string>
+    <string name="profile_follow">Подписаться</string>
+    <string name="profile_reply_to_follow">Ответить на подписку</string>
+    <string name="profile_unfollow">Вы подписаны</string>
+    <string name="profile_unfriend">Удалить из друзей</string>
+    <string name="profile_settings">Настройки</string>
+    <string name="profile_not_specified">Не указано</string>
+    <string name="profile_location">Локация</string>
+    <string name="profile_birthday">День рождения</string>
+    <string name="profile_more_information">Больше информации</string>
+    <string name="profile_friends">Друзья</string>
+    <string name="profile_mutual_friends">Общие</string>
+    <string name="profile_followers">Подписчики</string>
+    <string name="profile_notifications">Уведомления</string>
+    <string name="profile_attachments">Вложения</string>
+    <string name="profile_next">Далее</string>
+    <string name="profile_accept">Принять</string>
+    <string name="profile_cancel">Отклонить</string>
+    <string name="profile_copy_link">Скопировать ссылку</string>
+    <string name="profile_link_copied">Ссылка скопирована в буфер обмена</string>
+    <string name="profile_block">Заблокировать</string>
+
+    <plurals name="profile_plural_friend">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Друг</item>
+        <item quantity="few">Друга</item>
+        <item quantity="many">Друзей</item>
+    </plurals>
+
+    <plurals name="profile_plural_mutual_friend">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Общий</item>
+        <item quantity="few">Общих</item>
+        <item quantity="many">Общих</item>
+    </plurals>
+
+    <plurals name="profile_plural_followers" tools:ignore="ImpliedQuantity">
+        <item quantity="one">Подписчик</item>
+        <item quantity="few">Подписчика</item>
+        <item quantity="many">Подписчиков</item>
+    </plurals>
+
+    <!-- Block dialog -->
+    <string name="block_dialog_title">Блокирование</string>
+    <string name="block_dialog_body">Вы действительно хотите заблокировать %1$s?</string>
+    <string name="block_dialog_confirm">Да</string>
+    <string name="block_dialog_dissmis">Нет</string>
+</resources>

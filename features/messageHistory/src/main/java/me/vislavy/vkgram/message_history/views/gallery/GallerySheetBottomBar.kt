@@ -21,7 +21,6 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.navigationBarsWithImePadding
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.message_history.models.MessageHistoryViewState
@@ -37,8 +36,7 @@ fun GallerySheetBottomBar(
 
     Surface(
         modifier = modifier
-            .fillMaxWidth()
-            .navigationBarsWithImePadding(),
+            .fillMaxWidth(),
         color = VKgramTheme.palette.surface,
         elevation = 8.dp
     ) {
@@ -62,9 +60,9 @@ fun GallerySheetBottomBar(
                     onValueChange = { value ->
                         onTextChange(value)
                     },
-                    textStyle = VKgramTheme.typography.searchText.copy(color = VKgramTheme.palette.primaryText),
+                    textStyle = VKgramTheme.typography.searchText.copy(color = VKgramTheme.palette.onSurface),
                     maxLines = 4,
-                    cursorBrush = SolidColor(VKgramTheme.palette.secondary),
+                    cursorBrush = SolidColor(VKgramTheme.palette.primary),
                     decorationBox = { innerTextField ->
                         if (viewState.messageText.text.isEmpty()) {
                             Text(

@@ -19,7 +19,7 @@ data class User(
     @SerialName("last_name") val lastName: String = "",
     @Serializable(BooleanSerializer::class) var online: Boolean = false,
     @SerialName("last_seen") val lastSeen: LastSeen? = null,
-    @SerialName("photo_200") val photo: String = "",
+    @SerialName("photo_200") val photoUrl: String = "",
     @SerialName("photo_400_orig") val photoOrig: String = "",
     @SerialName("bdate") val birthDay: String = "",
     val status: String = "",

@@ -41,7 +41,7 @@ fun ErrorContent(
 
                 Text(
                     text = "Произошла ошибка при загрузке данных",
-                    color = VKgramTheme.palette.primaryText,
+                    color = VKgramTheme.palette.onSurface,
                     textAlign = TextAlign.Center,
                     style = VKgramTheme.typography.h6
                 )
@@ -52,7 +52,7 @@ fun ErrorContent(
                     onClick = onReloadClick,
                     modifier = Modifier.fillMaxWidth(),
                     shape = CircleShape,
-                    colors = ButtonDefaults.buttonColors(backgroundColor = VKgramTheme.palette.secondary)
+                    colors = ButtonDefaults.buttonColors(backgroundColor = VKgramTheme.palette.primary)
                 ) {
                     Text(
                         text = "Перезагрузить",

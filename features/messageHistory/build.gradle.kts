@@ -62,8 +62,6 @@ dependencies {
     api(Libs.Google.Accompanist.AccompanistSystemUiController)
     api(Libs.Google.Accompanist.AccompanistPermissions)
     api(Libs.Google.Accompanist.AccompanistFlowLayout)
-    api(Libs.Google.Accompanist.AccompanistInsetsUi)
-    api(Libs.Google.Accompanist.AccompanistInsets)
     api(Libs.Google.Accompanist.AccompanistPager)
     api(Libs.Coil.CoilCompose)
 

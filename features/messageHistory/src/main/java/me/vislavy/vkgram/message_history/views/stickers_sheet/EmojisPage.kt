@@ -49,7 +49,7 @@ fun EmojisPage(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(VKgramTheme.palette.secondary.copy(0.1F))
+                        .background(VKgramTheme.palette.primary.copy(0.1F))
                 ) {
                     Text(
                         modifier = Modifier.padding(
@@ -57,7 +57,7 @@ fun EmojisPage(
                             vertical = 4.dp
                         ),
                         text = stringResource(R.string.message_history_emotions).uppercase(),
-                        color = VKgramTheme.palette.secondary,
+                        color = VKgramTheme.palette.primary,
                         style = VKgramTheme.typography.caption
                     )
                 }
@@ -94,7 +94,7 @@ fun EmojisPage(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(VKgramTheme.palette.secondary.copy(0.1F))
+                        .background(VKgramTheme.palette.primary.copy(0.1F))
                 ) {
                     Text(
                         modifier = Modifier.padding(
@@ -102,7 +102,7 @@ fun EmojisPage(
                             vertical = 4.dp
                         ),
                         text = stringResource(R.string.message_history_gestures_and_body).uppercase(),
-                        color = VKgramTheme.palette.secondary,
+                        color = VKgramTheme.palette.primary,
                         style = VKgramTheme.typography.caption
                     )
                 }
@@ -133,7 +133,7 @@ fun EmojisPage(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(VKgramTheme.palette.secondary.copy(0.1F))
+                        .background(VKgramTheme.palette.primary.copy(0.1F))
                 ) {
                     Text(
                         modifier = Modifier.padding(
@@ -141,7 +141,7 @@ fun EmojisPage(
                             vertical = 4.dp
                         ),
                         text = stringResource(R.string.message_history_symbols).uppercase(),
-                        color = VKgramTheme.palette.secondary,
+                        color = VKgramTheme.palette.primary,
                         style = VKgramTheme.typography.caption
                     )
                 }
@@ -178,7 +178,7 @@ fun EmojisPage(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(VKgramTheme.palette.secondary.copy(0.1F))
+                        .background(VKgramTheme.palette.primary.copy(0.1F))
                 ) {
                     Text(
                         modifier = Modifier.padding(
@@ -186,7 +186,7 @@ fun EmojisPage(
                             vertical = 4.dp
                         ),
                         text = stringResource(R.string.message_history_peoples).uppercase(),
-                        color = VKgramTheme.palette.secondary,
+                        color = VKgramTheme.palette.primary,
                         style = VKgramTheme.typography.caption
                     )
                 }
@@ -223,7 +223,7 @@ fun EmojisPage(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(VKgramTheme.palette.secondary.copy(0.1F))
+                        .background(VKgramTheme.palette.primary.copy(0.1F))
                 ) {
                     Text(
                         modifier = Modifier.padding(
@@ -231,7 +231,7 @@ fun EmojisPage(
                             vertical = 4.dp
                         ),
                         text = stringResource(R.string.message_history_food_and_drinks).uppercase(),
-                        color = VKgramTheme.palette.secondary,
+                        color = VKgramTheme.palette.primary,
                         style = VKgramTheme.typography.caption
                     )
                 }
@@ -268,7 +268,7 @@ fun EmojisPage(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(VKgramTheme.palette.secondary.copy(0.1F))
+                        .background(VKgramTheme.palette.primary.copy(0.1F))
                 ) {
                     Text(
                         modifier = Modifier.padding(
@@ -276,7 +276,7 @@ fun EmojisPage(
                             vertical = 4.dp
                         ),
                         text = stringResource(R.string.message_history_objects).uppercase(),
-                        color = VKgramTheme.palette.secondary,
+                        color = VKgramTheme.palette.primary,
                         style = VKgramTheme.typography.caption
                     )
                 }
@@ -313,7 +313,7 @@ fun EmojisPage(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(VKgramTheme.palette.secondary.copy(0.1F))
+                        .background(VKgramTheme.palette.primary.copy(0.1F))
                 ) {
                     Text(
                         modifier = Modifier.padding(
@@ -321,7 +321,7 @@ fun EmojisPage(
                             vertical = 4.dp
                         ),
                         text = stringResource(R.string.message_history_activity_and_sport).uppercase(),
-                        color = VKgramTheme.palette.secondary,
+                        color = VKgramTheme.palette.primary,
                         style = VKgramTheme.typography.caption
                     )
                 }
@@ -358,7 +358,7 @@ fun EmojisPage(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(VKgramTheme.palette.secondary.copy(0.1F))
+                        .background(VKgramTheme.palette.primary.copy(0.1F))
                 ) {
                     Text(
                         modifier = Modifier.padding(
@@ -366,7 +366,7 @@ fun EmojisPage(
                             vertical = 4.dp
                         ),
                         text = stringResource(R.string.message_history_travel_and_places).uppercase(),
-                        color = VKgramTheme.palette.secondary,
+                        color = VKgramTheme.palette.primary,
                         style = VKgramTheme.typography.caption
                     )
                 }
@@ -403,7 +403,7 @@ fun EmojisPage(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(VKgramTheme.palette.secondary.copy(0.1F))
+                        .background(VKgramTheme.palette.primary.copy(0.1F))
                 ) {
                     Text(
                         modifier = Modifier.padding(
@@ -411,7 +411,7 @@ fun EmojisPage(
                             vertical = 4.dp
                         ),
                         text = stringResource(R.string.message_history_animals_and_nature).uppercase(),
-                        color = VKgramTheme.palette.secondary,
+                        color = VKgramTheme.palette.primary,
                         style = VKgramTheme.typography.caption
                     )
                 }
@@ -448,7 +448,7 @@ fun EmojisPage(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(VKgramTheme.palette.secondary.copy(0.1F))
+                        .background(VKgramTheme.palette.primary.copy(0.1F))
                 ) {
                     Text(
                         modifier = Modifier.padding(
@@ -456,7 +456,7 @@ fun EmojisPage(
                             vertical = 4.dp
                         ),
                         text = stringResource(R.string.message_history_flags).uppercase(),
-                        color = VKgramTheme.palette.secondary,
+                        color = VKgramTheme.palette.primary,
                         style = VKgramTheme.typography.caption
                     )
                 }

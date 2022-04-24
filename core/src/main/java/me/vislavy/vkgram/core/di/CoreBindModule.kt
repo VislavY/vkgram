@@ -12,11 +12,5 @@ import me.vislavy.vkgram.core.repositories.*
 interface CoreBindModule {
 
     @Binds
-    fun bindUserRepository(impl: UserRepositoryImpl): UserRepository
-
-    @Binds
-    fun bindFriendRepository(impl: FriendRepositoryImpl): FriendRepository
-
-    @Binds
     fun bindConversationRepository(impl: ConversationRepositoryImpl): ConversationRepository
 }

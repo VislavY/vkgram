@@ -57,7 +57,7 @@ fun StickersSheetContent(
                         imageVector = Icons.Outlined.SentimentSatisfied,
                         contentDescription = null,
                         tint = if (pagerState.currentPage == 0)
-                            VKgramTheme.palette.secondary else VKgramTheme.palette.onSurface
+                            VKgramTheme.palette.primary else VKgramTheme.palette.onSurface
                     )
                 }
 
@@ -67,7 +67,7 @@ fun StickersSheetContent(
 //                        imageVector = Icons.Outlined.StarOutline,
 //                        contentDescription = null,
 //                        tint = if (pagerState.currentPage == 1)
-//                            VKgramTheme.palette.secondary else VKgramTheme.palette.onSurface
+//                            VKgramTheme.palette.primary else VKgramTheme.palette.onSurface
 //                    )
 //                }
 //
@@ -77,7 +77,7 @@ fun StickersSheetContent(
 //                        imageVector = Icons.Outlined.WatchLater,
 //                        contentDescription = null,
 //                        tint = if (pagerState.currentPage == 2)
-//                            VKgramTheme.palette.secondary else VKgramTheme.palette.onSurface
+//                            VKgramTheme.palette.primary else VKgramTheme.palette.onSurface
 //                    )
 //                }
             }

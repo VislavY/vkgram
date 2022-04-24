@@ -31,7 +31,7 @@ class MessageHistoryViewModel @Inject constructor(
     private val messageRepository: MessageRepository,
     private val photoRepository: PhotoRepository,
     private val longPollServerManager: LongPollServerManager
-) : ViewModel(), MviViewModel<MessageHistoryIntent> {
+) : ViewModel() {
 
     private val _viewState =
         MutableStateFlow<MessageHistoryViewState>(MessageHistoryViewState.Loading)
@@ -49,13 +49,13 @@ class MessageHistoryViewModel @Inject constructor(
         }
     }
 
-    override fun onEvent(event: MessageHistoryIntent) {
-        when (val currentContentState = _viewState.value) {
-            is MessageHistoryViewState.Loading -> reduce(event, currentContentState)
-            is MessageHistoryViewState.Error -> reduce(event, currentContentState)
-            is MessageHistoryViewState.Display -> reduce(event, currentContentState)
-        }
-    }
+//    override fun onEvent(event: MessageHistoryIntent) {
+//        when (val currentContentState = _viewState.value) {
+//            is MessageHistoryViewState.Loading -> reduce(event, currentContentState)
+//            is MessageHistoryViewState.Error -> reduce(event, currentContentState)
+//            is MessageHistoryViewState.Display -> reduce(event, currentContentState)
+//        }
+//    }
 
     private fun reduce(
         intent: MessageHistoryIntent,

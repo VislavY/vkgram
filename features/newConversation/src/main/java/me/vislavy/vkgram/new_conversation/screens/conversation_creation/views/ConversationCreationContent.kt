@@ -56,7 +56,7 @@ fun ConversationCreationContent(
                         },
                         modifier = Modifier
                             .background(
-                                color = VKgramTheme.palette.secondary,
+                                color = VKgramTheme.palette.primary,
                                 shape = CircleShape
                             )
                             .size(64.dp)
@@ -117,7 +117,7 @@ fun ConversationCreationContent(
             Text(
                 text = "$memberCount участник$ending",
                 modifier = Modifier.padding(horizontal = 16.dp),
-                color = VKgramTheme.palette.secondary,
+                color = VKgramTheme.palette.primary,
                 fontWeight = FontWeight.Medium,
                 style = VKgramTheme.typography.subtitle2
             )

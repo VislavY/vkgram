@@ -55,6 +55,4 @@ dependencies {
 
     api(Libs.AndroidX.Compose.Material)
     api(Libs.Google.Accompanist.AccompanistSystemUiController)
-
-    api(Libs.VK.AndroidSdkApi)
 }

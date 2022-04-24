@@ -56,7 +56,6 @@ dependencies {
     api(Libs.AndroidX.Compose.Material)
     api(Libs.AndroidX.Navigation.NavigationCompose)
     api(Libs.Google.Accompanist.AccompanistPlaceholder)
-    api(Libs.Google.Accompanist.AccompanistInsets)
     api(Libs.Coil.CoilCompose)
 
     api(Libs.Google.Hilt.HiltAndroid)

@@ -45,14 +45,14 @@ fun SettingsButton(
         Column(Modifier.weight(1F)) {
             Text(
                 text = title,
-                color = VKgramTheme.palette.primaryText,
+                color = VKgramTheme.palette.onSurface,
                 style = VKgramTheme.typography.body1
             )
 
             subtitle?.let {
                 Text(
                     text = it,
-                    color = VKgramTheme.palette.secondaryText,
+                    color = VKgramTheme.palette.onSurface,
                     style = VKgramTheme.typography.body2
                 )
             }
@@ -83,7 +83,7 @@ fun PreviewSettingsButton() {
                     modifier = Modifier
                         .size(28.dp)
                         .background(
-                            color = VKgramTheme.palette.secondary,
+                            color = VKgramTheme.palette.primary,
                             shape = CircleShape
                         )
                 )

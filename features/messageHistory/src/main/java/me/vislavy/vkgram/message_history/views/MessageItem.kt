@@ -72,7 +72,7 @@ fun MessageItem(
                 ),
                 color = when {
                     sticker != null -> VKgramTheme.palette.background
-                    model.out -> VKgramTheme.palette.secondary.copy(
+                    model.out -> VKgramTheme.palette.primary.copy(
                         alpha = if (offsetInList == 0)
                             1F else abs(1F - (abs(offsetInList.toFloat()) / 10000) * 3)
                     )
@@ -114,7 +114,7 @@ fun MessageItem(
                                 horizontal = 10.dp,
                                 vertical = 8.dp
                             ),
-                            color = if (model.out) Color.White else VKgramTheme.palette.primaryText,
+                            color = if (model.out) Color.White else VKgramTheme.palette.onSurface,
                             style = VKgramTheme.typography.body1
                         )
                     }

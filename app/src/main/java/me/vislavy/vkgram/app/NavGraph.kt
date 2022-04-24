@@ -10,7 +10,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
-import com.google.accompanist.insets.ExperimentalAnimatedInsets
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -23,7 +22,6 @@ import me.vislavy.vkgram.core.Destinations
 import me.vislavy.vkgram.home.HomeScreen
 import me.vislavy.vkgram.home.HomeViewModel
 import me.vislavy.vkgram.login.LoginScreen
-import me.vislavy.vkgram.login.LoginViewModel
 import me.vislavy.vkgram.message_history.MessageHistoryScreen
 import me.vislavy.vkgram.message_history.MessageHistoryViewModel
 import me.vislavy.vkgram.new_conversation.navigation.newConversationGraph
@@ -33,7 +31,6 @@ import me.vislavy.vkgram.search.SearchScreen
 import me.vislavy.vkgram.search.SearchViewModel
 
 @ExperimentalMaterial3Api
-@ExperimentalAnimatedInsets
 @ExperimentalPermissionsApi
 @ExperimentalFoundationApi
 @ExperimentalSerializationApi
@@ -56,8 +53,7 @@ fun NavGraph(startDestination: String) {
                 fadeOut(animationSpec = tween(400))
             }
         ) {
-            val viewModel: LoginViewModel = hiltViewModel()
-            LoginScreen(navController = navController, viewModel = viewModel)
+            LoginScreen(navController = navController)
         }
 
         composable(
@@ -102,7 +98,7 @@ fun NavGraph(startDestination: String) {
                 scaleOut(targetScale = 0.95f)
             }
         ) { backStackEntry ->
-            val userId = backStackEntry.arguments!!.getInt("userId")
+            val userId = backStackEntry.arguments!!.getLong("userId")
             val viewModel: ProfileViewModel = hiltViewModel()
             ProfileScreen(
                 userId = userId,

@@ -15,8 +15,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.rememberInsetsPaddingValues
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.search.R
@@ -28,10 +26,6 @@ fun SearchTopBar(
     modifier: Modifier = Modifier,
     viewState: SearchViewState.Display,
     color: Color = VKgramTheme.palette.primary,
-    contentPadding: PaddingValues = rememberInsetsPaddingValues(
-        insets = LocalWindowInsets.current.systemBars,
-        applyBottom = false
-    ),
     onSearchTextChange: (String) -> Unit,
     navController: NavController = rememberNavController()
 ) {
@@ -43,8 +37,7 @@ fun SearchTopBar(
 
     TopAppBar(
         modifier = modifier,
-        backgroundColor = color,
-        contentPadding = contentPadding
+        backgroundColor = color
     ) {
         IconButton(onClick = {
             navController.popBackStack()
@@ -98,8 +91,8 @@ fun SearchTopBar(
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = VKgramTheme.palette.background,
                 unfocusedBorderColor = VKgramTheme.palette.background,
-                textColor = VKgramTheme.palette.primaryText,
-                cursorColor = VKgramTheme.palette.secondary
+                textColor = VKgramTheme.palette.onSurface,
+                cursorColor = VKgramTheme.palette.primary
             )
         )
     }

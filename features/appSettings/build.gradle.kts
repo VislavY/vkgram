@@ -57,7 +57,6 @@ dependencies {
 
     api(Libs.AndroidX.Compose.Material)
     api(Libs.AndroidX.Compose.MaterialIconsExtended)
-    api(Libs.Google.Accompanist.AccompanistInsets)
 
     api(Libs.Google.Hilt.HiltAndroid)
     kapt(Libs.Google.Hilt.HiltCompiler)

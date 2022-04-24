@@ -45,7 +45,7 @@ fun MembersChoiceContent(
                     Box(Modifier.align(Alignment.Center)) {
                         Text(
                             text = "Выберите собеседников",
-                            color = VKgramTheme.palette.secondaryText,
+                            color = VKgramTheme.palette.onSurface,
                             style = VKgramTheme.typography.body1
                         )
                     }

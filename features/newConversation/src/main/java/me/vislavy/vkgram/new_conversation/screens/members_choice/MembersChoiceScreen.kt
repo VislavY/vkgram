@@ -26,45 +26,45 @@ fun MembersChoiceScreen(
     navController: NavController = rememberNavController(),
     viewModel: MembersChoiceViewModel = viewModel()
 ) {
-    val viewState = viewModel.viewState.collectAsState()
-    Scaffold(
-        topBar = {
-            MembersChoiceTopBar(navController)
-        },
-        floatingActionButton = {
-            if (viewState.value is MembersChoiceViewState.Display) {
-                MembersChoiceFab(
-                    viewState = (viewState.value as MembersChoiceViewState.Display),
-                    navController = navController
-                )
-            }
-        }
-    ) { padding ->
-        when (val state = viewState.value) {
-            is MembersChoiceViewState.Loading -> LoadingContent()
-            is MembersChoiceViewState.Display -> {
-                val modifier = Modifier.padding(padding)
-                MembersChoiceContent(
-                    modifier = modifier,
-                    viewState = state,
-                    onItemClick = { clickedFriend ->
-                        viewModel.onEvent(MembersChoiceEvent.OnFriendClick(clickedFriend))
-                    },
-                    onItemListEnd = { itemCount ->
-                        viewModel.onEvent(MembersChoiceEvent.OnItemListEnd(itemCount))
-                    }
-                )
-            }
-            is MembersChoiceViewState.Error -> ErrorContent(onReloadClick = {
-                viewModel.onEvent(MembersChoiceEvent.ReloadScreen)
-            })
-            else -> throw NotImplementedError("Unexpected newConversation state")
-        }
-
-        LaunchedEffect(viewState) {
-            if (viewState.value !is MembersChoiceViewState.Display) {
-                viewModel.onEvent(MembersChoiceEvent.EnterScreen)
-            }
-        }
-    }
+//    val viewState = viewModel.viewState.collectAsState()
+//    Scaffold(
+//        topBar = {
+//            MembersChoiceTopBar(navController)
+//        },
+//        floatingActionButton = {
+//            if (viewState.value is MembersChoiceViewState.Display) {
+//                MembersChoiceFab(
+//                    viewState = (viewState.value as MembersChoiceViewState.Display),
+//                    navController = navController
+//                )
+//            }
+//        }
+//    ) { padding ->
+//        when (val state = viewState.value) {
+//            is MembersChoiceViewState.Loading -> LoadingContent()
+//            is MembersChoiceViewState.Display -> {
+//                val modifier = Modifier.padding(padding)
+//                MembersChoiceContent(
+//                    modifier = modifier,
+//                    viewState = state,
+//                    onItemClick = { clickedFriend ->
+//                        viewModel.onEvent(MembersChoiceEvent.OnFriendClick(clickedFriend))
+//                    },
+//                    onItemListEnd = { itemCount ->
+//                        viewModel.onEvent(MembersChoiceEvent.OnItemListEnd(itemCount))
+//                    }
+//                )
+//            }
+//            is MembersChoiceViewState.Error -> ErrorContent(onReloadClick = {
+//                viewModel.onEvent(MembersChoiceEvent.ReloadScreen)
+//            })
+//            else -> throw NotImplementedError("Unexpected newConversation state")
+//        }
+//
+//        LaunchedEffect(viewState) {
+//            if (viewState.value !is MembersChoiceViewState.Display) {
+//                viewModel.onEvent(MembersChoiceEvent.EnterScreen)
+//            }
+//        }
+//    }
 }

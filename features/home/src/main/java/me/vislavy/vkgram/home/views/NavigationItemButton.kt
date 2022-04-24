@@ -70,7 +70,7 @@ fun NavigationItemButton_Preview() {
         ) {
             Text(
                 text = "Your profile",
-                color = VKgramTheme.palette.primaryText,
+                color = VKgramTheme.palette.onSurface,
                 style = VKgramTheme.typography.button
             )
         }
@@ -93,7 +93,7 @@ fun DarkNavigationItemButton_Preview() {
         ) {
             Text(
                 text = "Your profile",
-                color = VKgramTheme.palette.primaryText,
+                color = VKgramTheme.palette.onSurface,
                 style = VKgramTheme.typography.button
             )
         }

@@ -67,14 +67,9 @@ dependencies {
     api(Libs.Google.Accompanist.AccompanistNavigationAnimation)
     api(Libs.AndroidX.Datastore.DatastorePreferences)
 
-    api(Libs.Google.Accompanist.AccompanistInsets)
-    api(Libs.Google.Accompanist.AccompanistInsetsUi)
     api(Libs.Google.Accompanist.AccompanistSystemUiController)
 
     api(Libs.Google.Hilt.HiltAndroid)
     api(Libs.Google.Hilt.HiltNavigationCompose)
     kapt(Libs.Google.Hilt.HiltCompiler)
-
-
-    api(Libs.VK.AndroidSdkApi)
 }

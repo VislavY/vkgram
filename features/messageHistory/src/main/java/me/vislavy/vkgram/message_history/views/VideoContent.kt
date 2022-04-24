@@ -28,8 +28,6 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
 import coil.Coil
 import coil.request.ImageRequest
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import me.vislavy.vkgram.api.data.Video
 import me.vislavy.vkgram.core.theme.MainTheme
@@ -51,7 +49,7 @@ fun VideoContent(
             .data(model.image.first().url)
             .allowHardware(false)
             .build()
-        imageDrawable = Coil.execute(imageRequest).drawable
+//        imageDrawable = Coil.execute(imageRequest).drawable
     }
 
     var surfaceColor by remember { mutableStateOf(VKgramColor.Black) }

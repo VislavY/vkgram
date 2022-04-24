@@ -16,8 +16,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.rememberInsetsPaddingValues
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 
@@ -25,16 +23,11 @@ import me.vislavy.vkgram.core.theme.VKgramTheme
 fun ConversationCreationTopBar(
     modifier: Modifier = Modifier,
     color: Color = VKgramTheme.palette.primary,
-    contentPadding: PaddingValues = rememberInsetsPaddingValues(
-        insets = LocalWindowInsets.current.systemBars,
-        applyBottom = false
-    ),
     navController: NavController
 ) {
     TopAppBar(
         modifier = modifier,
         backgroundColor = color,
-        contentPadding = contentPadding
     ) {
         IconButton(
             onClick = {
@@ -44,7 +37,7 @@ fun ConversationCreationTopBar(
             Icon(
                 imageVector = Icons.Rounded.ArrowBack,
                 contentDescription = null,
-                tint = VKgramTheme.palette.secondary
+                tint = VKgramTheme.palette.primary
             )
         }
 
@@ -52,7 +45,7 @@ fun ConversationCreationTopBar(
 
         Text(
             text = "Новая беседа",
-            color = VKgramTheme.palette.primaryText,
+            color = VKgramTheme.palette.onSurface,
             style = VKgramTheme.typography.topBarTitle
         )
     }

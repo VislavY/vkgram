@@ -24,7 +24,7 @@ fun LoadingContent(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .align(Alignment.Center)
                     .size(48.dp),
-                color = VKgramTheme.palette.secondary
+                color = VKgramTheme.palette.primary
             )
         }
     }

@@ -18,8 +18,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.rememberInsetsPaddingValues
 import kotlinx.coroutines.launch
 import me.vislavy.vkgram.app_settings.R
 import me.vislavy.vkgram.core.datastore.LocalSettingsDataStore
@@ -30,10 +28,6 @@ import me.vislavy.vkgram.core.theme.VKgramTheme
 fun AppSettingsTopBar(
     modifier: Modifier = Modifier,
     color: Color = VKgramTheme.palette.primary,
-    contentPadding: PaddingValues = rememberInsetsPaddingValues(
-        insets = LocalWindowInsets.current.systemBars,
-        applyBottom = false
-    ),
     navController: NavController = rememberNavController()
 ) {
     val settingsDataStore = LocalSettingsDataStore.current
@@ -41,8 +35,7 @@ fun AppSettingsTopBar(
 
     TopAppBar(
         modifier = modifier,
-        backgroundColor = color,
-        contentPadding = contentPadding
+        backgroundColor = color
     ) {
         IconButton(onClick = {
             navController.popBackStack()
@@ -58,7 +51,7 @@ fun AppSettingsTopBar(
 
         Text(
             text = stringResource(R.string.app_settings),
-            color = VKgramTheme.palette.primaryText,
+            color = VKgramTheme.palette.onSurface,
             style = VKgramTheme.typography.topBarTitle
         )
 

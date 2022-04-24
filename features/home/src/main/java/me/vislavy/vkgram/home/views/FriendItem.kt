@@ -28,7 +28,7 @@ fun FriendItem(
     ) {
         Image(
             painter = rememberImagePainter(
-                data = model.photo,
+                data = model.photoUrl,
                 builder = {
                     crossfade(true)
                     placeholder(R.drawable.photo_placeholder_56)
@@ -44,7 +44,7 @@ fun FriendItem(
         Column(Modifier.weight(1f)) {
             Text(
                 text = "${model.firstName} ${model.lastName}",
-                color = VKgramTheme.palette.primaryText,
+                color = VKgramTheme.palette.onSurface,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 style = VKgramTheme.typography.subtitle1
@@ -54,7 +54,7 @@ fun FriendItem(
 
             Text(
                 text = model.domain,
-                color = VKgramTheme.palette.secondaryText,
+                color = VKgramTheme.palette.onSurface,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 style = VKgramTheme.typography.body1

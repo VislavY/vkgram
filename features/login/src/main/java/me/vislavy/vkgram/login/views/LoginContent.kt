@@ -48,13 +48,13 @@ fun LoginContent(
                 Text(
                     modifier = Modifier.align(CenterHorizontally),
                     text = stringResource(R.string.login_hello),
-                    color = VKgramTheme.palette.primaryText,
+                    color = VKgramTheme.palette.onSurface,
                     style = VKgramTheme.typography.topBarTitle
                 )
 
                 Text(
                     text = stringResource(R.string.login_thank_you),
-                    color = VKgramTheme.palette.primaryText,
+                    color = VKgramTheme.palette.onSurface,
                     style = VKgramTheme.typography.body1
                 )
 
@@ -64,7 +64,7 @@ fun LoginContent(
                     modifier = Modifier.align(CenterHorizontally),
                     onClick = onLoginClick,
                     shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = VKgramTheme.palette.secondary),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = VKgramTheme.palette.primary),
                     contentPadding = PaddingValues(horizontal = 32.dp)
                 ) {
                     Text(

@@ -40,8 +40,6 @@ import androidx.palette.graphics.Palette
 import coil.Coil
 import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import me.vislavy.vkgram.api.data.Photo
 import me.vislavy.vkgram.core.theme.MainTheme
@@ -65,7 +63,7 @@ fun ImageContent(
             .data(imageProperties.url)
             .allowHardware(false)
             .build()
-        imageDrawable = Coil.execute(imageRequest).drawable
+//        imageDrawable = Coil.execute(imageRequest).drawable
     }
     val imagePainter = rememberImagePainter(imageDrawable)
 

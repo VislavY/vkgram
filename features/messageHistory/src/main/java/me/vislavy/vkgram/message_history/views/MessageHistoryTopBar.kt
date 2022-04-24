@@ -17,8 +17,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.rememberInsetsPaddingValues
 import me.vislavy.vkgram.core.theme.MainTheme
 import me.vislavy.vkgram.core.theme.VKgramTheme
 import me.vislavy.vkgram.message_history.R
@@ -29,16 +27,11 @@ fun MessageHistoryTopBar(
     modifier: Modifier = Modifier,
     viewState: MessageHistoryViewState.Display,
     color: Color = VKgramTheme.palette.primary,
-    contentPadding: PaddingValues = rememberInsetsPaddingValues(
-        insets = LocalWindowInsets.current.statusBars,
-        applyBottom = false
-    ),
     navController: NavController
 ) {
     TopAppBar(
         modifier = modifier,
-        backgroundColor = color,
-        contentPadding = contentPadding
+        backgroundColor = color
     ) {
         IconButton(
             onClick = {
@@ -73,13 +66,13 @@ fun MessageHistoryTopBar(
             Text(
                 text = viewState.conversation?.title.toString(),
                 maxLines = 1,
-                color = VKgramTheme.palette.primaryText,
+                color = VKgramTheme.palette.onSurface,
                 style = VKgramTheme.typography.subtitle1
             )
 
             Text(
                 text = viewState.topBarSubtitle,
-                color = VKgramTheme.palette.secondaryText,
+                color = VKgramTheme.palette.onSurface,
                 style = VKgramTheme.typography.body2
             )
         }
